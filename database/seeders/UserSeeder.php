@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
             'telefono' => '700008930',
             'ci' => '748520',
             'tipo' => 'Cliente'
-        ])->assignRole('password');
+        ])->assignRole('Cliente');
 
 
         Categoria::create([
