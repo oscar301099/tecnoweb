@@ -12,14 +12,13 @@ class ContadorPage extends Model
 
     public static function SumarContador($nombrepagina)
     {
-        $contador = ContadorPage::where($nombrepagina,'nombrePagina')->first();
-        dd($contador);
-        if($contador != ""){
-            $contador->cantidad=$contador->cantidad+1;
-        }else {
+        $contador = ContadorPage::where('nombrePagina', $nombrepagina)->first();
+        if ($contador) {
+            $contador->cantidad = $contador->cantidad + 1;
+        } else {
             $contador = new ContadorPage();
-            $contador->nombre = $nombrepagina;
-            $contador->cantidad=$contador->cantidad+1;
+            $contador->nombrePagina = $nombrepagina;
+            $contador->cantidad = 1;
         }
         $contador->save();
     }

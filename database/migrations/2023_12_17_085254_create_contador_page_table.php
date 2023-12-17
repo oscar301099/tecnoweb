@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('contado_page', function (Blueprint $table) {
+        Schema::create('contador_page', function (Blueprint $table) {
             $table->id();
             $table->integer('cantidad')->default(0);
             $table->string('nombrePagina')->default("");
