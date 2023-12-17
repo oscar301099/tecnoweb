@@ -21,20 +21,21 @@ class UserSeeder extends Seeder
      *
      * @return void
      */
-    public function run(){
+    public function run()
+    {
 
         Configuration::create([
-                'razon_social' => 'TechnoSoft',
-                'factura' => '123456789',
-                'email' => 'TechnoSoft@gmail.com',
-                'telefono' => '+951 78149429',
-                'direccion' => 'Urb Las Palmas',
-                'responsable' => 'Administrador'
+            'razon_social' => 'Quality Store',
+            'factura' => '123456789',
+            'email' => 'QualityStore@gmail.com',
+            'telefono' => '+951 78149429',
+            'direccion' => 'Urb Las Palmas',
+            'responsable' => 'Administrador'
         ]);
-        
+
         User::create([
-            'name' => 'Product Owner',
-            'email' => 'user1@gmail.com',
+            'name' => 'Edilson Ortiz Serrano',
+            'email' => 'edilson@gmail.com',
             'password' => bcrypt('12345678'),
             'tipo' => 'Administrador'
         ])->assignRole('Admin');
@@ -63,15 +64,15 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Erick Lopez',
-            'email' => 'user4@gmail.com',
+            'email' => 'dipomo5692@dpsols.com',
             'password' => bcrypt('12345678'),
             'direccion' => 'El Urubo',
             'telefono' => '700008930',
             'ci' => '748520',
             'tipo' => 'Cliente'
-        ])->assignRole('Cliente');
+        ])->assignRole('password');
 
-        
+
         Categoria::create([
             'nombre' => 'Electrodomesticos'
         ]);
@@ -129,12 +130,12 @@ class UserSeeder extends Seeder
             'nombre' => 'Arpel'
         ]);
 
-        
+
         Marca::create([
             'nombre' => 'Nike'
         ]);
 
-        
+
         Marca::create([
             'nombre' => 'Adidas'
         ]);
@@ -150,7 +151,7 @@ class UserSeeder extends Seeder
         Marca::create([
             'nombre' => 'SRC'
         ]);
-        
+
         Marca::create([
             'nombre' => 'Nailpolish'
         ]);
@@ -172,7 +173,7 @@ class UserSeeder extends Seeder
             'direccion' => 'Los Lotes',
             'telefono' => '745689258'
         ]);
-        
+
         Proveedor::create([
             'nombre' => 'Luis Lopez',
             'direccion' => 'La cuchilla',
@@ -184,37 +185,37 @@ class UserSeeder extends Seeder
             'direccion' => 'Las Palmas',
             'telefono' => '73024578'
         ]);
-         
+
         Proveedor::create([
             'nombre' => 'Juana Barrios',
             'direccion' => 'El Quior',
             'telefono' => '78036987'
         ]);
-        
+
         Proveedor::create([
             'nombre' => 'Lucas Gutierrez',
             'direccion' => 'Pampa de la Isla',
             'telefono' => '780245398'
         ]);
-        
+
         Proveedor::create([
             'nombre' => 'Luiza Mendoza',
             'direccion' => 'Plan 3000',
             'telefono' => '78235896'
         ]);
-        
+
         Proveedor::create([
             'nombre' => 'Julio Plata',
             'direccion' => 'Guapurú 1',
             'telefono' => '78023612'
         ]);
-         
+
         Proveedor::create([
             'nombre' => 'Eduardo Castillo',
             'direccion' => 'Plan 4000',
             'telefono' => '780146325'
         ]);
- 
+
         Proveedor::create([
             'nombre' => 'David Zeballos',
             'direccion' => '2do anillo',
@@ -275,6 +276,11 @@ class UserSeeder extends Seeder
         Tipo_pago::create([
             'nombre' => 'Transaccion',
             'descripcion' => 'Deposito bancario'
+        ]);
+
+        Tipo_pago::create([
+            'nombre' => 'Qr',
+            'descripcion' => 'Pago billitera Movil Pago Facil'
         ]);
 
         Tipo_pago::create([

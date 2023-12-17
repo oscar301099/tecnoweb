@@ -17,7 +17,6 @@
                         class="">
                         <span class="flex items-center justify-center mt-4 w-full bg-red-400 hover:bg-red-600 hover:text-white py-1 rounded transform transition duration-100 hover:scale-105">{{ $categoria->nombre }}</span>
                     </a>
-
                 @endforeach
             </aside>
 
