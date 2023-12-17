@@ -40,7 +40,7 @@
                 </div>
                 <nav :class="{ 'flex': open, 'hidden': !open }"
                     class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row bg-red-600">
-
+                    <button id="cambiarModo" class=" hover:text-gray-300">Cambiar Modo</button>
                     <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 text-white hover:bg-white hover:text-black"
                         href="{{route('cliente.pedidos.create')}}">Agregar Pedido</a>
 
@@ -199,16 +199,26 @@
                 }
             }
         }
-
-
         document.addEventListener("DOMContentLoaded", function () {
-                const modoActual = localStorage.getItem('modo') || 'dia';
-                aplicarModo(modoActual);
-            });
+    const botonCambiarModo = document.getElementById('cambiarModo');
+    let modoActual = localStorage.getItem('modo') || 'dia';
+    aplicarModo(modoActual);
 
-            function aplicarModo(modo) {
-                document.body.style.filter = `brightness(${modo === 'dia' ? '100%' : '70%'})`;
-            }
+    botonCambiarModo.addEventListener('click', function () {
+        modoActual = modoActual === 'dia' ? 'noche' : 'dia';
+        localStorage.setItem('modo', modoActual);
+        aplicarModo(modoActual);
+    });
+
+    function aplicarModo(modo) {
+        document.body.classList.toggle('modo-dia', modo === 'dia');
+        document.body.classList.toggle('modo-noche', modo === 'noche');
+        
+        const intensidad = modo === 'dia' ? '100%' : '70%';
+        document.body.style.filter = `brightness(${intensidad})`;
+    }
+});
+
     </script>
 </body>
 

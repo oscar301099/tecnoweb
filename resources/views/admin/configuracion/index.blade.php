@@ -82,25 +82,19 @@
             const modoActual = localStorage.getItem('modo') || 'dia';
             aplicarModo(modoActual);
         });
-
         function aplicarModo(modo) {
-            // Cambiar el filtro de brillo en el cuerpo
             document.body.style.filter = `brightness(${modo === 'dia' ? '100%' : '70%'})`;
-
-            // Cambiar las clases de fondo y texto en la tarjeta si existe
             const tarjeta = document.getElementById('card-body');
-
             if (tarjeta) {
                 if (modo === 'noche') {
-                    tarjeta.style.backgroundColor = '#ffffff'; // Fondo blanco
-                    tarjeta.style.color = '#000000'; // Texto negro
+                    tarjeta.style.backgroundColor = '#ffffff'; 
+                    tarjeta.style.color = '#000000'; 
                 } else {
-                    tarjeta.style.backgroundColor = '#000000'; // Fondo negro
-                    tarjeta.style.color = '#ffffff'; // Texto blanco
+                    tarjeta.style.backgroundColor = '#000000'; 
+                    tarjeta.style.color = '#ffffff'; 
                 }
             }
         }
-
         document.getElementById('cambiarModo').addEventListener('click', function () {
             const modoActual = localStorage.getItem('modo') || 'dia';
             const nuevoModo = modoActual === 'dia' ? 'noche' : 'dia';

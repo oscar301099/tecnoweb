@@ -50,7 +50,6 @@
                                     <strong>Disponible:</strong>
                                     {{ $producto->stock }}
                                 </h3>
-
                                 {!! Form::open(['route' => ['cliente.pedidos.storeP', $producto->id], 'autocomplete' => 'off']) !!}
                                 <input style=" width: 50px;" type="text" class="form-control" name="idpedido" id="idpedido"
                                 value="{{ $pedido->id }}" readonly>
@@ -63,7 +62,6 @@
                                     <strong class="text-red-600">{{ $message }}</strong>
                                 @enderror
                                 <p class="text-right text-2xl font-thin">{{ $producto->precio }} BS</p>
-
                                 <span
                                     class="flex items-center justify-center mt-4 w-full bg-yellow-400 hover:bg-yellow-500 py-1 rounded transform transition duration-500 hover:scale-110">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
@@ -93,3 +91,8 @@
     </div>
 
 </div>
+
+
+
+
+

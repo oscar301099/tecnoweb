@@ -25,10 +25,8 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Auth::routes();
 //RUTAS DEL CLIENTE
 Route::get('Categoria/{id}',[vistaCategoriaController::class,'index'])->name('cliente.categoria.index');
 Route::get('perfil',[vistaCategoriaController::class,'perfil'])->name('cliente.perfil');

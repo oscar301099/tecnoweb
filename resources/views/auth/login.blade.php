@@ -13,32 +13,26 @@
         <div class="flex justify-end">
             <div class="bg-yellow-400 min-h-screen w-1/2 flex justify-center items-center">
                 <div>
-                
+                <button id="cambiarModo" class=" hover:text-gray-300">Cambiar Modo</button>
      <form class="p-20 bg-white rounded-3xl flex justify-center items-center flex-col shadow-md" method="POST"
                         action="{{ route('login') }}">
                         @csrf
                         <div>
                             <span class="text-sm text-gray-900">Bienvenido a {{$configuracion->razon_social}} Online</span>
-                            <button id="cambiarModo" class=" hover:text-gray-300">Cambiar Modo</button>
                             <h1 class="text-2xl font-bold">Inicia Session</h1>
-                            
                         </div>
-
                         <div class="my-3">
                             <label class="block text-md mb-2" for="email">{{ __('Email Address') }}</label>
                             <input id="email" type="email"
                                 class="form-control @error('email') is-invalid @enderror px-6 w-full border-2 py-2 rounded-md text-sm outline-none"
                                 name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="email"
                                 autofocus>
-
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-
                         </div>
-
                         <div class="mt-5">
                             <label class="block text-md mb-2" for="password">{{ __('Password') }}</label>
                             <input id="password" type="password"

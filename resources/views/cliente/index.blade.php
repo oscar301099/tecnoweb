@@ -54,7 +54,6 @@
                                         <strong>Disponible:</strong>
                                         {{ $producto->stock }}
                                     </h3>
-
                                     <input type="text"
                                         class="border-gray-400 border-2 rounded-md text-center hover:bg-gray-200"
                                         name="cantidad" id="cantidad" placeholder=" -- Cantidad --" autofocus>
@@ -62,7 +61,6 @@
                                         <strong class="text-danger">{{ $message }}</strong>
                                     @enderror
                                     <p class="text-right text-2xl font-thin">{{ $producto->precio }} BS</p>
-
                                     <span
                                         class="flex items-center justify-center mt-4 w-full bg-yellow-400 hover:bg-yellow-500 py-1 rounded transform transition duration-500 hover:scale-110">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
@@ -76,7 +74,6 @@
                             </div>
                         @endforeach
                 </div>
-
                 {{ $productos->links() }}
                 
             @else
