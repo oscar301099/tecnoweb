@@ -13,6 +13,10 @@
             <div class="container mx-auto flex flex-col md:flex-row my-auto md:my-36">
                 <div class="flex flex-col w-full lg:w-2/5 p-8">
                 <button id="cambiarModo" class="btn btn-info">Cambiar Modo</button>
+                <br>
+                <button id="aumentarLetra" class="btn btn-info">Aumentar Letra</button>
+                <br>
+                    <button id="disminuirLetra" class="btn btn-info">Disminuir Letra</button>
                     <p class="text-3xl md:text-5xl text-yellow-500 my-4 leading-relaxed md:leading-snug">Contactanos</p>
                     <p class="font-sans text-sm md:text-lg my-2 md:my-4"><svg class="inline-block fill-current mr-2"
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -95,5 +99,38 @@
             }
         }
     </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const botonCambiarModo = document.getElementById('cambiarModo');
+        const botonAumentarLetra = document.getElementById('aumentarLetra');
+        const botonDisminuirLetra = document.getElementById('disminuirLetra');
+
+        let contrasteActual = localStorage.getItem('contraste') || 'normal';
+        let tamanioLetraActual = localStorage.getItem('tamanioLetra') || '16px';
+        aplicarTamanioLetra(tamanioLetraActual);
+        botonAumentarLetra.addEventListener('click', function () {
+            tamanioLetraActual = aumentarTamanioLetra(tamanioLetraActual);
+            localStorage.setItem('tamanioLetra', tamanioLetraActual);
+            aplicarTamanioLetra(tamanioLetraActual);
+        });
+
+        botonDisminuirLetra.addEventListener('click', function () {
+            tamanioLetraActual = disminuirTamanioLetra(tamanioLetraActual);
+            localStorage.setItem('tamanioLetra', tamanioLetraActual);
+            aplicarTamanioLetra(tamanioLetraActual);
+        });
+        function aumentarTamanioLetra(tamanioActual) {
+            const tamanioNumerico = parseInt(tamanioActual);
+            return `${tamanioNumerico + 2}px`;
+        }
+        function disminuirTamanioLetra(tamanioActual) {
+            const tamanioNumerico = parseInt(tamanioActual);
+            return `${Math.max(tamanioNumerico - 2, 12)}px`;
+        }
+        function aplicarTamanioLetra(tamanio) {
+            document.body.style.fontSize = tamanio;
+        }
+    });
+</script>
 @stop
 @stop
