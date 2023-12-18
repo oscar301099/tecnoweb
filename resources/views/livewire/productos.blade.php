@@ -51,26 +51,20 @@
                                     {{ $producto->stock }}
                                 </h3>
                                 {!! Form::open(['route' => ['cliente.pedidos.storeP', $producto->id], 'autocomplete' => 'off']) !!}
-                                <input style=" width: 50px;" type="text" class="form-control" name="idpedido" id="idpedido"
-                                value="{{ $pedido->id }}" readonly>
-                                <br>
-                                <input type="text"
-                                    class="border-gray-400 border-2 rounded-md text-center hover:bg-gray-200"
-                                    name="cantidad" id="cantidad" placeholder=" -- Cantidad --" autofocus>
+                                    <input style="width: 50px;" type="text" class="form-control" name="idpedido" id="idpedido" value="{{ $pedido->id }}" readonly>
                                     <br>
-                                @error('cantidad')
-                                    <strong class="text-red-600">{{ $message }}</strong>
-                                @enderror
-                                <p class="text-right text-2xl font-thin">{{ $producto->precio }} BS</p>
-                                <span
-                                    class="flex items-center justify-center mt-4 w-full bg-yellow-400 hover:bg-yellow-500 py-1 rounded transform transition duration-500 hover:scale-110">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                    </svg>
-                                    <button class="font-semibold text-gray-800 ">Add to Basket</button>
-                                </span>
+                                    <input type="text" class="border-gray-400 border-2 rounded-md text-center hover:bg-gray-200" name="cantidad" id="cantidad" placeholder=" -- Cantidad --" autofocus>
+                                    <br>
+                                    @error('cantidad')
+                                        <strong class="text-red-600">{{ $message }}</strong>
+                                    @enderror
+                                    <p class="text-right text-2xl font-thin">{{ $producto->precio }} BS</p>
+                                    <span class="flex items-center justify-center mt-4 w-full bg-yellow-400 hover:bg-yellow-500 py-1 rounded transform transition duration-500 hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                        </svg>
+                                        <button class="font-semibold text-gray-800 ">Add to Basket</button>
+                                    </span>
                                 {!! Form::close() !!}
                             </div>
                         </div>

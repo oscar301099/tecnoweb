@@ -41,8 +41,8 @@
                 <nav :class="{ 'flex': open, 'hidden': !open }"
                     class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row bg-red-600">
                     <button id="cambiarModo" class=" hover:text-gray-300">Cambiar Modo</button>
-                    <button id="aumentarLetra" class="hover:text-gray-300">Aumentar Letra</button>
-                    <button id="disminuirLetra" class="hover:text-gray-300">Disminuir Letra</button>
+           <button id="aumentarLetra" class="hover:text-gray-300">Aumentar Letra</button>
+                        <button id="disminuirLetra" class="hover:text-gray-300">Disminuir Letra</button>  
                     <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 text-white hover:bg-white hover:text-black"
                         href="{{route('cliente.pedidos.create')}}">Agregar Pedido</a>
 
@@ -94,9 +94,9 @@
             </div>
         </div>
     </div>
-
-    @yield('content')
-
+       <div id="contenedorPrincipal" class="main-content flex-1 bg-gray-100 border-black">
+              @yield('content')
+        <div>
     <footer class="bg-red-600 border-t-2 border-black">
         <div class="max-w-screen-xl px-4 py-6 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8">
             <nav class="flex flex-wrap justify-center -mx-5 -my-2">
@@ -172,21 +172,34 @@
     <script>
     document.addEventListener("DOMContentLoaded", function () {
         const botonCambiarModo = document.getElementById('cambiarModo');
+        let modoActual = localStorage.getItem('modo') || 'dia';
+        aplicarModo(modoActual);
+
+        botonCambiarModo.addEventListener('click', function () {
+            modoActual = modoActual === 'dia' ? 'noche' : 'dia';
+            localStorage.setItem('modo', modoActual);
+            aplicarModo(modoActual);
+        });
+
+        function aplicarModo(modo) {
+            const contenedorPrincipal = document.getElementById('contenedorPrincipal');
+            contenedorPrincipal.classList.toggle('modo-dia', modo === 'dia');
+            contenedorPrincipal.classList.toggle('modo-noche', modo === 'noche');
+
+            const intensidad = modo === 'dia' ? '100%' : '70%';
+            document.body.style.filter = `brightness(${intensidad})`;
+        }
+    });
+</script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const botonCambiarModo = document.getElementById('cambiarModo');
         const botonAumentarLetra = document.getElementById('aumentarLetra');
         const botonDisminuirLetra = document.getElementById('disminuirLetra');
 
         let contrasteActual = localStorage.getItem('contraste') || 'normal';
         let tamanioLetraActual = localStorage.getItem('tamanioLetra') || '16px';
-
-        aplicarContraste(contrasteActual);
         aplicarTamanioLetra(tamanioLetraActual);
-
-        botonCambiarModo.addEventListener('click', function () {
-            contrasteActual = contrasteActual === 'normal' ? 'alto' : 'normal';
-            localStorage.setItem('contraste', contrasteActual);
-            aplicarContraste(contrasteActual);
-        });
-
         botonAumentarLetra.addEventListener('click', function () {
             tamanioLetraActual = aumentarTamanioLetra(tamanioLetraActual);
             localStorage.setItem('tamanioLetra', tamanioLetraActual);
@@ -198,21 +211,14 @@
             localStorage.setItem('tamanioLetra', tamanioLetraActual);
             aplicarTamanioLetra(tamanioLetraActual);
         });
-
-        function aplicarContraste(contraste) {
-            document.body.classList.toggle('alto-contraste', contraste === 'alto');
-        }
-
         function aumentarTamanioLetra(tamanioActual) {
             const tamanioNumerico = parseInt(tamanioActual);
             return `${tamanioNumerico + 2}px`;
         }
-
         function disminuirTamanioLetra(tamanioActual) {
             const tamanioNumerico = parseInt(tamanioActual);
             return `${Math.max(tamanioNumerico - 2, 12)}px`;
         }
-
         function aplicarTamanioLetra(tamanio) {
             document.body.style.fontSize = tamanio;
         }
