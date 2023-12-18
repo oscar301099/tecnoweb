@@ -63,14 +63,14 @@ class UserSeeder extends Seeder
         ])->assignRole('Cliente');
 
         User::create([
-            'name' => 'Erick Lopez',
-            'email' => 'dipomo5692@dpsols.com',
-            'password' => bcrypt('12345678'),
+            'name' => 'Edilson Ortiz Serrano',
+            'email' => 'edilsonortiz678@gmail.com',
+            'password' => bcrypt('password'),
             'direccion' => 'El Urubo',
-            'telefono' => '700008930',
-            'ci' => '748520',
+            'telefono' => '67816051',
+            'ci' => '9674845',
             'tipo' => 'Cliente'
-        ])->assignRole('password');
+        ])->assignRole('Cliente');
 
 
         Categoria::create([

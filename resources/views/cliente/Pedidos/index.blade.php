@@ -67,7 +67,7 @@
                             @endif
                         @endforeach
 
-                                <td>{{ $pedido->direccion }}</td>
+                        <td>{{ $pedido->direccion }}</td>
 
 
                         <td>{{ $pedido->fecha_pedido }}</td>
@@ -88,20 +88,19 @@
 
 
                         <td>
+
                             @if ($pedido->estado_pago == 'Impagado')
-                                <form action="{{ route('cliente.pedidos.CreateFactura', $pedido->id) }}" method="POST"
-                                    onsubmit="return confirm('¿Seguro de confirmar Pago del Pedido: {{ $pedido->id }}?')">
-                                    @csrf
-                                    <button class="btn btn-warning btn-sm" type="" rel="tooltip">
-                                        {{ $pedido->estado_pago }}
-                                    </button>
-                                </form>
+                                <button class="btn btn-dark btn-sm btnGenerarQr" url="{{ route('admin.generarQr') }}"
+                                    value="{{ $pedido->id }}">
+                                    <i class="fa fa-qrcode"> Qr</i></button>
                             @endif
                             @if ($pedido->estado_pago == 'Pagado')
-                                <a class="btn btn-dark btn-sm" href="{{ route('cliente.PDF.FacturaCliente', $pedido->id) }}">
+                                <a class="btn btn-dark btn-sm"
+                                    href="{{ route('cliente.PDF.FacturaCliente', $pedido->id) }}">
                                     <i class="fa fa-print"> Factura</i>
                                 </a>
                             @endif
+
                         </td>
                         <td width="10px">
                             <a class="btn btn-info" href="{{ route('cliente.pedidos.indexP', $pedido->id) }}">
@@ -134,7 +133,23 @@
         </table>
     </div>
 
-
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- modal-lg para un modal grande -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="msmModal" class="modal-title text-center w-100">Generando QR. Por favor,
+                        espera...
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body d-flex align-items-center justify-content-center">
+                    <img id="imagenModal" src="https://complemedical.s3.amazonaws.com/generando.gif" class="img-fluid"
+                        alt="Imagen Grande" style="max-width: 100%; max-height: 400px;">
+                    <!-- Ajusta el tamaño según tus necesidades -->
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 @stop
@@ -150,9 +165,50 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap5.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         $(document).ready(function() {
             $('#pedidos').DataTable();
+        });
+    </script>
+    <script>
+        function generarQr(id, url) {
+            // Datos que deseas enviar en la solicitud
+            var datos = {
+                pedido_id: id,
+            };
+
+            // Realizar la solicitud AJAX POST
+
+            console.log(datos)
+            $.ajax({
+                type: "POST",
+                url: url, // Reemplaza con la URL de tu API
+                data: datos,
+                success: function(respuesta) {
+                    console.log("Solicitud exitosa:", respuesta);
+                    $('#imagenModal').attr('src', respuesta['img']);
+                    $('#msmModal').text('PAGUE CON QR No sea yesca !!!');
+                    $('#exampleModal').modal('show');
+                },
+                error: function(error) {
+                    console.error("Error en la solicitud:", error);
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            $(".btnGenerarQr").on("click", function() {
+                var id = $(this).val();
+
+                var url = $(this).attr("url");
+                $('#exampleModal').modal('show');
+                generarQr(id, url);
+                //$('#exampleModal').modal('show');
+            });
         });
     </script>
     <script>
