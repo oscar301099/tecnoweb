@@ -126,6 +126,9 @@
                                 <button class="btn btn-outline-danger" type="" rel="tooltip">
                                     <i class="material-icons fa fa-trash"></i>
                                 </button>
+
+                                <h1>destroy</h1>
+                                
                             </form>
                         </td>
 

@@ -35,6 +35,7 @@ class PedidosCController extends Controller
         DB::beginTransaction();
         ContadorPage::SumarContador($nombrepagina);
         DB::commit();
+        $pedidos = Pedido::all();
         $clientes = User::all();
         return view('cliente.Pedidos.index', compact('pedidos', 'clientes'));
     }
@@ -75,7 +76,7 @@ class PedidosCController extends Controller
         $clienteId = Auth::id();
         $carrito = Carrito::where('cliente_id', $clienteId)->first();
 
-        
+
         $pedido = New Pedido();
         $pedido->direccion = $request->direccion;
         $pedido->tipoEnvio_id = $request->tipoEnvio_id;
@@ -189,15 +190,16 @@ class PedidosCController extends Controller
 
     public function indexP($id)
     {
-      
+      //return "indexP";
            $pedido = Pedido::where('id', $id)->first();
         $categorias = Categoria::all();
         $marcas = Marca::all();
         //$productos = Producto::paginate(3);
-        return view('cliente.productos', compact('categorias','marcas','pedido'));
+        return view('cliente.productosP', compact('categorias','marcas','pedido'));
     }
 
     public function storeP(Request $request, $idproducto){
+       // return "agregar produc";
         $request->validate([
             //'precio' => 'required|numeric',
             'cantidad' => 'required|integer',
@@ -322,6 +324,177 @@ class PedidosCController extends Controller
 
         return redirect()->route('cliente.pedidos.index')->with('info', 'Factura registrada y Pago cancelado');
 
+    }
+
+
+
+    /*CARRITO */
+
+    public function indexC()
+    {
+        //return "2";
+        //   $pedido = Pedido::where('id', $id)->first();
+        $categorias = Categoria::all();
+        $marcas = Marca::all();
+        //$productos = Producto::paginate(3);
+        // return view('cliente.productos', compact('categorias', 'marcas', 'pedido'));
+        return view('cliente.productos', compact('categorias', 'marcas'));
+    }
+
+
+    public function storeC(Request $request, $idproducto)
+    {
+        //Aqui da bien agregar carrito
+       // return "Aqui da bien agregar carrito";
+        $request->validate([
+            'cantidad' => 'required|integer',
+        ]);
+
+        $clienteId = Auth::id();
+
+        $producto = Producto::find($idproducto);
+        $carrito = Carrito::where('cliente_id', $clienteId)->first();
+        $itemExistente = $carrito->productos()->where('producto_id', $idproducto)->first();
+
+        if ($itemExistente) {
+            // Si el producto ya está en el carrito, actualiza la cantidad
+            $itemExistente->pivot->cantidad += $request->cantidad;
+            $itemExistente->pivot->precio += $request->cantidad * $producto->precio;
+            $itemExistente->pivot->save();
+
+            // Verifica si la cantidad es mayor al stock después de actualizar el pivot
+            if ($itemExistente->pivot->cantidad > $producto->stock) {
+                return redirect()->route('cliente.pedidos.indexC', $carrito->id)->with('info2', 'No hay suficiente Stock de: ' . $producto->nombre);
+            }
+
+            // Descuenta el stock de productos
+            $producto->stock -= $request->cantidad;
+            $producto->save();
+
+            // Actualiza el total del carrito
+            $carrito->total += $itemExistente->pivot->precio;
+            $carrito->save();
+        } else {
+            // Si el producto no está en el carrito, agrégalo
+            $carrito->productos()->attach($idproducto, ['precio' => $request->cantidad * $producto->precio, 'cantidad' =>  $request->cantidad]);
+
+            // Verifica si la cantidad es mayor al stock después de agregar el producto al carrito
+            if ($request->cantidad > $producto->stock) {
+                return redirect()->route('cliente.pedidos.indexC', $carrito->id)->with('info2', 'No hay suficiente Stock de: ' . $producto->nombre);
+            }
+
+            // Descuenta el stock de productos
+            $producto->stock -= $request->cantidad;
+            $producto->save();
+
+            // Actualiza el total del carrito
+            $carrito->total += $request->cantidad * $producto->precio;
+            $carrito->save();
+        }
+
+        //  dd($itemExistente->pivot->cantidad . " sssss ". $producto->stock);
+
+        $bita = new Bitacora();
+        $bita->accion = 'Editó';
+        $bita->apartado = 'Carrito';
+        $afectado = $carrito->id;
+        $bita->afectado = $afectado;
+        $fecha_hora = date('m-d-Y h:i:s a', time());
+        $bita->fecha_h = $fecha_hora;
+        $bita->id_user = Auth::user()->id;
+        $ip = $request->ip();
+        $bita->ip = $ip;
+        $bita->save();
+
+
+        // return redirect()->route('cliente.pedidos.indexP', $pedido->id)->with('info', 'Producto Agregado correctamente');
+        return redirect()->route('cliente.pedidos.indexC')->with('info', 'Producto Agregado correctamente');
+    }
+
+    public function DetalleDestroyC(Request $request, $id)
+    {
+        $detalle = detalle_carrito::find($id);
+        $carrito = Carrito::where('id', $detalle->carrito_id)->first();
+        $producto = Producto::where('id', $detalle->producto_id)->first();
+        // el producto vuelve a subir
+        $producto->stock = $producto->stock + $detalle->cantidad;
+        //el total del carrito baja
+        $carrito->total = $carrito->total - $detalle->precio;
+        $producto->save();
+        $carrito->save();
+        $detalle->delete();
+
+        $bita = new Bitacora();
+        $bita->accion = 'Eliminó';
+        $bita->apartado = 'Detalle_carrito';
+        $afectado = $detalle->id;
+        $bita->afectado = $afectado;
+        $fecha_hora = date('m-d-Y h:i:s a', time());
+        $bita->fecha_h = $fecha_hora;
+        $bita->id_user = Auth::user()->id;
+        $ip = $request->ip();
+        $bita->ip = $ip;
+        $bita->save();
+
+
+        return back()->with('info', 'El detalle se ha eliminado correctamente');
+    }
+
+
+    public function storeP22(Request $request, $idproducto)
+    {
+        $pedido = Pedido::where('id', $request->idpedido)->first();
+        $producto = Producto::find($idproducto);
+        $detalle = new detalle_pedido();
+        $detalle->producto_id = $idproducto;
+        $detalle->pedido_id = $request->idpedido;
+        $detalle->cantidad = $request->cantidad;
+
+
+        //calcula el precio
+        $detalle->precio = $request->cantidad * $producto->precio;
+        //descuenta stock de productos
+        $producto->stock = $producto->stock - $detalle->cantidad;
+        $producto->save();
+        $detalle->save();
+        //Pedido Total
+        $pedido->total = $pedido->total + $detalle->precio;
+        $pedido->save();
+
+        $bita = new Bitacora();
+        $bita->accion = 'Editó';
+        $bita->apartado = 'Pedido';
+        $afectado = $pedido->id;
+        $bita->afectado = $afectado;
+        $fecha_hora = date('m-d-Y h:i:s a', time());
+        $bita->fecha_h = $fecha_hora;
+        $bita->id_user = Auth::user()->id;
+        $ip = $request->ip();
+        $bita->ip = $ip;
+        $bita->save();
+    }
+
+
+
+
+    public function showC()
+    {
+
+        $clienteId = Auth::id();
+
+
+        $carrito = Carrito::where('cliente_id', $clienteId)->first();
+
+        $detalles = detalle_carrito::where('carrito_id', $carrito->id)->get();
+
+
+        $cliente = User::where('id', $clienteId)->first();
+        $productos = Producto::all();
+        $tipopagos = Tipo_pago::all();
+        $tipoenvios = Tipo_envio::all();
+        $promociones = Promocion::all();
+        $clientes = User::all();
+        return view('cliente.carrito.detalle', compact('detalles', 'cliente', 'carrito', 'productos', 'tipopagos', 'tipoenvios', 'promociones', 'clientes'));
     }
 
 }
