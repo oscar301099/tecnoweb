@@ -41,13 +41,18 @@
                 <nav :class="{ 'flex': open, 'hidden': !open }"
                     class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row bg-red-600">
                     <button id="cambiarModo" class=" hover:text-gray-300">Cambiar Modo</button>
+                    <button id="cambiarContraste" class=" hover:text-gray-300">Cambiar Contraste</button>
            <button id="aumentarLetra" class="hover:text-gray-300">Aumentar Letra</button>
                         <button id="disminuirLetra" class="hover:text-gray-300">Disminuir Letra</button>  
-                    <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 text-white hover:bg-white hover:text-black"
-                        href="{{route('cliente.pedidos.create')}}">Agregar Pedido</a>
+                        <button id="modoniños" class=" hover:text-gray-300">modo niños</button>
+                        <button id="modojovenes" class=" hover:text-gray-300">modo joven</button>
+                        <button id="cambiarModo" class=" hover:text-gray-300">modo adulto</button>
+                        <a class="cambio-contraste px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 text-white hover:bg-white hover:text-black"
+                            href="{{route('cliente.pedidos.create')}}">Agregar Pedido</a>
 
-                    <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 text-white hover:bg-white hover:text-black"
-                        href="{{route('cliente.pedidos.index')}}">Pedidos</a>
+                        <a class="cambio-contraste px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 text-white hover:bg-white hover:text-black"
+                            href="{{route('cliente.pedidos.index')}}">Pedidos</a>
+
 
                     <div @click.away="open = false" class="relative" x-data="{ open: false }">
                         <button @click="open = !open"
@@ -170,6 +175,31 @@
 
     @yield('js')
     <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const botonCambiarModoNinos = document.getElementById('modoniños');
+    botonCambiarModoNinos.addEventListener('click', function () {
+        // Alternar el estado del modo niños en el localStorage
+        const modoNinosActivado = !(localStorage.getItem('modoNinos') === 'true');
+        localStorage.setItem('modoNinos', modoNinosActivado);
+        aplicarModoNinos(modoNinosActivado);
+    });
+
+    // Aplicar el modo niños según el estado actual en el localStorage
+    aplicarModoNinos(localStorage.getItem('modoNinos') === 'true');
+
+    function aplicarModoNinos(modoNinos) {
+        const body = document.body;
+        if (modoNinos) {
+            // Cambiar el fondo a la imagen cuando el modo niños está activado
+            body.style.backgroundImage = 'url(/img/a.jpg)';
+        } else {
+            // Restaurar el fondo predeterminado cuando el modo niños está desactivado
+            body.style.backgroundImage = 'none';
+        }
+    }
+});
+        </script>
+    <script>
     document.addEventListener("DOMContentLoaded", function () {
         const botonCambiarModo = document.getElementById('cambiarModo');
         let modoActual = localStorage.getItem('modo') || 'dia';
@@ -191,15 +221,14 @@
         }
     });
 </script>
-    <script>
+<script>
     document.addEventListener("DOMContentLoaded", function () {
-        const botonCambiarModo = document.getElementById('cambiarModo');
         const botonAumentarLetra = document.getElementById('aumentarLetra');
         const botonDisminuirLetra = document.getElementById('disminuirLetra');
 
-        let contrasteActual = localStorage.getItem('contraste') || 'normal';
         let tamanioLetraActual = localStorage.getItem('tamanioLetra') || '16px';
         aplicarTamanioLetra(tamanioLetraActual);
+
         botonAumentarLetra.addEventListener('click', function () {
             tamanioLetraActual = aumentarTamanioLetra(tamanioLetraActual);
             localStorage.setItem('tamanioLetra', tamanioLetraActual);
@@ -211,19 +240,104 @@
             localStorage.setItem('tamanioLetra', tamanioLetraActual);
             aplicarTamanioLetra(tamanioLetraActual);
         });
+
         function aumentarTamanioLetra(tamanioActual) {
             const tamanioNumerico = parseInt(tamanioActual);
             return `${tamanioNumerico + 2}px`;
         }
+
         function disminuirTamanioLetra(tamanioActual) {
             const tamanioNumerico = parseInt(tamanioActual);
             return `${Math.max(tamanioNumerico - 2, 12)}px`;
         }
+
         function aplicarTamanioLetra(tamanio) {
             document.body.style.fontSize = tamanio;
+
+            // Aplicar estilos específicos a los elementos deseados
+            const elementosCambioContraste = document.querySelectorAll('.cambio-contraste');
+            elementosCambioContraste.forEach(function (elemento) {
+                elemento.style.fontSize = tamanio;
+            });
+
+            // Aplicar estilos al nombre de usuario
+            const nombreUsuario = document.getElementById('nombreUsuario');
+            if (nombreUsuario) {
+                nombreUsuario.style.fontSize = tamanio;
+            }
         }
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var cambiarContrasteBtn = document.getElementById('cambiarContraste');
+        var contrasteActivo = localStorage.getItem('contrasteActivo') === 'true';
+
+        aplicarContraste();
+
+        cambiarContrasteBtn.addEventListener('click', function () {
+            contrasteActivo = !contrasteActivo;
+            localStorage.setItem('contrasteActivo', contrasteActivo);
+            aplicarContraste();
+        });
+
+        function aplicarContraste() {
+            if (contrasteActivo) {
+                document.body.classList.add('contraste-activo');
+                aplicarContrasteElementos('.navbar', '.cambio-contraste', '#contenedorPrincipal');
+            } else {
+                document.body.classList.remove('contraste-activo');
+                restaurarContrasteElementos('.navbar', '.cambio-contraste', '#contenedorPrincipal');
+            }
+        }
+
+        function aplicarContrasteElementos(navbarSelector, cambioContrasteSelector, yieldSelector) {
+            // Navbar
+            var navbarElementos = document.querySelectorAll(navbarSelector);
+            navbarElementos.forEach(function (elemento) {
+                elemento.style.color = '#4F428F';
+                elemento.style.backgroundColor = '#FFFFFF';
+            });
+
+
+            var cambioContrasteElementos = document.querySelectorAll(cambioContrasteSelector);
+            cambioContrasteElementos.forEach(function (elemento) {
+                elemento.style.color = '#4F428F';
+                elemento.style.backgroundColor = '#FFFFFF';
+            });
+            var yieldElemento = document.querySelector(yieldSelector);
+            if (yieldElemento) {
+                yieldElemento.style.color = '#4F428F';
+                yieldElemento.style.backgroundColor = '#FFFFFF';
+            }
+        }
+
+        function restaurarContrasteElementos(navbarSelector, cambioContrasteSelector, yieldSelector) {
+            // Navbar
+            var navbarElementos = document.querySelectorAll(navbarSelector);
+            navbarElementos.forEach(function (elemento) {
+                elemento.style.color = '';
+                elemento.style.backgroundColor = '';
+            });
+
+            // Elementos específicos que deben cambiar de contraste
+            var cambioContrasteElementos = document.querySelectorAll(cambioContrasteSelector);
+            cambioContrasteElementos.forEach(function (elemento) {
+                elemento.style.color = '';
+                elemento.style.backgroundColor = '';
+            });
+
+            // Contenido dentro del yield
+            var yieldElemento = document.querySelector(yieldSelector);
+            if (yieldElemento) {
+                yieldElemento.style.color = '';
+                yieldElemento.style.backgroundColor = '';
+            }
+        }
+    });
+</script>
+
+
 </body>
 
 </html>
