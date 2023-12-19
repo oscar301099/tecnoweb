@@ -5,27 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pedido extends Model
+class Carrito extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'direccion',
-        'estado',
-        'fecha_entrega',
-        'fecha_pedido',
         'total',
-        'cliente_id',
-        'tipoEnvio_id',
-        'tipoPago_id',
-        'promocion_id'
+        'cliente_id'
     ];
 
-    
     public function productos()
     {
-        return $this->belongsToMany(Producto::class, 'detalle_pedidos')
+        return $this->belongsToMany(Producto::class, 'detalle_carritos')
         ->withPivot(['cantidad', 'precio'])
         ->withTimestamps();
+    }
+
+    public function agregarProducto($productoId, $cantidad)
+    {
+        $this->productos()->syncWithoutDetaching([
+            $productoId => ['cantidad' => $cantidad],
+        ]);
     }
 
 }

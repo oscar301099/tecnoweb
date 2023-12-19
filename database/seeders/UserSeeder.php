@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Carrito;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
@@ -28,20 +29,27 @@ class UserSeeder extends Seeder
             'razon_social' => 'Quality Store',
             'factura' => '123456789',
             'email' => 'QualityStore@gmail.com',
-            'telefono' => '+951 78149429',
-            'direccion' => 'Urb Las Palmas',
+            'telefono' => '+591 78416172',
+            'direccion' => '4to anillo, Feria Barrio Lindo',
             'responsable' => 'Administrador'
         ]);
 
-        User::create([
+        $user1 = User::create([
             'name' => 'Edilson Ortiz Serrano',
             'email' => 'edilson@gmail.com',
             'password' => bcrypt('12345678'),
             'tipo' => 'Administrador'
         ])->assignRole('Admin');
 
-        User::create([
-            'name' => 'Takeshi Kanashiro',
+        // Crear un carrito asociado al nuevo usuario
+        Carrito::create([
+            'cliente_id' => $user1->id,
+            'total' => 0, 
+        ]);
+
+
+        $user2 = User::create([
+            'name' => 'Karla Meneses',
             'email' => 'user2@gmail.com',
             'password' => bcrypt('12345678'),
             'tipo' => 'Empleado',
@@ -52,7 +60,15 @@ class UserSeeder extends Seeder
             'cargo' => 'Encargado de Ventas'
         ])->assignRole('Empleado');
 
-        User::create([
+        // Crear un carrito asociado al nuevo usuario
+        Carrito::create([
+            'cliente_id' => $user2->id,
+            'total' => 0, 
+        ]);
+
+
+
+        $user3 = User::create([
             'name' => 'Oscar Oros',
             'email' => 'user3@gmail.com',
             'password' => bcrypt('12345678'),
@@ -62,7 +78,14 @@ class UserSeeder extends Seeder
             'tipo' => 'Cliente'
         ])->assignRole('Cliente');
 
-        User::create([
+        // Crear un carrito asociado al nuevo usuario
+        Carrito::create([
+            'cliente_id' => $user3->id,
+            'total' => 0, 
+        ]);
+
+
+        $user4 = User::create([
             'name' => 'Erick Lopez',
             'email' => 'dipomo5692@dpsols.com',
             'password' => bcrypt('12345678'),
@@ -71,6 +94,12 @@ class UserSeeder extends Seeder
             'ci' => '748520',
             'tipo' => 'Cliente'
         ])->assignRole('Cliente');
+
+        // Crear un carrito asociado al nuevo usuario
+        Carrito::create([
+            'cliente_id' => $user4->id,
+            'total' => 0, 
+        ]);
 
 
         Categoria::create([

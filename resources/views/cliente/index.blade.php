@@ -2,6 +2,8 @@
 
 @section('title', 'Lista Productos')
 
+<h1>homeee index</h1>
+
 @section('content')
 
     <div>

@@ -18,13 +18,26 @@ class Producto extends Model
         'categoria_id',
         'marca_id'
     ];
-        //relacion uno a muchos Producto-Categoria(inversa)
-        public function categoria(){
-            return $this->belongsTo('App\Models\Categoria');
-        }
+    //relacion uno a muchos Producto-Categoria(inversa)
+    public function categoria()
+    {
+        return $this->belongsTo('App\Models\Categoria');
+    }
 
-        //relacion uno a muchos Producto-Marca(inversa)
-        public function marca(){
-            return $this->belongsTo('App\Models\Marca');
-        }
+    //relacion uno a muchos Producto-Marca(inversa)
+    public function marca()
+    {
+        return $this->belongsTo('App\Models\Marca');
+    }
+
+
+    public function carritos()
+    {
+        return $this->belongsToMany(Carrito::class, 'detalle_carritos')
+                    ->withPivot(['cantidad'])
+                    ->withTimestamps();
+    }
+
+    
+
 }
