@@ -41,18 +41,19 @@
                 <nav :class="{ 'flex': open, 'hidden': !open }"
                     class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row bg-red-600">
                     <button id="cambiarModo" class=" hover:text-gray-300">Cambiar Modo</button>
-
+                    <button id="cambiarContraste" class=" hover:text-gray-300">Cambiar Contraste</button>
                     <button id="aumentarLetra" class="hover:text-gray-300">Aumentar Letra</button>
                     <button id="disminuirLetra" class="hover:text-gray-300">Disminuir Letra</button>
-                    {{-- <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 text-white hover:bg-white hover:text-black"
-                        href="{{ route('cliente.pedidos.create') }}">Agregar Pedido</a> --}}
-
-                        <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 text-white hover:bg-white hover:text-black"
-                        href="{{ route('cliente.carrito.showC') }}">Carrito </a>
-
+                    <button id="modoniños" class=" hover:text-gray-300">modo niños</button>
+                    <button id="modojovenes" class=" hover:text-gray-300">modo joven</button>
+                    <button id="cambiarModo" class=" hover:text-gray-300">modo adulto</button>
+                    
+                    <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 text-white hover:bg-white hover:text-black"
+                    href="{{ route('cliente.carrito.showC') }}">Carrito </a>
 
                     <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 text-white hover:bg-white hover:text-black"
                         href="{{ route('cliente.pedidos.index') }}">Pedidos</a>
+
 
                     <div @click.away="open = false" class="relative" x-data="{ open: false }">
                         <button @click="open = !open"

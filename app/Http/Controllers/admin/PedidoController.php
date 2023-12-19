@@ -28,6 +28,7 @@ class PedidoController extends Controller
     public function index()
     {
         $pedidos = Pedido::all();
+        
         $clientes = User::all();
         return view('admin.pedidos.index', compact('pedidos', 'clientes'));
     }
@@ -60,7 +61,7 @@ class PedidoController extends Controller
             'tipoPago_id' => 'required',
             'cliente_id' => 'required',
         ]);
-        $pedido = New Pedido();
+        $pedido = new Pedido();
         $pedido->direccion = $request->direccion;
         $pedido->tipoEnvio_id = $request->tipoEnvio_id;
         $pedido->tipoPago_id = $request->tipoPago_id;
@@ -77,7 +78,7 @@ class PedidoController extends Controller
         $bita->apartado = 'Pedido';
         $afectado = $pedido->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
@@ -85,7 +86,6 @@ class PedidoController extends Controller
         $bita->save();
 
         return redirect()->route('admin.pedidos.index')->with('info', 'El Pedido se ha registrado correctamente');
-
     }
 
     /**
@@ -113,7 +113,6 @@ class PedidoController extends Controller
         $promociones = Promocion::all();
         $clientes = User::all();
         return view('admin.pedidos.edit', compact('tipopagos', 'tipoenvios', 'promociones', 'clientes', 'pedido'));
-   
     }
 
     /**
@@ -145,14 +144,13 @@ class PedidoController extends Controller
         $bita->apartado = 'Pedido';
         $afectado = $pedido->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
         $bita->ip = $ip;
         $bita->save();
         return redirect()->route('admin.pedidos.edit', $pedido)->with('info', 'Los Datos se Editaron correctamente');
-
     }
 
     /**
@@ -161,7 +159,7 @@ class PedidoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,$id)
+    public function destroy(Request $request, $id)
     {
         $pedido = Pedido::find($id)->first();
         $pedido->delete();
@@ -171,17 +169,18 @@ class PedidoController extends Controller
         $bita->apartado = 'Pedido';
         $afectado = $pedido->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
         $bita->ip = $ip;
         $bita->save();
 
-        return back()->with('info','El pedido ha sido eliminado correctamente');
+        return back()->with('info', 'El pedido ha sido eliminado correctamente');
     }
 
-    public function entregado(Request $request, $id){
+    public function entregado(Request $request, $id)
+    {
         $pedido = Pedido::find($id);
         $pedido->estado = 'Entregado';
         $pedido->save();
@@ -191,17 +190,18 @@ class PedidoController extends Controller
         $bita->apartado = 'Pedido';
         $afectado = $pedido->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
         $bita->ip = $ip;
         $bita->save();
 
-        return back()->with('info','Cambio de estado a Entregado');
+        return back()->with('info', 'Cambio de estado a Entregado');
     }
 
-    public function espera(Request $request, $id){
+    public function espera(Request $request, $id)
+    {
         $pedido = Pedido::find($id);
         $pedido->estado = 'En espera';
         $pedido->save();
@@ -211,37 +211,38 @@ class PedidoController extends Controller
         $bita->apartado = 'Pedido';
         $afectado = $pedido->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
         $bita->ip = $ip;
         $bita->save();
 
-        return back()->with('info','Cambio de estado a En Espera');
+        return back()->with('info', 'Cambio de estado a En Espera');
     }
-    
-    public function CreateFactura(Request $request, $id){
+
+    public function CreateFactura(Request $request, $id)
+    {
         $config = Configuration::find(1);
         $pedido = Pedido::find($id);
         $facts = Factura::all();
         foreach ($facts as $key) {
-            if($key->pedido_id == $pedido->id){
-                return back()->with('info','La Factura ya ha sido Creada');
+            if ($key->pedido_id == $pedido->id) {
+                return back()->with('info', 'La Factura ya ha sido Creada');
             }
         }
-    
+
         $factura = new Factura();
         $factura->nit = $config->factura;
         $factura->pago_neto = $pedido->total;
         $factura->pedido_id = $id;
         $verif = $pedido->promocion_id;
-        if($pedido->total == 0){
-            return back()->with('info2','No se registraron Productos en el Pedido');
+        if ($pedido->total == 0) {
+            return back()->with('info2', 'No se registraron Productos en el Pedido');
         }
         if (is_null($verif)) {
             $factura->pago_total = $pedido->total;
-        }else{
+        } else {
             $promocion = Promocion::where('id', $pedido->promocion_id)->first();
             $vpromo = $pedido->total * ($promocion->porcentaje / 100);
             $factura->pago_total = $pedido->total - $vpromo;
@@ -255,7 +256,7 @@ class PedidoController extends Controller
         $bita->apartado = 'Pedido';
         $afectado = $pedido->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
@@ -267,7 +268,7 @@ class PedidoController extends Controller
         $bita->apartado = 'Factura';
         $afectado = $factura->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
@@ -275,10 +276,10 @@ class PedidoController extends Controller
         $bita->save();
 
         return redirect()->route('admin.pedidos.index')->with('info', 'Factura registrada y Pago cancelado');
-
     }
 
-    public function DestroyFactura(Request $request, $id){
+    public function DestroyFactura(Request $request, $id)
+    {
 
         $pedido = Pedido::find($id);
         $factura = Factura::where('pedido_id', $pedido->id)->first();
@@ -292,16 +293,13 @@ class PedidoController extends Controller
         $bita->apartado = 'Factura';
         $afectado = $factura->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
         $bita->ip = $ip;
         $bita->save();
 
-        return back()->with('info','Factura: '. $factura->id .'del Pedido: '.$pedido->id.' del Cliente: '.$cliente->name.' se ha eliminado correctamente');
-  
+        return back()->with('info', 'Factura: ' . $factura->id . 'del Pedido: ' . $pedido->id . ' del Cliente: ' . $cliente->name . ' se ha eliminado correctamente');
     }
-    
-    
 }

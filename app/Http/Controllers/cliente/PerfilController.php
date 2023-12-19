@@ -72,6 +72,7 @@ class PerfilController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //dd('hola');
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
