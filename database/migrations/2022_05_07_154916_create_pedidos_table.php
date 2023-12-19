@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
+            $table->string('tcNroPago')->nullable();
             $table->string('direccion');
             $table->string('estado');
             $table->string('estado_pago');

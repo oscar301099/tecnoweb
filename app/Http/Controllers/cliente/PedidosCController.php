@@ -29,12 +29,13 @@ class PedidosCController extends Controller
      */
     public function index()
     {
+        $pedidos = Pedido::where('cliente_id', Auth::user()->id)->get();
         $nombrepagina="lista pedidos";
         DB::beginTransaction();
         ContadorPage::SumarContador($nombrepagina);
         DB::commit();
-        $pedidos = Pedido::all();
         $clientes = User::all();
+      
         return view('cliente.Pedidos.index', compact('pedidos', 'clientes'));
     }
 
@@ -70,7 +71,7 @@ class PedidosCController extends Controller
             'tipoPago_id' => 'required',
             'cliente_id' => 'required',
         ]);
-        $pedido = New Pedido();
+        $pedido = new Pedido();
         $pedido->direccion = $request->direccion;
         $pedido->tipoEnvio_id = $request->tipoEnvio_id;
         $pedido->tipoPago_id = $request->tipoPago_id;
@@ -87,7 +88,7 @@ class PedidosCController extends Controller
         $bita->apartado = 'Pedido';
         $afectado = $pedido->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
@@ -95,7 +96,6 @@ class PedidosCController extends Controller
         $bita->save();
 
         return redirect()->route('cliente.pedidos.index')->with('info', 'El Pedido se ha registrado correctamente');
-
     }
 
     /**
@@ -115,8 +115,7 @@ class PedidosCController extends Controller
         $tipoenvios = Tipo_envio::all();
         $promociones = Promocion::all();
         $clientes = User::all();
-        return view('cliente.Pedidos.detalle', compact('detalles', 'cliente', 'pedido', 'productos','tipopagos', 'tipoenvios', 'promociones', 'clientes'));
- 
+        return view('cliente.Pedidos.detalle', compact('detalles', 'cliente', 'pedido', 'productos', 'tipopagos', 'tipoenvios', 'promociones', 'clientes'));
     }
 
     /**
@@ -158,14 +157,14 @@ class PedidosCController extends Controller
         $bita->apartado = 'Pedido';
         $afectado = $pedido->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
         $bita->ip = $ip;
         $bita->save();
 
-        return back()->with('info','El pedido ha sido eliminado correctamente');
+        return back()->with('info', 'El pedido ha sido eliminado correctamente');
     }
 
     public function indexP($id)
@@ -174,23 +173,24 @@ class PedidosCController extends Controller
         $categorias = Categoria::all();
         $marcas = Marca::all();
         //$productos = Producto::paginate(3);
-        return view('cliente.productos', compact('categorias','marcas','pedido'));
+        return view('cliente.productos', compact('categorias', 'marcas', 'pedido'));
     }
 
-    public function storeP(Request $request, $idproducto){
+    public function storeP(Request $request, $idproducto)
+    {
         $request->validate([
             //'precio' => 'required|numeric',
             'cantidad' => 'required|integer',
         ]);
-        $pedido = Pedido::where('id',$request->idpedido)->first();
-        $producto = Producto::find($idproducto); 
+        $pedido = Pedido::where('id', $request->idpedido)->first();
+        $producto = Producto::find($idproducto);
         $detalle = new detalle_pedido();
         $detalle->producto_id = $idproducto;
         $detalle->pedido_id = $request->idpedido;
         $detalle->cantidad = $request->cantidad;
         //si la cantidad es mayor al stock
-        if($detalle->cantidad > $producto->stock){
-            return redirect()->route('cliente.pedidos.indexP', $pedido->id)->with('info2', 'No hay suficiente Stock de: '. $producto->nombre);
+        if ($detalle->cantidad > $producto->stock) {
+            return redirect()->route('cliente.pedidos.indexP', $pedido->id)->with('info2', 'No hay suficiente Stock de: ' . $producto->nombre);
         }
         //calcula el precio
         $detalle->precio = $request->cantidad * $producto->precio;
@@ -207,20 +207,20 @@ class PedidosCController extends Controller
         $bita->apartado = 'Pedido';
         $afectado = $pedido->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
         $bita->ip = $ip;
         $bita->save();
-        
-        return redirect()->route('cliente.pedidos.indexP', $pedido->id)->with('info', 'Producto Agregado correctamente');
 
+        return redirect()->route('cliente.pedidos.indexP', $pedido->id)->with('info', 'Producto Agregado correctamente');
     }
 
-    public function DetalleDestroy(Request $request, $id){
+    public function DetalleDestroy(Request $request, $id)
+    {
         $detalle = detalle_pedido::find($id);
-        $pedido = Pedido::where('id',$detalle->pedido_id)->first();
+        $pedido = Pedido::where('id', $detalle->pedido_id)->first();
         $producto = Producto::where('id', $detalle->producto_id)->first();
         // el producto vuelve a subir
         $producto->stock = $producto->stock + $detalle->cantidad;
@@ -235,7 +235,7 @@ class PedidosCController extends Controller
         $bita->apartado = 'Detalle_Pedido';
         $afectado = $detalle->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
@@ -243,30 +243,31 @@ class PedidosCController extends Controller
         $bita->save();
 
 
-        return back()->with('info','El detalle se ha eliminado correctamente');
+        return back()->with('info', 'El detalle se ha eliminado correctamente');
     }
 
-    public function CreateFactura(Request $request, $id){
+    public function CreateFactura(Request $request, $id)
+    {
         $config = Configuration::find(1);
         $pedido = Pedido::find($id);
         $facts = Factura::all();
         foreach ($facts as $key) {
-            if($key->pedido_id == $pedido->id){
-                return back()->with('info','La Factura ya ha sido Creada');
+            if ($key->pedido_id == $pedido->id) {
+                return back()->with('info', 'La Factura ya ha sido Creada');
             }
         }
-    
+
         $factura = new Factura();
         $factura->nit = $config->factura;
         $factura->pago_neto = $pedido->total;
         $factura->pedido_id = $id;
         $verif = $pedido->promocion_id;
-        if($pedido->total == 0){
-            return back()->with('info2','No se registraron Productos en el Pedido');
+        if ($pedido->total == 0) {
+            return back()->with('info2', 'No se registraron Productos en el Pedido');
         }
         if (is_null($verif)) {
             $factura->pago_total = $pedido->total;
-        }else{
+        } else {
             $promocion = Promocion::where('id', $pedido->promocion_id)->first();
             $vpromo = $pedido->total * ($promocion->porcentaje / 100);
             $factura->pago_total = $pedido->total - $vpromo;
@@ -280,7 +281,7 @@ class PedidosCController extends Controller
         $bita->apartado = 'Pedido';
         $afectado = $pedido->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
@@ -292,7 +293,7 @@ class PedidosCController extends Controller
         $bita->apartado = 'Factura';
         $afectado = $factura->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
@@ -300,7 +301,5 @@ class PedidosCController extends Controller
         $bita->save();
 
         return redirect()->route('cliente.pedidos.index')->with('info', 'Factura registrada y Pago cancelado');
-
     }
-
 }

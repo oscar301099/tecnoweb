@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\cliente\vistaCategoriaController;
 use App\Http\Controllers\cliente\PedidosCController;
-use App\Http\Controllers\ConsumirServicioController;
+use App\Http\Controllers\pagofacil\CallBackAdminController;
+use App\Http\Controllers\pagofacil\ConsumirServicioController;
 use App\Models\Categoria;
 use App\Models\Marca;
 use App\Models\Pedido;
@@ -32,12 +33,16 @@ Auth::routes();
 Route::get('Categoria/{id}', [vistaCategoriaController::class, 'index'])->name('cliente.categoria.index');
 Route::get('perfil', [vistaCategoriaController::class, 'perfil'])->name('cliente.perfil');
 Route::get('Editarperfil', [vistaCategoriaController::class, 'EditPerfil'])->name('cliente.editperfil');
+
 Route::resource('datos', PerfilController::class)->names('cliente.datos');
+
 Route::get('changePassword', [PerfilController::class, 'changePassword'])->name('cliente.changePassword');
 Route::post('updatePassword', [PerfilController::class, 'updatePassword'])->name('cliente.updatePassword');
 Route::resource('Pedidos', PedidosCController::class)->names('cliente.pedidos');
 Route::get('MiPedido/{id}/Productos', [PedidosCController::class, 'indexP'])->name('cliente.pedidos.indexP');
 Route::post('MiPedido/Guardar_Productos/{id}', [PedidosCController::class, 'storeP'])->name('cliente.pedidos.storeP');
+
+
 
 Route::get('VistaCategoria/{idcategoria}/{idpedido}', function ($idcategoria, $idpedido) {
     $productos = Producto::where('categoria_id', $idcategoria)->paginate(3);
@@ -55,4 +60,9 @@ Route::get('/pagofacil', function () {
     return view('pagofacil.index');
 });
 Route::post('/consumirServicio', [ConsumirServicioController::class, 'RecolectarDatos']);
+Route::post('/generarQr', [ConsumirServicioController::class, 'generarQr'])->name('admin.generarQr');
+
 Route::post('/consultar', [ConsumirServicioController::class, 'ConsultarEstado']);
+
+Route::post('/venta/pagos/callback', CallBackAdminController::class)->name('admin.pagos.callback');
+//Route::get('/venta/pagos/consultar/{venta_id}', ConsultarAdminController::class)->name('admin.pagos.consultar');

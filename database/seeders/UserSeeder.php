@@ -63,12 +63,12 @@ class UserSeeder extends Seeder
         ])->assignRole('Cliente');
 
         User::create([
-            'name' => 'Erick Lopez',
-            'email' => 'dipomo5692@dpsols.com',
-            'password' => bcrypt('12345678'),
+            'name' => 'Edilson Ortiz Serrano',
+            'email' => 'edilsonortiz678@gmail.com',
+            'password' => bcrypt('password'),
             'direccion' => 'El Urubo',
-            'telefono' => '700008930',
-            'ci' => '748520',
+            'telefono' => '67816051',
+            'ci' => '9674845',
             'tipo' => 'Cliente'
         ])->assignRole('Cliente');
 
@@ -311,7 +311,7 @@ class UserSeeder extends Seeder
         Producto::create([
             'nombre' => 'Tenis',
             'descripcion' => 'Zapatos deportivos',
-            'precio' => 120,
+            'precio' => 0.10,
             'stock' => 50,
             'imagen' => 'https://www.360-javascriptviewer.com/embed?presentation=eyJtYWluSW1hZ2VVcmwiOiJodHRwczovL2NkbjEuMzYwLWphdmFzY3JpcHR2aWV3ZXIuY29tL2ltYWdlcy9ibHVlLXNob2Utc21hbGwvMjAxODA5MDYtMDAxLWJsYXV3LmpwZyIsImxpY2Vuc2UiOiIiLCJzcGVlZCI6OTAsImltYWdlVXJsRm9ybWF0IjoiMjAxODA5MDYtMHh4LWJsYXV3LmpwZyIsImZpcnN0SW1hZ2VOdW1iZXIiOjEsImluZXJ0aWEiOjEyLCJyZXZlcnNlIjp0cnVlLCJ6b29tIjp0cnVlLCJpbWFnZVVybHMiOltdLCJ0b3RhbEZyYW1lcyI6NzIsInN0YXJ0RnJhbWVObyI6MSwiYXV0b1JvdGF0ZSI6MSwiYXV0b1JvdGF0ZVNwZWVkIjowLCJhdXRvUm90YXRlUmV2ZXJzZSI6ZmFsc2UsInN0b3BBdEVkZ2VzIjpmYWxzZSwiYXV0b0NETlJlc2l6ZXIiOnRydWUsIm5vdGlmaWNhdGlvbkNvbmZpZyI6eyJkcmFnVG9Sb3RhdGUiOnsic2hvd1N0YXJ0VG9Sb3RhdGVEZWZhdWx0Tm90aWZpY2F0aW9uIjp0cnVlLCJtYWluQ29sb3IiOiJyZ2JhKDAsMCwwLDAuMjApIiwidGV4dENvbG9yIjoicmdiYSgyNDMsMjM3LDIzNywwLjgwKSJ9fX0=',
             'categoria_id' => 3,
@@ -321,7 +321,7 @@ class UserSeeder extends Seeder
         Producto::create([
             'nombre' => 'Zapato femenino',
             'descripcion' => 'Zapato alto con taco ancho',
-            'precio' => 150,
+            'precio' => 0.15,
             'stock' => 50,
             'imagen' => 'https://360viewpro.com/360/Iconasys-Turntable/360%20View%20Pro/Sample/Woman%20Shoe/Woman-Shoe-View/iframe.html',
             'categoria_id' => 3,
@@ -331,7 +331,7 @@ class UserSeeder extends Seeder
         Producto::create([
             'nombre' => 'Reloj',
             'descripcion' => 'Hecho de plata',
-            'precio' => 350,
+            'precio' => 0.05,
             'stock' => 20,
             'imagen' => 'https://360viewpro.com/360/Iconasys-Turntable/360%20View%20Pro/Sample/Watch/Watch-View/iframe.html',
             'categoria_id' => 3,
@@ -351,7 +351,7 @@ class UserSeeder extends Seeder
         Producto::create([
             'nombre' => 'Pañales',
             'descripcion' => 'Articulo de limpieza para las neceidades humanas',
-            'precio' => 20,
+            'precio' => 0.3,
             'stock' => 100,
             'imagen' => 'https://rerroevi.sirv.com/Website/CPG/Diapers/Diapers.spin',
             'categoria_id' => 6,

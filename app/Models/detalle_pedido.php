@@ -14,4 +14,9 @@ class detalle_pedido extends Model
         'producto_id',
         'pedido_id'
     ];
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'producto_id');
+    }
 }
