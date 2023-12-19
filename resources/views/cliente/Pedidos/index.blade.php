@@ -107,8 +107,7 @@
                                 <a class="btn btn-info" href="{{ route('cliente.pedidos.indexP', $pedido->id) }}">
                                     <i class="fas fa-shopping-cart"></i>
                                 </a>
-                            @endif                   
-                              <h1>indexP</h1>
+                            @endif           
                         </td>
 
                         <td width="10px">
@@ -127,8 +126,7 @@
                                     <i class="material-icons fa fa-trash"></i>
                                 </button>
 
-                                <h1>destroy</h1>
-                                
+
                             </form>
                         </td>
 

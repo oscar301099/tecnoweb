@@ -47,7 +47,6 @@ class PedidosCController extends Controller
      */
     public function create()
     {
-
         $nombrepagina = "crear pedidos";
         DB::beginTransaction();
         ContadorPage::SumarContador($nombrepagina);
@@ -99,9 +98,10 @@ class PedidosCController extends Controller
         }
 
         // Opcional: Eliminar el carrito
+        $carrito->total=0;
         $carrito->productos()->detach(); // Esto eliminará todos los productos asociados al carrito
 
-
+        $carrito->save();
 
         $bita = new Bitacora();
         $bita->accion = 'Registró';
