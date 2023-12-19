@@ -12,20 +12,15 @@ use Livewire\Component;
 class Productos extends Component
 {
     public $search = '';
-
     use WithPagination;
-
     public $pedido_id;
-
     public function mount($pedido)
     {
         $this->pedido_id = $pedido->id;
     }
-
     public function updatingSearch(){
         $this->resetPage();
     }
-
     public function render()
     {
         $pedido = Pedido::where('id', $this->pedido_id)->first();

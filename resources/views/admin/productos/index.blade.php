@@ -9,15 +9,12 @@
 <h1>Lista de Productos</h1>
 
 @stop
-
 @section('content')
-
     @if(session('info'))
             <div class="alert alert-success">
                 <strong> {{session('info')}}</strong>
             </div>
     @endif
-
     <div class="card-body">
         <table class="table table-striped" id="productos">
             <thead>
@@ -33,7 +30,6 @@
                     <th style=" width: 10px;">Operaiones</th>
                 </tr>
             </thead> 
-
             <tbody>
                 @foreach($productos as $producto)
                     <tr>
@@ -48,7 +44,6 @@
                                 @endif
                             @endforeach
                         </td>
-
                         <td>
                             @foreach($marcas as $marca)
                                 @if($producto->marca_id == $marca->id)
@@ -83,17 +78,11 @@
                                 </form>
 
                         </td>
-
-
-
                     </tr>
                 @endforeach  
             </tbody>
         </table>
     </div>
-
-
-
 @stop
 
 @section('css')

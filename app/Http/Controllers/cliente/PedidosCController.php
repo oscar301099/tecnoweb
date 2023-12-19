@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Bitacora;
 use App\Models\Categoria;
 use App\Models\Configuration;
+use App\Models\ContadorPage;
 use App\Models\detalle_pedido;
 use App\Models\Factura;
 use App\Models\Marca;
@@ -17,6 +18,7 @@ use App\Models\Tipo_pago;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PedidosCController extends Controller
 {
@@ -28,6 +30,10 @@ class PedidosCController extends Controller
     public function index()
     {
         $pedidos = Pedido::where('cliente_id', Auth::user()->id)->get();
+        $nombrepagina="lista pedidos";
+        DB::beginTransaction();
+        ContadorPage::SumarContador($nombrepagina);
+        DB::commit();
         $clientes = User::all();
       
         return view('cliente.Pedidos.index', compact('pedidos', 'clientes'));
@@ -40,6 +46,11 @@ class PedidosCController extends Controller
      */
     public function create()
     {
+    
+        $nombrepagina="crear pedidos";
+        DB::beginTransaction();
+        ContadorPage::SumarContador($nombrepagina);
+        DB::commit();
         $tipopagos = Tipo_pago::all();
         $tipoenvios = Tipo_envio::all();
         $promociones = Promocion::all();

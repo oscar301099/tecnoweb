@@ -7,17 +7,13 @@
     <i class="material-icons fa fa-plus"> Nueva Categoria </i>
 </a>
 <h1>Lista de Categorias</h1>
-
 @stop
-
 @section('content')
-
     @if(session('info'))
             <div class="alert alert-success">
                 <strong> {{session('info')}}</strong>
             </div>
     @endif
-
     <div class="card-body">
         <table class="table table-striped" id="categorias">
             <thead>
@@ -28,20 +24,16 @@
                     <th></th>
                 </tr>
             </thead> 
-
             <tbody>
                 @foreach($categorias as $categoria)
                     <tr>
                         <td>{{ $categoria->id }}</td>
                         <td>{{ $categoria->nombre }}</td>
-
-
                         <td width="10px">
                                 <a class="btn btn-outline-primary" href="{{route('admin.categorias.edit', $categoria)}}">
                                     <i class="material-icons fa fa-pen"></i>
                                 </a>
                         </td>    
-
                         <td width="10px">
                                 <form action="{{route('admin.categorias.destroy', $categoria)}}" method="POST" onsubmit="return confirm('¿Estas seguro de eliminar la Categoria:  {{$categoria->nombre}} ?')">
                                  @csrf
@@ -51,19 +43,12 @@
                                     </button>
                                 </form>
                         </td>
-
-
-
                     </tr>
                 @endforeach  
             </tbody>
         </table>
     </div>
-
-
-
 @stop
-
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap5.min.css">

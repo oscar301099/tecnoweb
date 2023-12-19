@@ -24,7 +24,6 @@ use App\Http\Controllers\admin\PromocionController;
 Route::get('',[HomeController::class, 'index'])->name('admin.home');
 
 Route::resource('perfil', PerfilController::class)->names('admin.perfil');
-
 Route::resource('users', UserController::class)->names('admin.users');
 Route::resource('productos', ProductoController::class)->names('admin.productos');
 Route::resource('categorias', CategoriaController::class)->names('admin.categorias');

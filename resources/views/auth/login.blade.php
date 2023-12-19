@@ -13,32 +13,28 @@
         <div class="flex justify-end">
             <div class="bg-yellow-400 min-h-screen w-1/2 flex justify-center items-center">
                 <div>
-                
+                <button id="cambiarModo" class=" hover:text-gray-300">Cambiar Modo</button>
+                <button id="aumentarLetra" class="hover:text-gray-300">Aumentar Letra</button>
+                <button id="disminuirLetra" class="hover:text-gray-300">Disminuir Letra</button>
      <form class="p-20 bg-white rounded-3xl flex justify-center items-center flex-col shadow-md" method="POST"
                         action="{{ route('login') }}">
                         @csrf
                         <div>
                             <span class="text-sm text-gray-900">Bienvenido a {{$configuracion->razon_social}} Online</span>
-                            <button id="cambiarModo" class=" hover:text-gray-300">Cambiar Modo</button>
                             <h1 class="text-2xl font-bold">Inicia Session</h1>
-                            
                         </div>
-
                         <div class="my-3">
                             <label class="block text-md mb-2" for="email">{{ __('Email Address') }}</label>
                             <input id="email" type="email"
                                 class="form-control @error('email') is-invalid @enderror px-6 w-full border-2 py-2 rounded-md text-sm outline-none"
                                 name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="email"
                                 autofocus>
-
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-
                         </div>
-
                         <div class="mt-5">
                             <label class="block text-md mb-2" for="password">{{ __('Password') }}</label>
                             <input id="password" type="password"
@@ -90,20 +86,52 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const botonCambiarModo = document.getElementById('cambiarModo');
-            let modoActual = localStorage.getItem('modo') || 'dia';
-            aplicarModo(modoActual);
-            botonCambiarModo.addEventListener('click', function () {
-                modoActual = modoActual === 'dia' ? 'noche' : 'dia';
-                localStorage.setItem('modo', modoActual);
-                aplicarModo(modoActual);
-            });
+    document.addEventListener("DOMContentLoaded", function () {
+        const botonCambiarModo = document.getElementById('cambiarModo');
+        const botonAumentarLetra = document.getElementById('aumentarLetra');
+        const botonDisminuirLetra = document.getElementById('disminuirLetra');
 
-            function aplicarModo(modo) {
-                document.body.style.backgroundImage = `url('${modo === 'dia' ? 'URL_DE_TU_IMAGEN_DIURNA' : 'URL_DE_TU_IMAGEN_NOCTURNA'}')`;
-                document.body.style.filter = `brightness(${modo === 'dia' ? '100%' : '70%'})`;
-            }
+        let contrasteActual = localStorage.getItem('contraste') || 'normal';
+        let tamanioLetraActual = localStorage.getItem('tamanioLetra') || '16px';
+
+        aplicarContraste(contrasteActual);
+        aplicarTamanioLetra(tamanioLetraActual);
+
+        botonCambiarModo.addEventListener('click', function () {
+            contrasteActual = contrasteActual === 'normal' ? 'alto' : 'normal';
+            localStorage.setItem('contraste', contrasteActual);
+            aplicarContraste(contrasteActual);
         });
-    </script>
+
+        botonAumentarLetra.addEventListener('click', function () {
+            tamanioLetraActual = aumentarTamanioLetra(tamanioLetraActual);
+            localStorage.setItem('tamanioLetra', tamanioLetraActual);
+            aplicarTamanioLetra(tamanioLetraActual);
+        });
+
+        botonDisminuirLetra.addEventListener('click', function () {
+            tamanioLetraActual = disminuirTamanioLetra(tamanioLetraActual);
+            localStorage.setItem('tamanioLetra', tamanioLetraActual);
+            aplicarTamanioLetra(tamanioLetraActual);
+        });
+
+        function aplicarContraste(contraste) {
+            document.body.classList.toggle('alto-contraste', contraste === 'alto');
+        }
+
+        function aumentarTamanioLetra(tamanioActual) {
+            const tamanioNumerico = parseInt(tamanioActual);
+            return `${tamanioNumerico + 2}px`;
+        }
+
+        function disminuirTamanioLetra(tamanioActual) {
+            const tamanioNumerico = parseInt(tamanioActual);
+            return `${Math.max(tamanioNumerico - 2, 12)}px`;
+        }
+
+        function aplicarTamanioLetra(tamanio) {
+            document.body.style.fontSize = tamanio;
+        }
+    });
+</script>
 @endsection

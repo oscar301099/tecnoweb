@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Bitacora;
 use App\Models\Categoria;
 use App\Models\Configuration;
+use App\Models\ContadorPage;
 use App\Models\Marca;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -29,6 +31,11 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        $nombrepagina="home";
+        DB::beginTransaction();
+        ContadorPage::SumarContador($nombrepagina);
+        DB::commit();
+
         if (auth()->user()->tipo == 'Administrador') {
             $configuration = Configuration::find(1);
 
