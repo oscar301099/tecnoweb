@@ -103,29 +103,35 @@
 
                         </td>
                         <td width="10px">
-                            <a class="btn btn-info" href="{{ route('cliente.pedidos.indexP', $pedido->id) }}">
-                                <i class="fas fa-shopping-cart"></i>
-                            </a>
-
+                            @if ($pedido->estado_pago == 'Impagado')
+                                <a class="btn btn-info" href="{{ route('cliente.pedidos.indexP', $pedido->id) }}">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </a>
+                            @endif
 
                         </td>
 
                         <td width="10px">
+
                             <a class="btn btn-secondary" href="{{ route('cliente.pedidos.show', $pedido->id) }}">
                                 <i class="fas fa-file"></i>
                             </a>
+
+
                         </td>
 
 
                         <td width="10px">
-                            <form action="{{ route('admin.pedidos.destroy', $pedido->id) }}" method="POST"
-                                onsubmit="return confirm('¿Estas seguro de eliminar este a {{ $pedido->id }}?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-outline-danger" type="" rel="tooltip">
-                                    <i class="material-icons fa fa-trash"></i>
-                                </button>
-                            </form>
+                            @if ($pedido->estado_pago == 'Impagado')
+                                <form action="{{ route('admin.pedidos.destroy', $pedido->id) }}" method="POST"
+                                    onsubmit="return confirm('¿Estas seguro de eliminar este a {{ $pedido->id }}?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-outline-danger" type="" rel="tooltip">
+                                        <i class="material-icons fa fa-trash"></i>
+                                    </button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -143,8 +149,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class="modal-body d-flex align-items-center justify-content-center">
-                    <img id="imagenModal" src="https://complemedical.s3.amazonaws.com/generando.gif" class="img-fluid"
-                        alt="Imagen Grande" style="max-width: 100%; max-height: 400px;">
+                    <img id="imagenModal" src="" class="img-fluid" alt="Imagen Grande"
+                        style="max-width: 100%; max-height: 400px;">
                     <!-- Ajusta el tamaño según tus necesidades -->
                 </div>
             </div>
@@ -155,7 +161,6 @@
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -190,12 +195,23 @@
                 data: datos,
                 success: function(respuesta) {
                     console.log("Solicitud exitosa:", respuesta);
-                    $('#imagenModal').attr('src', respuesta['img']);
-                    $('#msmModal').text('PAGUE CON QR No sea yesca !!!');
-                    $('#exampleModal').modal('show');
+                    if(respuesta['error'] != null){
+                        $('#msmModal').text(respuesta['error']);
+                        $('#imagenModal').attr('src',
+                            'https://img.freepik.com/vector-premium/ilustracion-llorar-codigo-qr-lindo-bebe_152558-82202.jpg?w=2000'
+                        );
+                        $('#exampleModal').modal('show');
+                    }else{
+                        if (respuesta['img'] != null) {
+                        $('#imagenModal').attr('src', respuesta['img']);
+                        $('#msmModal').text('PAGUE CON QR !!!');
+                        $('#exampleModal').modal('show');
+                    } 
+                    }                  
                 },
                 error: function(error) {
                     console.error("Error en la solicitud:", error);
+
                 }
             });
         }
@@ -205,9 +221,9 @@
                 var id = $(this).val();
 
                 var url = $(this).attr("url");
+                $('#imagenModal').attr('src', 'https://complemedical.s3.amazonaws.com/generando.gif');
                 $('#exampleModal').modal('show');
                 generarQr(id, url);
-                //$('#exampleModal').modal('show');
             });
         });
     </script>

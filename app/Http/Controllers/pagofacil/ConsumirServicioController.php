@@ -8,6 +8,7 @@ use App\Models\Pedido;
 use App\Models\User;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ConsumirServicioController extends Controller
@@ -114,12 +115,13 @@ class ConsumirServicioController extends Controller
 
     public function generarQr(Request $request)
     {
+        
+
+
 
         $pedido = Pedido::find($request->pedido_id);
         $cliente = User::find($pedido->cliente_id);
 
-
-        //$detalle_pedido = detalle_pedido::where('pedido_id', $pedido->id)->get();
 
         $detalle = DB::table('detalle_pedidos')
             ->join('productos', 'detalle_pedidos.producto_id', '=', 'productos.id')
@@ -135,45 +137,55 @@ class ConsumirServicioController extends Controller
 
         $detalle_pedido = $detalle->map(function ($detalle) {
             $detalle->Descuento = '0.00';
-            $detalle->Total = $detalle->Precio*$detalle->Cantidad;
+            $detalle->Total = $detalle->Precio * $detalle->Cantidad;
             return collect($detalle)->map(function ($valor) {
                 return strval($valor);
             })->all();
         });
 
 
-       
 
-         try {
-        $lcComerceID           = "d029fa3a95e174a19934857f535eb9427d967218a36ea014b70ad704bc6c8d1c";
-        $lnMoneda              = 2;
-        $lnTelefono            = $cliente->telefono;
-        $lcNombreUsuario       = $cliente->name;
-        $lnCiNit               = $cliente->ci;
-        $lcNroPago             = "grup013sc-" . rand(100000, 999999);
-        $lnMontoClienteEmpresa = $pedido->total;
-        $lcCorreo              = $cliente->email;
-        $lcUrlCallBack         = "https://mail.tecnoweb.org.bo/inf513/grupo13sc/tecnoweb/public/venta/pagos/callback";
-        //$lcUrlCallBack         = route('admin.pagos.callback');
-        $lcUrlReturn           = route('cliente.pedidos.index');
-        $laPedidoDetalle       = $detalle_pedido;
-        $lcUrl                 = "";
 
-        $pedido->tcNroPago = $lcNroPago;
-        $pedido->update();
+        try {
+            $lcComerceID           = "d029fa3a95e174a19934857f535eb9427d967218a36ea014b70ad704bc6c8d1c";
+            $lnMoneda              = 2;
+            $lnTelefono            = $cliente->telefono;
+            $lcNombreUsuario       = $cliente->name;
+            $lnCiNit               = $cliente->ci;
+            $lcNroPago             = "grup013sc-" . rand(100000, 999999);
+            $lnMontoClienteEmpresa = $pedido->total;
+            $lcCorreo              = $cliente->email;
+            $lcUrlCallBack         = "https://mail.tecnoweb.org.bo/inf513/grupo13sc/tecnoweb/public/venta/pagos/callback";
+            //$lcUrlCallBack         = route('admin.pagos.callback');
+            $lcUrlReturn           = route('cliente.pedidos.index');
+            $laPedidoDetalle       = $detalle_pedido;
+            $lcUrl                 = "";
 
-        $arreglo['pedido_id'] = $request->pedido_id;
-        $arreglo['lnTelefono'] = $lnTelefono;
-        $arreglo['lcNombreUsuario'] = $lcNombreUsuario;
-        $arreglo['lnCiNit'] = $lnCiNit;
-        $arreglo['lcNroPago'] = $lcNroPago;
-        $arreglo['lnMontoClienteEmpresa'] = $lnMontoClienteEmpresa;
-        $arreglo['urlCall'] = $lcUrlCallBack;
-        $arreglo['urlReturn'] = $lcUrlReturn;
-        $arreglo['lcCorreo'] = $lcCorreo;
-        $arreglo['laPedidoDetalle'] = $laPedidoDetalle;
-        $arreglo['pedido'] = $pedido;
-        $arreglo['detalle'] =   $detalle_pedido;
+            if (Auth::user()->ci == null || Auth::user()->telefono == null) {
+                $arreglo = ['error' => '¡Hola! Por favor, actualiza tu Perfil,cédula de identidad y número de teléfono. ¡Gracias!'];
+                return response()->json($arreglo);
+            }
+
+            if ($pedido->total == 0) {
+                $arreglo = ['error' => 'PAGO FACIL NO PUDO GENERAR QR 0.0Bs !!!'];
+                return response()->json($arreglo);
+            }
+
+            $pedido->tcNroPago = $lcNroPago;
+            $pedido->update();
+
+            $arreglo['pedido_id'] = $request->pedido_id;
+            $arreglo['lnTelefono'] = $lnTelefono;
+            $arreglo['lcNombreUsuario'] = $lcNombreUsuario;
+            $arreglo['lnCiNit'] = $lnCiNit;
+            $arreglo['lcNroPago'] = $lcNroPago;
+            $arreglo['lnMontoClienteEmpresa'] = $lnMontoClienteEmpresa;
+            $arreglo['urlCall'] = $lcUrlCallBack;
+            $arreglo['urlReturn'] = $lcUrlReturn;
+            $arreglo['lcCorreo'] = $lcCorreo;
+            $arreglo['laPedidoDetalle'] = $laPedidoDetalle;
+            $arreglo['pedido'] = $pedido;
+            $arreglo['detalle'] =   $detalle_pedido;
 
             $loClient = new Client();
 

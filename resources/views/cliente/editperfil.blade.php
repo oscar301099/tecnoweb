@@ -66,18 +66,11 @@
                     <br>
                     <br>
                     <div class="text-center px-20">
-
-
-                        <span
-                            class="flex items-center mb-3 justify-center w-full bg-yellow-400 hover:bg-yellow-500 hover:text-white py-1 rounded transform transition duration-100 hover:scale-105">
-                            <button type="submit" rel="tooltip">
+                            <button class="flex items-center mb-3 justify-center w-full bg-yellow-400 hover:bg-yellow-500 hover:text-white py-1 rounded transform transition duration-100 hover:scale-105" type="submit" rel="tooltip">
                                 <i class="material-icons fa fa-pen">
                                     editar
                                 </i>
                             </button>
-                        </span>
-
-
                     </div>
                     {!! Form::close() !!}
                     <br>
