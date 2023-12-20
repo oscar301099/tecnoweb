@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('configurations', function (Blueprint $table) {
+        Schema::create('deseos', function (Blueprint $table) {
             $table->id();
-            $table->string('razon_social');
-            $table->string('email');
-            $table->string('responsable');
-            $table->string('factura');
-            $table->string('telefono');
-            $table->string('whatsapp');
-            $table->string('direccion');
+            $table->float('total',9,2)->nullable();
+            $table->unsignedBigInteger('cliente_id')->nullable()->foreign('cliente_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('configurations');
+        Schema::dropIfExists('deseos');
     }
 };

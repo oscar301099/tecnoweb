@@ -14,6 +14,8 @@ class ProductosP extends Component
     public $search = '';
     use WithPagination;
     public $pedido_id;
+    public $accion = 'carrito'; // Por defecto, agregar al carrito
+
     // public function mount($pedido)
     public function mount($pedido)
     {
@@ -23,6 +25,24 @@ class ProductosP extends Component
     {
         $this->resetPage();
     }
+
+    public function agregarAlCarrito()
+    {
+        $this->accion = 'carrito';
+    }
+
+    public function agregarADeseos()
+    {
+        $this->accion = 'deseos';
+    }
+
+// Componente Livewire
+public function setAccion($accion)
+{
+    $this->accion = $accion;
+}
+
+
     public function render()
     {
         $pedido = Pedido::where('id', $this->pedido_id)->first();

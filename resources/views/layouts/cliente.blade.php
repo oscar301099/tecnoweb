@@ -48,6 +48,11 @@
                     <button id="modojovenes" class=" hover:text-gray-300">modo joven</button>
                     <button id="cambiarModo" class=" hover:text-gray-300">modo adulto</button>
                     
+
+                    <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 text-white hover:bg-white hover:text-black"
+                    href="{{ route('cliente.deseo.showD') }}">Deseo </a>
+
+
                     <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 text-white hover:bg-white hover:text-black"
                     href="{{ route('cliente.carrito.showC') }}">Carrito </a>
 

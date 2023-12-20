@@ -5,16 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Configuration extends Model
+class detalle_deseo extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'razon_social',
-        'factura',
-        'email',
-        'telefono',
-        'whatsapp',
-        'direccion',
-        'responsable'
+        'precio',
+        'cantidad',
+        'producto_id',
+        'deseo_id'
     ];
 }

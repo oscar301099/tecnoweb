@@ -49,7 +49,7 @@
                     <th>Direccion</th>
                     <th>Fecha de Pedido</th>
                     <th>Total</th>
-                    <th>Entrega</th>l
+                    <th>Entrega</th>
                     <th>Pago</th>
                     <th>Productos</th>
                     <th>Detalle</th>

@@ -1,6 +1,6 @@
 @extends('layouts.cliente')
 
-@section('title', 'Detalles de Pedido')
+@section('title', 'Detalles de Deseo')
 
 
 @section('content_header')
@@ -8,7 +8,7 @@
         <i class="fa fa-arrow-left"> Atras</i>
     </a>
     <h1 class="float-right">
-        <strong>carrito: </strong> {{ $carrito->id }} <----------> <strong>Cliente: </strong> {{ $cliente->name }}
+        <strong>deseo: </strong> {{ $deseo->id }} <----------> <strong>Cliente: </strong> {{ $cliente->name }}
     </h1>
 
 
@@ -25,15 +25,30 @@
     <br>
     <br>
     <br>
-    <h1 class="text-center">MI CARRITO</h1>
+    <h1 class="text-center">MI LISTA DE DESEOS</h1>
     <div class="text-center mb-3">
 
+        {{-- <a href="{{ route('cliente.pedidos.createC') }}" class="btn btn-primary">Agregar a Carrito</a> --}}
+        {{-- {!! Form::open(['route' => 'cliente.pedidos.createC', 'autocomplete' => 'off']) !!}
+        <button class="btn btn-primary" type="submit" rel="tooltip">
+            <i class="material-icons fa fa-save"> Agregar a Carrito</i>
+        </button>
+        {!! Form::close() !!} --}}
 
-        @if ($carrito->total > 0.0)
-            <a href="{{ route('cliente.pedidos.create') }}" class="btn btn-primary">Agregar Pedido</a>
-        @else
-            <button id="agregarPedidoBtn" class="btn btn-primary" disabled>Realizar Pedido</button>
-        @endif
+
+
+        {!! Form::open(['route' => 'cliente.pedidos.createC', 'autocomplete' => 'off']) !!}
+        <!-- Otros campos del formulario -->
+
+        <!-- Campo para la dirección IP -->
+        <input type="hidden" name="direccion_ip" value="{{ request()->ip() }}">
+
+        <button class="btn btn-primary" type="submit" rel="tooltip">
+            <i class="fa fa-cart-plus" aria-hidden="true"> Agregar todo a Carrito</i>
+        </button>
+        {!! Form::close() !!}
+
+
 
 
     </div>
@@ -47,6 +62,7 @@
                     <th>Precio Producto</th>
                     <th>Cantidad</th>
                     <th>Precio</th>
+                    <th>Agregar</th>
                     <th>Eliminar</th>
                 </tr>
             </thead>
@@ -54,7 +70,7 @@
             <tbody>
                 @foreach ($detalles as $detalle)
                     <tr>
-                        {{-- <td>{{ $detalle->carrito_id }}</td> --}}
+                        {{-- <td>{{ $detalle->id }}</td> --}}
                         @foreach ($productos as $producto)
                             @if ($producto->id == $detalle->producto_id)
                                 <td>{{ $producto->nombre }}</td>
@@ -64,12 +80,24 @@
                         @foreach ($productos as $producto)
                             @if ($producto->id == $detalle->producto_id)
                                 <td>{{ $producto->precio }}</td>
-                                
                             @endif
                         @endforeach
                         <td>{{ $detalle->cantidad }}</td>
                         <td>{{ $detalle->precio }}</td>
 
+                        <td width="10px">
+                            <form action="{{ route('cliente.pedidos.createCID', $detalle->id) }}" method="POST">
+                                @csrf
+                                {{-- @method('PUT') --}}
+
+                                <!-- Campo para la dirección IP -->
+                                <input type="hidden" name="direccion_ip" value="{{ request()->ip() }}">
+
+                                <button class="btn btn-outline-warning" type="" rel="tooltip">
+                                    <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                </button>
+                            </form>
+                        </td>
 
                         <td width="10px">
                             <form action="{{ route('cliente.pedidos.DetalleDestroyC', $detalle->id) }}" method="POST"

@@ -102,7 +102,7 @@
                     @enderror
                 </div>
 
-                <div class="form-group col-md-4">
+                {{-- <div class="form-group col-md-4">
                     <label for="">Promocion: </label>
                     <select name=promocion_id id=promocion_id class="form-control">
                         @foreach ($promociones as $dato2)
@@ -122,7 +122,7 @@
                     @error('promocion_id')
                         <strong class="text-danger">{{ $message }}</strong>
                     @enderror
-                </div>
+                </div> --}}
 
             </div>
 
