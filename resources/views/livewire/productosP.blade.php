@@ -3,11 +3,11 @@
         <!-- aside -->
         <aside class="flex w-72 flex-col space-y-2 border-r-2 border-black bg-white p-2" style="height: 90.5vh"
             x-show="asideOpen">
-            <p class="my-5 text-center font-semibold text-3xl text-black font-sans ">Pedido </p>
+            <p class="my-5 text-center font-semibold text-3xl text-black font-sans ">Pedido {{ $pedido->id }}</p>
             <p class="my-5 text-center font-semibold text-3xl text-black font-sans ">Categorias</p>
 
             @foreach ($categorias as $categoria)
-                <a href="{{ route('cliente.pedidos.indexCategoria', [$categoria->id] ) }}" class="">
+                <a href="{{ route('cliente.pedidos.indexCategoria', [$categoria->id,  $pedido->id] ) }}" class="">
                     <span
                         class="flex items-center justify-center mt-4 w-full bg-red-400 hover:bg-red-600 hover:text-white py-1 rounded transform transition duration-100 hover:scale-105">{{ $categoria->nombre }}</span>
                 </a>
@@ -50,8 +50,8 @@
                                     <strong>Disponible:</strong>
                                     {{ $producto->stock }}
                                 </h3>
-                                {!! Form::open(['route' => ['cliente.pedidos.storeC', $producto->id], 'autocomplete' => 'off']) !!}
-                                    <input style="width: 50px;" type="text" class="form-control" name="idpedido" id="idpedido" value="" readonly>
+                                {!! Form::open(['route' => ['cliente.pedidos.storeP', $producto->id], 'autocomplete' => 'off']) !!}
+                                    <input style="width: 50px;" type="text" class="form-control" name="idpedido" id="idpedido" value="{{ $pedido->id }}" readonly>
                                     <br>
                                     <input type="text" class="border-gray-400 border-2 rounded-md text-center hover:bg-gray-200" name="cantidad" id="cantidad" placeholder=" -- Cantidad --" autofocus>
                                     <br>

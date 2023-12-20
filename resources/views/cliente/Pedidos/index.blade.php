@@ -49,11 +49,11 @@
                     <th>Direccion</th>
                     <th>Fecha de Pedido</th>
                     <th>Total</th>
-                    <th>Entrega</th>
+                    <th>Entrega</th>l
                     <th>Pago</th>
                     <th>Productos</th>
                     <th>Detalle</th>
-                    <th></th>
+                    <th>Eliminar</th>
                 </tr>
             </thead>
 
@@ -107,8 +107,7 @@
                                 <a class="btn btn-info" href="{{ route('cliente.pedidos.indexP', $pedido->id) }}">
                                     <i class="fas fa-shopping-cart"></i>
                                 </a>
-                            @endif
-
+                            @endif           
                         </td>
 
                         <td width="10px">
@@ -116,23 +115,22 @@
                             <a class="btn btn-secondary" href="{{ route('cliente.pedidos.show', $pedido->id) }}">
                                 <i class="fas fa-file"></i>
                             </a>
-
-
                         </td>
-
 
                         <td width="10px">
-                            @if ($pedido->estado_pago == 'Impagado')
-                                <form action="{{ route('admin.pedidos.destroy', $pedido->id) }}" method="POST"
-                                    onsubmit="return confirm('¿Estas seguro de eliminar este a {{ $pedido->id }}?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-outline-danger" type="" rel="tooltip">
-                                        <i class="material-icons fa fa-trash"></i>
-                                    </button>
-                                </form>
-                            @endif
+                            <form action="{{ route('admin.pedidos.destroy', $pedido->id) }}" method="POST"
+                                onsubmit="return confirm('¿Estas seguro de eliminar este a {{ $pedido->id }}?')">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-outline-danger" type="" rel="tooltip">
+                                    <i class="material-icons fa fa-trash"></i>
+                                </button>
+
+
+                            </form>
                         </td>
+
+
                     </tr>
                 @endforeach
             </tbody>
@@ -231,3 +229,5 @@
         console.log('hi!')
     </script>
 @stop
+
+

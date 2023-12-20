@@ -3,7 +3,8 @@
 @section('title', 'Elegir Productos')
 
 @section('content')
-@livewire('productos',['pedido' => "asasdsd"] )
+@livewire('productos-p', ['pedido' => $pedido])
+
 @endsection
 
 @section('css')

@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header bg-danger text-white text-center">
-                    <h4><strong>Datossssss</strong></h1>
+                    <h4><strong>Datos de mi pedido</strong></h1>
                 </div>
                 <div class="card-body">
 
@@ -62,7 +62,7 @@
                             @enderror
                         </div>
 
-                        <div class="form-group col-md-4">
+                        {{-- <div class="form-group col-md-4">
                             <label for="">Pomocion: </label>
                             <select name="promocion_id" id="promocion_id" class="form-control">
                                 <option value="">-- Ninguna --</option>
@@ -75,7 +75,7 @@
                             @error('promocion_id')
                             <strong class="text-danger">{{ $message }}</strong>
                             @enderror
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="row">

@@ -69,8 +69,10 @@ class HomeController extends Controller
                 $ip = $request->ip();
                 $bita->ip = $ip;
                 $bita->save();
-                
-                return view('cliente.index', compact('productos', 'marcas', 'categorias'));
+               // return view('cliente.index', compact('productos', 'marcas', 'categorias'));
+                return view('cliente.productos', compact('categorias', 'marcas'));
+
+                //return view('cliente.index', compact('productos', 'marcas', 'categorias'));
             } else {
                 if (auth()->user()->tipo == 'Empleado') {
                     $configuration = Configuration::find(1);
