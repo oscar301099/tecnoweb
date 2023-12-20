@@ -95,76 +95,69 @@
     </div>
     </div>
     <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    const botonCambiarModo = document.getElementById('cambiarModo');
-                    let modoActual = localStorage.getItem('modo') || 'dia';
-                    aplicarModo(modoActual);
+        document.addEventListener("DOMContentLoaded", function () {
+            const botonCambiarModo = document.getElementById('cambiarModo');
+            let modoActual = localStorage.getItem('modo') || 'dia';
+            aplicarModo(modoActual);
+            botonCambiarModo.addEventListener('click', function () {
+                modoActual = modoActual === 'dia' ? 'noche' : 'dia';
+                localStorage.setItem('modo', modoActual);
+                aplicarModo(modoActual);
+            });
 
-                    botonCambiarModo.addEventListener('click', function() {
-                        modoActual = modoActual === 'dia' ? 'noche' : 'dia';
-                        localStorage.setItem('modo', modoActual);
-                        aplicarModo(modoActual);
-                    });
+            function aplicarModo(modo) {
+                document.body.style.backgroundImage = `url('${modo === 'dia' ? 'URL_DE_TU_IMAGEN_DIURNA' : 'URL_DE_TU_IMAGEN_NOCTURNA'}')`;
+                document.body.style.filter = `brightness(${modo === 'dia' ? '100%' : '70%'})`;
+            }
+        });
 
-                    function aplicarModo(modo) {
-                        const contenedorPrincipal = document.getElementById('contenedorPrincipal');
-                        contenedorPrincipal.classList.toggle('modo-dia', modo === 'dia');
-                        contenedorPrincipal.classList.toggle('modo-noche', modo === 'noche');
+        document.addEventListener("DOMContentLoaded", function () {
+            const botonCambiarModo = document.getElementById('cambiarModo');
+            const botonAumentarLetra = document.getElementById('aumentarLetra');
+            const botonDisminuirLetra = document.getElementById('disminuirLetra');
+            let contrasteActual = localStorage.getItem('contraste') || 'normal';
+            let tamanioLetraActual = localStorage.getItem('tamanioLetra') || '16px';
 
-                        const intensidad = modo === 'dia' ? '100%' : '70%';
-                        document.body.style.filter = `brightness(${intensidad})`;
-                    }
-                });
-            </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const botonCambiarModo = document.getElementById('cambiarModo');
-        const botonAumentarLetra = document.getElementById('aumentarLetra');
-        const botonDisminuirLetra = document.getElementById('disminuirLetra');
-
-        let contrasteActual = localStorage.getItem('contraste') || 'normal';
-        let tamanioLetraActual = localStorage.getItem('tamanioLetra') || '16px';
-
-        aplicarContraste(contrasteActual);
-        aplicarTamanioLetra(tamanioLetraActual);
-
-        botonCambiarModo.addEventListener('click', function () {
-            contrasteActual = contrasteActual === 'normal' ? 'alto' : 'normal';
-            localStorage.setItem('contraste', contrasteActual);
             aplicarContraste(contrasteActual);
-        });
-
-        botonAumentarLetra.addEventListener('click', function () {
-            tamanioLetraActual = aumentarTamanioLetra(tamanioLetraActual);
-            localStorage.setItem('tamanioLetra', tamanioLetraActual);
             aplicarTamanioLetra(tamanioLetraActual);
+
+            botonCambiarModo.addEventListener('click', function () {
+                contrasteActual = contrasteActual === 'normal' ? 'alto' : 'normal';
+                localStorage.setItem('contraste', contrasteActual);
+                aplicarContraste(contrasteActual);
+            });
+
+            botonAumentarLetra.addEventListener('click', function () {
+                tamanioLetraActual = aumentarTamanioLetra(tamanioLetraActual);
+                localStorage.setItem('tamanioLetra', tamanioLetraActual);
+                aplicarTamanioLetra(tamanioLetraActual);
+            });
+
+            botonDisminuirLetra.addEventListener('click', function () {
+                tamanioLetraActual = disminuirTamanioLetra(tamanioLetraActual);
+                localStorage.setItem('tamanioLetra', tamanioLetraActual);
+                aplicarTamanioLetra(tamanioLetraActual);
+            });
+
+            function aplicarContraste(contraste) {
+                document.body.classList.toggle('alto-contraste', contraste === 'alto');
+            }
+
+            function aumentarTamanioLetra(tamanioActual) {
+                const tamanioNumerico = parseInt(tamanioActual);
+                return `${tamanioNumerico + 2}px`;
+            }
+
+            function disminuirTamanioLetra(tamanioActual) {
+                const tamanioNumerico = parseInt(tamanioActual);
+                return `${Math.max(tamanioNumerico - 2, 12)}px`;
+            }
+
+            function aplicarTamanioLetra(tamanio) {
+                document.body.style.fontSize = tamanio;
+            }
         });
-
-        botonDisminuirLetra.addEventListener('click', function () {
-            tamanioLetraActual = disminuirTamanioLetra(tamanioLetraActual);
-            localStorage.setItem('tamanioLetra', tamanioLetraActual);
-            aplicarTamanioLetra(tamanioLetraActual);
-        });
-
-        function aplicarContraste(contraste) {
-            document.body.classList.toggle('alto-contraste', contraste === 'alto');
-        }
-
-        function aumentarTamanioLetra(tamanioActual) {
-            const tamanioNumerico = parseInt(tamanioActual);
-            return `${tamanioNumerico + 2}px`;
-        }
-
-        function disminuirTamanioLetra(tamanioActual) {
-            const tamanioNumerico = parseInt(tamanioActual);
-            return `${Math.max(tamanioNumerico - 2, 12)}px`;
-        }
-
-        function aplicarTamanioLetra(tamanio) {
-            document.body.style.fontSize = tamanio;
-        }
-    });
-</script>
+    </script>
 
 
 
