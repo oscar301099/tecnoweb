@@ -84,7 +84,28 @@
             </div>
         </div>
     </div>
+    <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const botonCambiarModo = document.getElementById('cambiarModo');
+                    let modoActual = localStorage.getItem('modo') || 'dia';
+                    aplicarModo(modoActual);
 
+                    botonCambiarModo.addEventListener('click', function() {
+                        modoActual = modoActual === 'dia' ? 'noche' : 'dia';
+                        localStorage.setItem('modo', modoActual);
+                        aplicarModo(modoActual);
+                    });
+
+                    function aplicarModo(modo) {
+                        const contenedorPrincipal = document.getElementById('contenedorPrincipal');
+                        contenedorPrincipal.classList.toggle('modo-dia', modo === 'dia');
+                        contenedorPrincipal.classList.toggle('modo-noche', modo === 'noche');
+
+                        const intensidad = modo === 'dia' ? '100%' : '70%';
+                        document.body.style.filter = `brightness(${intensidad})`;
+                    }
+                });
+            </script>
     <script>
     document.addEventListener("DOMContentLoaded", function () {
         const botonCambiarModo = document.getElementById('cambiarModo');

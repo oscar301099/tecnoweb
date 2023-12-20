@@ -25,6 +25,4 @@ class ContadorPage extends Model
 
 
 
-
-
 }
