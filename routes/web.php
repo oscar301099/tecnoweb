@@ -60,6 +60,7 @@ Route::post('MiPedido/Guardar_ProductosP/{id}', [PedidosCController::class, 'sto
 Route::post('MiPedido/Guardar_ProductosD/{id}', [PedidosCController::class, 'storeD'])->name('cliente.pedidos.storeD');
 
 Route::post('Deseo/createC',[PedidosCController::class, 'createC'])->name('cliente.pedidos.createC');
+Route::post('Deseo/createCID/{id}',[PedidosCController::class, 'createCID'])->name('cliente.pedidos.createCID');
 
 
 Route::get('Carrito', [PedidosCController::class, 'showC'])->name('cliente.carrito.showC');
