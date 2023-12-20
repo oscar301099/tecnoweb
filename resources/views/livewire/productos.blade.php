@@ -7,7 +7,7 @@
             <p class="my-5 text-center font-semibold text-3xl text-black font-sans ">Categorias</p>
 
             @foreach ($categorias as $categoria)
-                <a href="{{ route('cliente.pedidos.indexCategoria', [$categoria->id] ) }}" class="">
+                <a href="{{ route('cliente.pedidos.indexCategoria', [$categoria->id]) }}" class="">
                     <span
                         class="flex items-center justify-center mt-4 w-full bg-red-400 hover:bg-red-600 hover:text-white py-1 rounded transform transition duration-100 hover:scale-105">{{ $categoria->nombre }}</span>
                 </a>
@@ -16,7 +16,9 @@
 
         <!-- Los productos -->
         <div class="w-full p-4">
-            <input type="text" wire:model="search" id="buscador" name="buscador" class="rounded-none rounded-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar">
+            <input type="text" wire:model="search" id="buscador" name="buscador"
+                class="rounded-none rounded-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Buscar">
 
             <div class="px-10 py-10 bg-white grid gap-10 lg:grid-cols-3 xl:grid-cols-3 sm:grid-cols-2">
 
@@ -51,20 +53,37 @@
                                     {{ $producto->stock }}
                                 </h3>
                                 {!! Form::open(['route' => ['cliente.pedidos.storeC', $producto->id], 'autocomplete' => 'off']) !!}
-                                    <input style="width: 50px;" type="text" class="form-control" name="idpedido" id="idpedido" value="" readonly>
-                                    <br>
-                                    <input type="text" class="border-gray-400 border-2 rounded-md text-center hover:bg-gray-200" name="cantidad" id="cantidad" placeholder=" -- Cantidad --" autofocus>
-                                    <br>
-                                    @error('cantidad')
-                                        <strong class="text-red-600">{{ $message }}</strong>
-                                    @enderror
-                                    <p class="text-right text-2xl font-thin">{{ $producto->precio }} BS</p>
-                                    <span class="flex items-center justify-center mt-4 w-full bg-yellow-400 hover:bg-yellow-500 py-1 rounded transform transition duration-500 hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                        </svg>
-                                        <button class="font-semibold text-gray-800 ">Add to Basket</button>
-                                    </span>
+                                <input style="width: 50px;" type="text" class="form-control" name="idpedido"
+                                    id="idpedido" value="" readonly>
+                                <br>
+                                <input type="text"
+                                    class="border-gray-400 border-2 rounded-md text-center hover:bg-gray-200"
+                                    name="cantidad" id="cantidad" placeholder=" -- Cantidad --" autofocus>
+                                <br>
+                                @error('cantidad')
+                                    <strong class="text-red-600">{{ $message }}</strong>
+                                @enderror
+                                <p class="text-right text-2xl font-thin">{{ $producto->precio }} BS</p>
+                                <span
+                                    class="flex items-center justify-center mt-4 w-full bg-yellow-400 hover:bg-yellow-500 py-1 rounded transform transition duration-500 hover:scale-110">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                    <button class="font-semibold text-gray-800 ">Agregar a Carrito</button>
+                                </span>
+
+                                <span
+                                    class="flex items-center justify-center mt-4 w-full bg-yellow-400 hover:bg-yellow-500 py-1 rounded transform transition duration-500 hover:scale-110">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                    <button class="font-semibold text-gray-800 ">Agregar Deseo</button>
+                                </span>
+
                                 {!! Form::close() !!}
                             </div>
                         </div>
@@ -73,7 +92,6 @@
             <div class="card-footer d-flex justify-content-end">
                 {{ $productos->onEachSide(1)->links() }}
             </div>
-           
         @else
             <div class="card-body">
                 <strong> No hay Productos</strong>
@@ -85,8 +103,3 @@
     </div>
 
 </div>
-
-
-
-
-

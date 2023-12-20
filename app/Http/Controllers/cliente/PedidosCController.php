@@ -31,6 +31,7 @@ class PedidosCController extends Controller
      */
     public function index()
     {
+        return "asdas";
         $nombrepagina = "lista pedidos";
         DB::beginTransaction();
         ContadorPage::SumarContador($nombrepagina);
