@@ -143,8 +143,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- modal-lg para un modal grande -->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 id="msmModal" class="modal-title text-center w-100">Generando QR. Por favor,
-                        espera...
+                    <h5 id="msmModal" class="modal-title text-center w-100">
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
                 </div>
@@ -195,19 +194,19 @@
                 data: datos,
                 success: function(respuesta) {
                     console.log("Solicitud exitosa:", respuesta);
-                    if(respuesta['error'] != null){
+                    if (respuesta['error'] != null) {
                         $('#msmModal').text(respuesta['error']);
                         $('#imagenModal').attr('src',
                             'https://img.freepik.com/vector-premium/ilustracion-llorar-codigo-qr-lindo-bebe_152558-82202.jpg?w=2000'
                         );
                         $('#exampleModal').modal('show');
-                    }else{
+                    } else {
                         if (respuesta['img'] != null) {
-                        $('#imagenModal').attr('src', respuesta['img']);
-                        $('#msmModal').text('PAGUE CON QR !!!');
-                        $('#exampleModal').modal('show');
-                    } 
-                    }                  
+                            $('#imagenModal').attr('src', respuesta['img']);
+                            $('#msmModal').text('PAGUE CON QR !!!');
+                            $('#exampleModal').modal('show');
+                        }
+                    }
                 },
                 error: function(error) {
                     console.error("Error en la solicitud:", error);
@@ -221,6 +220,7 @@
                 var id = $(this).val();
 
                 var url = $(this).attr("url");
+                $('#msmModal').text('Generando QR. Por favor, espera...');
                 $('#imagenModal').attr('src', 'https://complemedical.s3.amazonaws.com/generando.gif');
                 $('#exampleModal').modal('show');
                 generarQr(id, url);
