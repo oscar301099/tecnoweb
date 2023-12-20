@@ -91,7 +91,7 @@
                     <td class="table-primary">{{ $factura->pago_neto }}</td>
                 </tr>
 
-                <tr>
+                {{-- <tr>
                     <td colspan="3"></td>
                     <td class="table-info">Promocion:</td>
                     @if ($dato)
@@ -103,10 +103,7 @@
                         @endphp
                         <td class="table-info">{{ $monto }} => {{ $porc }}</td>
                     @endif
-
-
-
-                </tr>
+                </tr> --}}
 
                 <tr>
                     <td colspan="3"></td>

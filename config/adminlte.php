@@ -242,8 +242,17 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
-        
+
+
         [
+            'text'    => 'Supervision',
+            'icon' => 'fas fa-fw fa-percent',
+            'route'  => 'admin.supervision.index',
+            'can' => 'admin'
+        ],
+
+        [
+
             'text'    => 'Gestionar Informacion',
             'icon'    => 'fas fa-fw fa-sitemap',
             'can'    => 'admin',
@@ -254,19 +263,19 @@ return [
                     'icon' => 'fas fa-fw fa-cog',
                     'can' => 'admin'
                 ],
-        
+
                 [
                     'text' => 'Imprimir Bitacora',
                     'route'  => 'bitacora.downloadTxt',
                     'icon' => 'fas fa-fw fa-street-view',
-                    
+
                 ],
 
                 [
                     'text' => 'Bitácora Dinamica',
                     'route'  => 'Bitacora.index',
                     'icon' => 'fas fa-fw fa-street-view',
-                    
+
                 ],
 
             ],
@@ -306,7 +315,7 @@ return [
         [
             'text'    => 'Gestionar Productos',
             'icon'    => 'fas fa-fw fa-book',
-            'can'     => 'admin', 
+            'can'     => 'admin',
             'submenu' => [
                 [
                     'text' => ' Productos',
@@ -314,14 +323,14 @@ return [
                     'icon' => 'fas fa-fw fa-store',
                     'can' => 'admin'
                 ],
-        
+
                 [
                     'text' => ' Categorias',
                     'route'  => 'admin.categorias.index',
                     'icon' => 'fas fa-fw fa-gifts',
                     'can' => 'admin'
                 ],
-        
+
                 [
                     'text' => ' Marcas',
                     'route'  => 'admin.marcas.index',
@@ -330,7 +339,7 @@ return [
                 ],
             ],
         ],
-        
+
         [
             'text'    => 'Detalle de Compra',
             'icon'    => 'fas fa-fw fa-truck',
@@ -392,18 +401,18 @@ return [
                     'can' => 'empleado.admin'
                 ],
 
-                [
-                    'text'    => 'Promociones',
-                    'icon' => 'fas fa-fw fa-percent',
-                    'route'  => 'admin.promociones.index',
-                    'can' => 'admin'
-                ],
+                // [
+                //     'text'    => 'Promociones',
+                //     'icon' => 'fas fa-fw fa-percent',
+                //     'route'  => 'admin.promociones.index',
+                //     'can' => 'admin'
+                // ],
 
             ],
-            ],
+        ],
 
 
-    
+
     ],
 
     /*

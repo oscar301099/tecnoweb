@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('responsable');
             $table->string('factura');
             $table->string('telefono');
+            $table->string('whatsapp');
             $table->string('direccion');
             $table->timestamps();
         });

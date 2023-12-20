@@ -42,7 +42,7 @@
         <table class="table table-striped" id="detalle">
             <thead>
                 <tr>
-                    <th>Pedido</th>
+                    {{-- <th>ID</th> --}}
                     <th>Producto</th>
                     <th>Precio Producto</th>
                     <th>Cantidad</th>
@@ -54,7 +54,7 @@
             <tbody>
                 @foreach ($detalles as $detalle)
                     <tr>
-                        <td>{{ $detalle->carrito_id }}</td>
+                        {{-- <td>{{ $detalle->carrito_id }}</td> --}}
                         @foreach ($productos as $producto)
                             @if ($producto->id == $detalle->producto_id)
                                 <td>{{ $producto->nombre }}</td>

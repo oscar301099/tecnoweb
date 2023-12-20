@@ -50,7 +50,6 @@ class PedidosCController extends Controller
      */
     public function create()
     {
-        //return "creatteee";
         $nombrepagina = "crear pedidos";
         DB::beginTransaction();
         ContadorPage::SumarContador($nombrepagina);
@@ -194,7 +193,6 @@ class PedidosCController extends Controller
 
     public function indexP($id)
     {
-        //return "indexP";
         $pedido = Pedido::where('id', $id)->first();
         $categorias = Categoria::all();
         $marcas = Marca::all();
@@ -205,9 +203,6 @@ class PedidosCController extends Controller
 
     public function storeP(Request $request, $idproducto)
     {
-
-        //  return "deseo". $idproducto;
-        // return "agregar produc";
         $request->validate([
             //'precio' => 'required|numeric',
             'cantidad' => 'required|integer',
@@ -271,7 +266,6 @@ class PedidosCController extends Controller
         $ip = $request->ip();
         $bita->ip = $ip;
         $bita->save();
-
 
         return back()->with('info', 'El detalle se ha eliminado correctamente');
     }
@@ -616,8 +610,6 @@ class PedidosCController extends Controller
                 ]);
             }
         }
-
-
 
         // Opcional: Eliminar el carrito
         $deseo->total = 0;

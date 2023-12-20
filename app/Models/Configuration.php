@@ -13,6 +13,7 @@ class Configuration extends Model
         'factura',
         'email',
         'telefono',
+        'whatsapp',
         'direccion',
         'responsable'
     ];
