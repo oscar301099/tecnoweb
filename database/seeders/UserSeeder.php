@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Configuration;
+use App\Models\Deseo;
 use App\Models\Marca;
 use App\Models\Promocion;
 use App\Models\Proveedor;
@@ -80,6 +81,10 @@ class UserSeeder extends Seeder
 
         // Crear un carrito asociado al nuevo usuario
         Carrito::create([
+            'cliente_id' => $user3->id,
+            'total' => 0, 
+        ]);
+        Deseo::create([
             'cliente_id' => $user3->id,
             'total' => 0, 
         ]);

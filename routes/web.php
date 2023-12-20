@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\PedidoController;
 use App\Http\Controllers\cliente\PerfilController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -56,13 +57,16 @@ Route::get('MiPedido/{id}/Productos', [PedidosCController::class, 'indexP'])->na
 
 Route::post('MiPedido/Guardar_ProductosP/{id}', [PedidosCController::class, 'storeP'])->name('cliente.pedidos.storeP');
 
+Route::post('MiPedido/Guardar_ProductosD/{id}', [PedidosCController::class, 'storeD'])->name('cliente.pedidos.storeD');
 
+Route::post('Deseo/createC',[PedidosCController::class, 'createC'])->name('cliente.pedidos.createC');
 
 
 Route::get('Carrito', [PedidosCController::class, 'showC'])->name('cliente.carrito.showC');
 
-
-
+///deseo
+Route::get('MiPedidoD', [PedidosCController::class, 'indexD'])->name('cliente.pedidos.indexD');
+Route::get('Deseo', [PedidosCController::class, 'showD'])->name('cliente.deseo.showD');
 
 
 Route::get('VistaCategoria/{idcategoria}', function ($idcategoria) {

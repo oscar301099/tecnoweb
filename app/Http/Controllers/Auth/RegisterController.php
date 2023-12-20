@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Carrito;
+use App\Models\Deseo;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -77,6 +78,12 @@ class RegisterController extends Controller
             'cliente_id' => $nuevoUsuario->id,
             'total' => 0, 
         ]);
+
+        Deseo::create([
+            'cliente_id' => $nuevoUsuario->id,
+            'total' => 0, 
+        ]);
+
 
 
         return $nuevoUsuario;

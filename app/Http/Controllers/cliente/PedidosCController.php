@@ -8,7 +8,9 @@ use App\Models\Carrito;
 use App\Models\Categoria;
 use App\Models\Configuration;
 use App\Models\ContadorPage;
+use App\Models\Deseo;
 use App\Models\detalle_carrito;
+use App\Models\detalle_deseo;
 use App\Models\detalle_pedido;
 use App\Models\Factura;
 use App\Models\Marca;
@@ -31,12 +33,12 @@ class PedidosCController extends Controller
      */
     public function index()
     {
-        return "asdas";
+        $pedidos = Pedido::where('cliente_id', Auth::user()->id)->get();
         $nombrepagina = "lista pedidos";
         DB::beginTransaction();
         ContadorPage::SumarContador($nombrepagina);
         DB::commit();
-        $pedidos = Pedido::all();
+        //$pedidos = Pedido::all();
         $clientes = User::all();
         return view('cliente.Pedidos.index', compact('pedidos', 'clientes'));
     }
@@ -48,6 +50,7 @@ class PedidosCController extends Controller
      */
     public function create()
     {
+        //return "creatteee";
         $nombrepagina = "crear pedidos";
         DB::beginTransaction();
         ContadorPage::SumarContador($nombrepagina);
@@ -77,7 +80,7 @@ class PedidosCController extends Controller
         $carrito = Carrito::where('cliente_id', $clienteId)->first();
 
 
-        $pedido = New Pedido();
+        $pedido = new Pedido();
         $pedido->direccion = $request->direccion;
         $pedido->tipoEnvio_id = $request->tipoEnvio_id;
         $pedido->tipoPago_id = $request->tipoPago_id;
@@ -99,7 +102,7 @@ class PedidosCController extends Controller
         }
 
         // Opcional: Eliminar el carrito
-        $carrito->total=0;
+        $carrito->total = 0;
         $carrito->productos()->detach(); // Esto eliminará todos los productos asociados al carrito
 
         $carrito->save();
@@ -191,16 +194,20 @@ class PedidosCController extends Controller
 
     public function indexP($id)
     {
-      //return "indexP";
-           $pedido = Pedido::where('id', $id)->first();
+        //return "indexP";
+        $pedido = Pedido::where('id', $id)->first();
         $categorias = Categoria::all();
         $marcas = Marca::all();
         //$productos = Producto::paginate(3);
-        return view('cliente.productosP', compact('categorias','marcas','pedido'));
+        return view('cliente.productosP', compact('categorias', 'marcas', 'pedido'));
     }
 
-    public function storeP(Request $request, $idproducto){
-       // return "agregar produc";
+
+    public function storeP(Request $request, $idproducto)
+    {
+
+        //  return "deseo". $idproducto;
+        // return "agregar produc";
         $request->validate([
             //'precio' => 'required|numeric',
             'cantidad' => 'required|integer',
@@ -324,7 +331,6 @@ class PedidosCController extends Controller
         $bita->save();
 
         return redirect()->route('cliente.pedidos.index')->with('info', 'Factura registrada y Pago cancelado');
-
     }
 
 
@@ -345,8 +351,7 @@ class PedidosCController extends Controller
 
     public function storeC(Request $request, $idproducto)
     {
-        //Aqui da bien agregar carrito
-       // return "Aqui da bien agregar carrito";
+
         $request->validate([
             'cantidad' => 'required|integer',
         ]);
@@ -498,4 +503,205 @@ class PedidosCController extends Controller
         return view('cliente.carrito.detalle', compact('detalles', 'cliente', 'carrito', 'productos', 'tipopagos', 'tipoenvios', 'promociones', 'clientes'));
     }
 
+
+    /*DESEO */
+    public function indexD()
+    {
+        //return "2";
+        //   $pedido = Pedido::where('id', $id)->first();
+        $categorias = Categoria::all();
+        $marcas = Marca::all();
+        //$productos = Producto::paginate(3);
+        // return view('cliente.productos', compact('categorias', 'marcas', 'pedido'));
+        return view('cliente.productos', compact('categorias', 'marcas'));
+    }
+
+    public function showD()
+    {
+
+        $clienteId = Auth::id();
+
+
+        $deseo = Deseo::where('cliente_id', $clienteId)->first();
+
+        $detalles = detalle_deseo::where('deseo_id', $deseo->id)->get();
+
+
+        $cliente = User::where('id', $clienteId)->first();
+        $productos = Producto::all();
+        $tipopagos = Tipo_pago::all();
+        $tipoenvios = Tipo_envio::all();
+        $promociones = Promocion::all();
+        $clientes = User::all();
+        return view('cliente.deseo.detalle', compact('detalles', 'cliente', 'deseo', 'productos', 'tipopagos', 'tipoenvios', 'promociones', 'clientes'));
+    }
+
+    public function storeD(Request $request, $idproducto)
+    {
+
+        $request->validate([
+            'cantidad' => 'required|integer',
+        ]);
+
+        $clienteId = Auth::id();
+
+        $producto = Producto::find($idproducto);
+        $deseo = Deseo::where('cliente_id', $clienteId)->first();
+        $itemExistente = $deseo->productos()->where('producto_id', $idproducto)->first();
+
+        if ($itemExistente) {
+            // Si el producto ya está en el deseo, actualiza la cantidad
+            $itemExistente->pivot->cantidad += $request->cantidad;
+            $itemExistente->pivot->precio += $request->cantidad * $producto->precio;
+            $itemExistente->pivot->save();
+
+            // Verifica si la cantidad es mayor al stock después de actualizar el pivot
+            if ($itemExistente->pivot->cantidad > $producto->stock) {
+                return redirect()->route('cliente.pedidos.indexD', $deseo->id)->with('info2', 'No hay suficiente Stock de: ' . $producto->nombre);
+            }
+
+            // Descuenta el stock de productos
+            $producto->stock -= $request->cantidad;
+            $producto->save();
+
+            // Actualiza el total del deseo
+            $deseo->total += $itemExistente->pivot->precio;
+            $deseo->save();
+        } else {
+            // Si el producto no está en el deseo, agrégalo
+            $deseo->productos()->attach($idproducto, ['precio' => $request->cantidad * $producto->precio, 'cantidad' =>  $request->cantidad]);
+
+            // Verifica si la cantidad es mayor al stock después de agregar el producto al deseo
+            if ($request->cantidad > $producto->stock) {
+                return redirect()->route('cliente.pedidos.indexD', $deseo->id)->with('info2', 'No hay suficiente Stock de: ' . $producto->nombre);
+            }
+
+            // Descuenta el stock de productos
+            $producto->stock -= $request->cantidad;
+            $producto->save();
+
+            // Actualiza el total del deseo
+            $deseo->total += $request->cantidad * $producto->precio;
+            $deseo->save();
+        }
+
+        //  dd($itemExistente->pivot->cantidad . " sssss ". $producto->stock);
+
+        $bita = new Bitacora();
+        $bita->accion = 'Editó';
+        $bita->apartado = 'deseo';
+        $afectado = $deseo->id;
+        $bita->afectado = $afectado;
+        $fecha_hora = date('m-d-Y h:i:s a', time());
+        $bita->fecha_h = $fecha_hora;
+        $bita->id_user = Auth::user()->id;
+        $ip = $request->ip();
+        $bita->ip = $ip;
+        $bita->save();
+
+
+        // return redirect()->route('cliente.pedidos.indexP', $pedido->id)->with('info', 'Producto Agregado correctamente');
+        return redirect()->route('cliente.pedidos.indexD')->with('info', 'Producto Agregado correctamente');
+    }
+
+    public function createC(Request $request)
+    {
+
+        $clienteId = Auth::id();
+        $deseo = Deseo::where('cliente_id', $clienteId)->first();
+        $carrito = Carrito::where('cliente_id', $clienteId)->first();
+
+        $carrito->cliente_id = $clienteId;
+        $carrito->total = $deseo->total;
+        $carrito->save();
+
+
+        $productosDeseo = $deseo->productos;
+
+        foreach ($productosDeseo as $producto) {
+            $carrito->productos()->attach($producto->id, [
+                'cantidad' => $producto->pivot->cantidad,
+                'precio' => $producto->pivot->precio,
+            ]);
+        }
+
+        // Opcional: Eliminar el carrito
+        $deseo->total = 0;
+        $deseo->productos()->detach(); // Esto eliminará todos los productos asociados al carrito
+
+        $deseo->save();
+
+        $bita = new Bitacora();
+        $bita->accion = 'Registró';
+        $bita->apartado = 'Pedido';
+        $afectado = $carrito->id;
+        $bita->afectado = $afectado;
+        $fecha_hora = date('m-d-Y h:i:s a', time());
+        $bita->fecha_h = $fecha_hora;
+        $bita->id_user = Auth::user()->id;
+        $ip = $request->ip();
+        $bita->ip = $ip;
+        $bita->save();
+
+
+        // return "createca rrito";
+
+        return redirect()->route('cliente.carrito.showC')->with('info', 'Se a agregado los productos correctamente');
+    }
+
+
+    ////HELP
+    // public function store444(Request $request)
+    // {
+    //     $request->validate([
+    //         'tipoEnvio_id' => 'required',
+    //         'tipoPago_id' => 'required',
+    //         'cliente_id' => 'required',
+    //     ]);
+
+    //     $clienteId = Auth::id();
+    //     $carrito = Carrito::where('cliente_id', $clienteId)->first();
+
+
+    //     $pedido = new Pedido();
+    //     $pedido->direccion = $request->direccion;
+    //     $pedido->tipoEnvio_id = $request->tipoEnvio_id;
+    //     $pedido->tipoPago_id = $request->tipoPago_id;
+    //     $pedido->promocion_id = $request->promocion_id;
+    //     $pedido->cliente_id = $request->cliente_id;
+    //     $pedido->fecha_pedido = now();
+    //     $pedido->estado = 'En espera';
+    //     $pedido->estado_pago = 'Impagado';
+    //     $pedido->total = $carrito->total;
+    //     $pedido->save();
+
+    //     $productosCarrito = $carrito->productos;
+
+    //     foreach ($productosCarrito as $producto) {
+    //         $pedido->productos()->attach($producto->id, [
+    //             'cantidad' => $producto->pivot->cantidad,
+    //             'precio' => $producto->pivot->precio,
+    //         ]);
+    //     }
+
+    //     // Opcional: Eliminar el carrito
+    //     $carrito->total = 0;
+    //     $carrito->productos()->detach(); // Esto eliminará todos los productos asociados al carrito
+
+    //     $carrito->save();
+
+    //     $bita = new Bitacora();
+    //     $bita->accion = 'Registró';
+    //     $bita->apartado = 'Pedido';
+    //     $afectado = $pedido->id;
+    //     $bita->afectado = $afectado;
+    //     $fecha_hora = date('m-d-Y h:i:s a', time());
+    //     $bita->fecha_h = $fecha_hora;
+    //     $bita->id_user = Auth::user()->id;
+    //     $ip = $request->ip();
+    //     $bita->ip = $ip;
+    //     $bita->save();
+
+    //     return redirect()->route('cliente.pedidos.index')->with('info', 'El Pedido se ha registrado correctamente');
+    // }
 }
