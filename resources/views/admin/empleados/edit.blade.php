@@ -104,7 +104,7 @@
                             <div class="from-group col-md-6">
                                 <label for="password" class="">Contraseña:</label>
                                 <input type="password" class="form-control" name="password"
-                                    placeholder="Ingrese su nueva contraseña" autofocus>
+                                    placeholder="Ingrese su nueva contraseña" autofocus required>
 
                                 @error('password')
                                     <strong class="text-danger">{{ $message }}</strong>

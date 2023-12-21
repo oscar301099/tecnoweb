@@ -23,9 +23,9 @@
                         <div class="my-3">
                             <label class="block text-md mb-2" for="name">{{ __('Name') }}</label>
                             <input id="name" type="text"
-                                class="form-control @error('name') is-invalid @enderror px-6 w-full border-2 py-2 rounded-md text-sm outline-none"
-                                name="name" value="{{ old('name') }}" placeholder="nombre"
-                                autofocus>
+                            class="form-control @error('name') is-invalid @enderror px-6 w-full border-2 py-2 rounded-md text-sm outline-none"
+                            name="name" value="{{ old('name') }}" placeholder="nombre"
+                            pattern=".{3,}"title="Debe tener al menos 3 caracteres" autofocus required>
 
                             @error('name')
                                 <span class="invalid-feedback" role="alert">

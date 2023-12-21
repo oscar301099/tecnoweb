@@ -31,7 +31,7 @@
             <div class="row">
                 <label for="name" class="col-sm-1 col-form-label">Nombre:</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" name="name" value="{{$user->name}}" autofocus>
+                        <input type="text" class="form-control" name="name" value="{{$user->name}}" autofocus required>
                     </div>
             </div>
 
@@ -40,7 +40,7 @@
             <div class="row">
                 <label for="email" class="col-sm-1 col-form-label">E-Mail:</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" name="email" value="{{$user->email}}" autofocus>
+                        <input type="text" class="form-control" name="email" value="{{$user->email}}" autofocus required>
                     </div>
             </div>
 
@@ -49,7 +49,7 @@
             <div class="row">
                 <label for="password" class="col-sm-1 col-form-label">Contraseña:</label>
                     <div class="col-sm-7">
-                        <input type="password" class="form-control" name="password" placeholder="Ingrese su nueva contraseña" autofocus>
+                        <input type="password" class="form-control" name="password" placeholder="Ingrese su nueva contraseña" autofocus required>
                     </div>
                     
             </div>
