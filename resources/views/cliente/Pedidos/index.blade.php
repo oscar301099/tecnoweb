@@ -7,6 +7,7 @@
         <i class="material-icons fa fa-plus"> Nuevo Pedido </i>
     </a>
     <h1>Lista de Pedidos</h1>
+
     <div class="row">
         <div class="form-group col-md-1">
             <p>Reportes en: </p>
