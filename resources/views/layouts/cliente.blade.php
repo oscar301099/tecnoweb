@@ -182,21 +182,24 @@
 
             @yield('js')
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const botonCambiarModo = document.getElementById('cambiarModo');
-            let modoActual = localStorage.getItem('modo') || 'dia';
-            aplicarModo(modoActual);
-            botonCambiarModo.addEventListener('click', function () {
-                modoActual = modoActual === 'dia' ? 'noche' : 'dia';
-                localStorage.setItem('modo', modoActual);
-                aplicarModo(modoActual);
-            });
+    document.addEventListener("DOMContentLoaded", function () {
+    const botonCambiarModo = document.getElementById('cambiarModo');
+    const horaActual = new Date().getHours();
+    let modoActual = localStorage.getItem('modo') || (horaActual >= 19 || horaActual < 7) ? 'noche' : 'dia';
+    aplicarModo(modoActual);
 
-            function aplicarModo(modo) {
-            //     document.body.style.backgroundImage = `url('${modo === 'dia' ? 'URL_DE_TU_IMAGEN_DIURNA' : 'URL_DE_TU_IMAGEN_NOCTURNA'}')`;
-                document.body.style.filter = `brightness(${modo === 'dia' ? '100%' : '70%'})`;
-            }
-        });
+    botonCambiarModo.addEventListener('click', function () {
+        modoActual = modoActual === 'dia' ? 'noche' : 'dia';
+        localStorage.setItem('modo', modoActual);
+        aplicarModo(modoActual);
+    });
+
+    function aplicarModo(modo) {
+
+        document.body.style.backgroundImage = `url('${modo === 'dia' ? 'URL_DE_TU_IMAGEN_DIURNA' : 'URL_DE_TU_IMAGEN_NOCTURNA'}')`;
+        document.body.style.filter = `brightness(${modo === 'dia' ? '100%' : '70%'})`;
+    }
+});
 
         document.addEventListener("DOMContentLoaded", function () {
             const botonCambiarModo = document.getElementById('cambiarModo');
@@ -252,13 +255,13 @@
 
         const modoNinosActivated = localStorage.getItem('modoNinosActivated') === 'true';
         if (modoNinosActivated) {
-            contenedorPrincipal.style.backgroundImage = 'url("/img/a.png")';
+            contenedorPrincipal.style.backgroundImage = 'url("https://complemedical.s3.amazonaws.com/WhatsApp+Image+2023-12-21+at+12.27.44+(1).jpeg")';
         }
 
         botonModoNinos.addEventListener('click', function () {
             const newState = !modoNinosActivated;
             localStorage.setItem('modoNinosActivated', newState);
-            contenedorPrincipal.style.backgroundImage = newState ? 'url("/img/a.png")' : 'none';
+            contenedorPrincipal.style.backgroundImage = newState ? 'url("https://complemedical.s3.amazonaws.com/WhatsApp+Image+2023-12-21+at+12.27.44+(1).jpeg")' : 'none';
         });
     });
 </script>
@@ -269,13 +272,13 @@
 
         const modoJovenesActivated = localStorage.getItem('modoJovenesActivated') === 'true';
         if (modoJovenesActivated) {
-            contenedorPrincipal.style.backgroundImage = 'url("/img/b.jpeg")';
+            contenedorPrincipal.style.backgroundImage = 'url("https://complemedical.s3.amazonaws.com/WhatsApp+Image+2023-12-21+at+12.27.44.jpeg")';
         }
 
         botonModoJovenes.addEventListener('click', function () {
             const newState = !modoJovenesActivated;
             localStorage.setItem('modoJovenesActivated', newState);
-            contenedorPrincipal.style.backgroundImage = newState ? 'url("/img/b.jpeg")' : 'none';
+            contenedorPrincipal.style.backgroundImage = newState ? 'url("https://complemedical.s3.amazonaws.com/WhatsApp+Image+2023-12-21+at+12.27.44.jpeg")': 'none';
         });
     });
 </script>

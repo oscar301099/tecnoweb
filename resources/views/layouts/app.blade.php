@@ -32,22 +32,24 @@
 </html>
 @yield('js')
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const botonCambiarModo = document.getElementById('cambiarModo');
-            let modoActual = localStorage.getItem('modo') || 'dia';
-            aplicarModo(modoActual);
-            botonCambiarModo.addEventListener('click', function () {
-                modoActual = modoActual === 'dia' ? 'noche' : 'dia';
-                localStorage.setItem('modo', modoActual);
-                aplicarModo(modoActual);
-            });
+       document.addEventListener("DOMContentLoaded", function () {
+    const botonCambiarModo = document.getElementById('cambiarModo');
+    const horaActual = new Date().getHours();
+    let modoActual = localStorage.getItem('modo') || (horaActual >= 19 || horaActual < 7) ? 'noche' : 'dia';
+    aplicarModo(modoActual);
 
-            function aplicarModo(modo) {
-             //    document.body.style.backgroundImage = `url('${modo === 'dia' ? 'URL_DE_TU_IMAGEN_DIURNA' : 'URL_DE_TU_IMAGEN_NOCTURNA'}')`;
-                document.body.style.filter = `brightness(${modo === 'dia' ? '100%' : '70%'})`;
-            }
-        });
+    botonCambiarModo.addEventListener('click', function () {
+        modoActual = modoActual === 'dia' ? 'noche' : 'dia';
+        localStorage.setItem('modo', modoActual);
+        aplicarModo(modoActual);
+    });
 
+    function aplicarModo(modo) {
+
+        document.body.style.backgroundImage = `url('${modo === 'dia' ? 'URL_DE_TU_IMAGEN_DIURNA' : 'URL_DE_TU_IMAGEN_NOCTURNA'}')`;
+        document.body.style.filter = `brightness(${modo === 'dia' ? '100%' : '70%'})`;
+    }
+});
         document.addEventListener("DOMContentLoaded", function () {
             const botonCambiarModo = document.getElementById('cambiarModo');
             const botonAumentarLetra = document.getElementById('aumentarLetra');
