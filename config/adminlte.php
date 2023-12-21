@@ -373,7 +373,7 @@ return [
                 ],
 
                 [
-                    'text'    => 'Detalle de Pedido',
+                    // 'text'    => 'Detalle de Pedido',
                     'icon' => 'fas fa-fw fa-info-circle',
                     'route'  => 'admin.detalle_pedidos.index',
                     'can' => 'empleado.admin'

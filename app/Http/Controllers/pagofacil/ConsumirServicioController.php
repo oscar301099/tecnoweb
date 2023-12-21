@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\pagofacil;
 
 use App\Http\Controllers\Controller;
+use App\Models\Configuration;
 use App\Models\detalle_pedido;
+use App\Models\Factura;
 use App\Models\Pedido;
+use App\Models\Promocion;
 use App\Models\User;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -29,7 +32,6 @@ class ConsumirServicioController extends Controller
             $laPedidoDetalle       = $request->taPedidoDetalle;
             $lcUrl                 = "";
 
-            dd($laPedidoDetalle);
 
             $loClient = new Client();
 
@@ -116,13 +118,11 @@ class ConsumirServicioController extends Controller
 
     public function generarQr(Request $request)
     {
-        
-
-
 
         $pedido = Pedido::find($request->pedido_id);
         $cliente = User::find($pedido->cliente_id);
 
+        $this->CreateFactura($request->pedido_id);
 
         $detalle = DB::table('detalle_pedidos')
             ->join('productos', 'detalle_pedidos.producto_id', '=', 'productos.id')
@@ -156,11 +156,16 @@ class ConsumirServicioController extends Controller
             $lcNroPago             = "grup013sc-" . rand(100000, 999999);
             $lnMontoClienteEmpresa = $pedido->total;
             $lcCorreo              = $cliente->email;
-            $lcUrlCallBack         = "https://mail.tecnoweb.org.bo/inf513/grupo13sc/tecnoweb/public/venta/pagos/callback";
-            //$lcUrlCallBack         = route('admin.pagos.callback');
+            //$lcUrlCallBack         = "https://mail.tecnoweb.org.bo/inf513/grupo13sc/tecnoweb/public/venta/pagos/callback";
+            $lcUrlCallBack         = route('admin.pagos.callback');
             $lcUrlReturn           = route('cliente.pedidos.index');
             $laPedidoDetalle       = $detalle_pedido;
             $lcUrl                 = "";
+
+            //$arreglo['detalle']=$detalle_pedido;
+            //$arreglo['total']=$pedido->total;
+
+            //return response()->json($arreglo);
 
             if (Auth::user()->ci == null || Auth::user()->telefono == null) {
                 $arreglo = ['error' => '¡Hola! Por favor, actualiza tu Perfil,cédula de identidad y número de teléfono. ¡Gracias!'];
@@ -213,6 +218,8 @@ class ConsumirServicioController extends Controller
                 "tcUrlReturn"           => $lcUrlReturn,
                 'taPedidoDetalle'       => $laPedidoDetalle
             ];
+
+
 
             $loResponse = $loClient->post($lcUrl, [
                 'headers' => $laHeader,
@@ -268,9 +275,41 @@ class ConsumirServicioController extends Controller
                     </script>';
             }
         } catch (\Throwable $th) {
-            $arreglo = ['error' => $th->getMessage() . " - " . $th->getLine()];
+            // $arreglo = ['error' => $th->getMessage() . " - " . $th->getLine()];
+            $arreglo = ['error' => '"Error de conexión , intente después."'];
         }
         return response()->json($arreglo);
+    }
+
+
+    public function CreateFactura($id)
+    {
+        $config = Configuration::find(1);
+        $pedido = Pedido::find($id);
+        $facts = Factura::all();
+        foreach ($facts as $key) {
+            if ($key->pedido_id == $pedido->id) {
+                return back()->with('info', 'La Factura ya ha sido Creada');
+            }
+        }
+
+        $factura = new Factura();
+        $factura->nit = $config->factura;
+        $factura->pago_neto = $pedido->total;
+        $factura->pedido_id = $id;
+        $verif = $pedido->promocion_id;
+        if ($pedido->total == 0) {
+            return back()->with('info2', 'No se registraron Productos en el Pedido');
+        }
+        if (is_null($verif)) {
+            $factura->pago_total = $pedido->total;
+        } else {
+            $promocion = Promocion::where('id', $pedido->promocion_id)->first();
+            $vpromo = $pedido->total * ($promocion->porcentaje / 100);
+            $factura->pago_total = $pedido->total - $vpromo;
+        }
+        $factura->save();
+        $pedido->save();
     }
 
     public function ConsultarEstado(Request $request)

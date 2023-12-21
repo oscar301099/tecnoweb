@@ -139,6 +139,9 @@ class PedidosCController extends Controller
         $tipoenvios = Tipo_envio::all();
         $promociones = Promocion::all();
         $clientes = User::all();
+
+    
+        
         return view('cliente.Pedidos.detalle', compact('detalles', 'cliente', 'pedido', 'productos', 'tipopagos', 'tipoenvios', 'promociones', 'clientes'));
     }
 

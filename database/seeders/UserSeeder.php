@@ -407,19 +407,10 @@ class UserSeeder extends Seeder
             'descripcion' => 'Delivery de color lila'
         ]);
 
-        Tipo_pago::create([
-            'nombre' => 'Transaccion',
-            'descripcion' => 'Deposito bancario'
-        ]);
 
         Tipo_pago::create([
             'nombre' => 'Qr',
             'descripcion' => 'Pago billitera Movil Pago Facil'
-        ]);
-
-        Tipo_pago::create([
-            'nombre' => 'Al contado',
-            'descripcion' => 'Pago en mano, ese preciso momento'
         ]);
 
 
@@ -448,7 +439,7 @@ class UserSeeder extends Seeder
 
 
 
-     
+
 
         Producto::create([
             'nombre' => 'Zapato femenino de vestir',

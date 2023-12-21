@@ -18,10 +18,11 @@ class SupervisionController extends Controller
      */
     public function index(){
         //return "asd";
-        $supervision = Promocion::all();
         
-        //return view('admin.supervision.dashboard', compact('supervision'));
-        return view('admin.supervision.index', compact('supervision'));
+        $supervision = Pedido::all();    
+        return $supervision;    
+        return view('admin.supervision.dashboard', compact('supervision'));
+        //return view('admin.supervision.index', compact('supervision'));
     }
     
     public function mostrarGraficos()

@@ -107,7 +107,7 @@
                                 <a class="btn btn-info" href="{{ route('cliente.pedidos.indexP', $pedido->id) }}">
                                     <i class="fas fa-shopping-cart"></i>
                                 </a>
-                            @endif           
+                            @endif
                         </td>
 
                         <td width="10px">
@@ -115,19 +115,22 @@
                             <a class="btn btn-secondary" href="{{ route('cliente.pedidos.show', $pedido->id) }}">
                                 <i class="fas fa-file"></i>
                             </a>
+
                         </td>
 
                         <td width="10px">
-                            <form action="{{ route('admin.pedidos.destroy', $pedido->id) }}" method="POST"
-                                onsubmit="return confirm('¿Estas seguro de eliminar este a {{ $pedido->id }}?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-outline-danger" type="" rel="tooltip">
-                                    <i class="material-icons fa fa-trash"></i>
-                                </button>
+                            @if ($pedido->estado_pago == 'Impagado')
+                                <form action="{{ route('admin.pedidos.destroy', $pedido->id) }}" method="POST"
+                                    onsubmit="return confirm('¿Estas seguro de eliminar este a {{ $pedido->id }}?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-outline-danger" type="" rel="tooltip">
+                                        <i class="material-icons fa fa-trash"></i>
+                                    </button>
 
 
-                            </form>
+                                </form>
+                            @endif
                         </td>
 
 
@@ -229,5 +232,3 @@
         console.log('hi!')
     </script>
 @stop
-
-

@@ -51,8 +51,8 @@
                     <th>Entrega</th>
                     <th>Pago</th>
                     <th></th>
-                    <th></th>
-                    <th></th>
+                    {{-- <th></th>
+                    <th></th> --}}
                     <th></th>
                 </tr>
             </thead>
@@ -117,11 +117,14 @@
                             </form>
                             @endif
                         </td>
+                        <!--
                         <td width="10px">
                             <a class="btn btn-info" href="{{ route('admin.detalle_pedidos.indexP', $pedido->id) }}">
                                 Productos
                             </a>
                         </td>
+                        -->
+                        
 
                         <td width="10px">
                             <a class="btn btn-secondary" href="{{ route('admin.detalle_pedidos.show', $pedido->id) }}">
@@ -129,7 +132,7 @@
                             </a>
                         </td>
 
-                        <td width="10px">
+                        <!--<td width="10px">
                             <a class="btn btn-outline-primary" href="{{ route('admin.pedidos.edit', $pedido->id) }}">
                                 <i class="material-icons fa fa-pen"></i>
                             </a>
@@ -144,7 +147,7 @@
                                     <i class="material-icons fa fa-trash"></i>
                                 </button>
                             </form>
-                        </td>
+                        </td>-->
                     </tr>
                 @endforeach
             </tbody>
