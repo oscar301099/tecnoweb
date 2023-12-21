@@ -5,9 +5,11 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Bitacora;
 use App\Models\Pedido;
+use App\Models\Producto;
 use App\Models\Promocion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SupervisionController extends Controller
 {
@@ -16,15 +18,56 @@ class SupervisionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-        //return "asd";
-        
-        $supervision = Pedido::all();    
-        return $supervision;    
-        return view('admin.supervision.dashboard', compact('supervision'));
-        //return view('admin.supervision.index', compact('supervision'));
+    public function index()
+    {
+        $pedidosPorMes = Pedido::selectRaw('
+        EXTRACT(YEAR FROM created_at) || \'-\' || EXTRACT(MONTH FROM created_at) as mes,
+        COUNT(id) as total_pedidos
+    ')
+            ->groupBy('mes')
+            ->orderBy('mes', 'asc')
+            ->get();
+        $mesesCompletos = array_fill(1, 12, 0);
+
+        foreach ($pedidosPorMes as $pedido) {
+            $parts = explode('-', $pedido->mes);
+            $mes = (int)end($parts);
+            $mesesCompletos[$mes] = $pedido->total_pedidos;
+        }
+
+
+        //producto mas vendido
+        $topProductos = Producto::select(
+            'productos.nombre as nombre',
+            DB::raw('COUNT(detalle_pedidos.id) as cantidad')
+        )
+            ->leftJoin('detalle_pedidos', 'productos.id', '=', 'detalle_pedidos.producto_id')
+            ->groupBy('productos.id', 'productos.nombre')
+            ->orderByDesc('cantidad')
+            ->limit(6)
+            ->get();
+
+        // Ingresos Total
+
+        $totalxmes = Pedido::selectRaw('
+        EXTRACT(YEAR FROM created_at) || \'-\' || EXTRACT(MONTH FROM created_at) as mes,
+        SUM(total) as total_ventas
+    ')
+            ->groupBy('mes')
+            ->orderBy('mes', 'asc')
+            ->get();
+
+            $ingresoxmes = array_fill(1, 12, 0);
+
+            foreach ($totalxmes as $pedido) {
+                $parts = explode('-', $pedido->mes);
+                $mes = (int)end($parts);
+                $ingresoxmes[$mes] = $pedido->total_ventas;
+            }
+            
+        return view('admin.supervision.index', compact('mesesCompletos', 'topProductos','ingresoxmes'));
     }
-    
+
     public function mostrarGraficos()
     {
         $datosVentas = Pedido::pluck('total'); // Suponiendo que 'monto' es el campo que quieres para las ventas.
@@ -38,7 +81,8 @@ class SupervisionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(){
+    public function create()
+    {
         return view('admin.supervision.create');
     }
 
@@ -64,7 +108,7 @@ class SupervisionController extends Controller
         $bita->apartado = 'Promoción';
         $afectado = $promocion->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
@@ -72,7 +116,6 @@ class SupervisionController extends Controller
         $bita->save();
 
         return redirect()->route('admin.supervision.index')->with('info', 'La Promocion se ha registrado correctamente');
-
     }
 
     /**
@@ -105,7 +148,8 @@ class SupervisionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $request->validate([
             'nombre' => 'required',
             'porcentaje' => 'required|numeric|between:0,99.99'
@@ -114,13 +158,13 @@ class SupervisionController extends Controller
         $promocion->nombre = $request->nombre;
         $promocion->porcentaje = $request->porcentaje;
         $promocion->save();
-        
+
         $bita = new Bitacora();
         $bita->accion = 'Editó';
         $bita->apartado = 'Promoción';
         $afectado = $promocion->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
@@ -128,7 +172,6 @@ class SupervisionController extends Controller
         $bita->save();
 
         return redirect()->route('admin.supervision.edit', $promocion)->with('info', 'los datos se editaron correctamente');
-
     }
 
     /**
@@ -147,13 +190,13 @@ class SupervisionController extends Controller
         $bita->apartado = 'Promoción';
         $afectado = $promocion->id;
         $bita->afectado = $afectado;
-        $fecha_hora = date('m-d-Y h:i:s a', time()); 
+        $fecha_hora = date('m-d-Y h:i:s a', time());
         $bita->fecha_h = $fecha_hora;
         $bita->id_user = Auth::user()->id;
         $ip = $request->ip();
         $bita->ip = $ip;
         $bita->save();
 
-        return back()->with('info','La Promocion ha sido eliminado correctamente');
+        return back()->with('info', 'La Promocion ha sido eliminado correctamente');
     }
 }

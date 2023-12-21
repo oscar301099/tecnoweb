@@ -6,6 +6,8 @@
             <p class="my-5 text-center font-semibold text-3xl text-black font-sans ">Pedido </p>
             <p class="my-5 text-center font-semibold text-3xl text-black font-sans ">Categorias</p>
 
+            <h1>hola dddd </h1>
+
             @foreach ($categorias as $categoria)
                 <a href="{{ route('cliente.pedidos.indexCategoria', [$categoria->id]) }}" class="">
                     <span

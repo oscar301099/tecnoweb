@@ -68,7 +68,7 @@ Route::get('Deseo', [PedidosCController::class, 'showD'])->name('cliente.deseo.s
 
 Route::get('VistaCategoria/{idcategoria}', function ($idcategoria) {
     $productos = Producto::where('categoria_id', $idcategoria)->paginate(3);
-    // $pedido = Pedido::where('id', $idpedido)->first();
+    //$pedido = Pedido::where('id', $idpedido)->first();
     $categorias = Categoria::all();
     $marcas = Marca::all();
     return view('cliente.Pedidos.productos', compact('productos', 'marcas', 'categorias'));

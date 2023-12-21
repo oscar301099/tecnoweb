@@ -35,8 +35,8 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Mi Dashboard</a>
         <button id="cambiarModo" class=" hover:text-gray-300">Cambiar Modo</button>
-                    <button id="aumentarLetra" class="hover:text-gray-300">Aumentar Letra</button>
-                    <button id="disminuirLetra" class="hover:text-gray-300">Disminuir Letra</button>
+        <button id="aumentarLetra" class="hover:text-gray-300">Aumentar Letra</button>
+        <button id="disminuirLetra" class="hover:text-gray-300">Disminuir Letra</button>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -52,7 +52,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Gráfico Bonito</h5>
+                        <h5 class="card-title">Cantidad Ventas Por Mes</h5>
                         <div id="apexchart"></div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Gráfico de Líneas</h5>
+                        <h5 class="card-title">Monto Ingreso Por Mes </h5>
                         <div id="lineChart"></div>
                     </div>
                 </div>
@@ -72,14 +72,14 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Gráfico de Donas</h5>
+                        <h5 class="card-title">Productos Mas Vendidos</h5>
                         <div id="donutChart"></div>
                     </div>
                 </div>
             </div>
 
 
-            <div class="col-md-6">
+            {{-- <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Ventas por Categoría</h5>
@@ -96,7 +96,7 @@
                         <div id="radarChart"></div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
 
         </div>
@@ -134,6 +134,8 @@
 
 
     <script>
+        var mesesCompletos = @json($mesesCompletos);
+        const pedidosxmes = Object.values(mesesCompletos);
         // Datos de ejemplo para el gráfico
         var options = {
             chart: {
@@ -160,10 +162,10 @@
             },
             series: [{
                 name: 'Ventas',
-                data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+                data: pedidosxmes
             }],
             xaxis: {
-                categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+                categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'oct', 'Nov', 'Dic'],
             },
             yaxis: {
                 title: {
@@ -176,7 +178,7 @@
             tooltip: {
                 y: {
                     formatter: function(val) {
-                        return "$ " + val + " mil";
+                        return " " + val + " unidad";
                     }
                 }
             }
@@ -188,6 +190,9 @@
     </script>
 
     <script>
+        var ingresoxmes = @json($ingresoxmes);
+        const ingreso = Object.values(ingresoxmes);
+
         var lineOptions = {
             chart: {
                 height: 350,
@@ -195,10 +200,10 @@
             },
             series: [{
                 name: "Ventas",
-                data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+                data: ingreso
             }],
             xaxis: {
-                categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep']
+                categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'oct', 'nov', 'dic']
             }
         };
 
@@ -207,14 +212,24 @@
     </script>
 
     <script>
+        var topProductosJSON = @json($topProductos);
+
+        var nombresProductos = [];
+        var cantidadesProductos = [];
+
+        for (var i = 0; i < topProductosJSON.length; i++) {
+            nombresProductos.push(topProductosJSON[i].nombre);
+            cantidadesProductos.push(topProductosJSON[i].cantidad);
+        }
+
         var donutOptions = {
             chart: {
                 height: 350,
                 type: 'donut',
             },
-            series: [30, 40, 35, 50, 49],
-            labels: ['Producto A', 'Producto B', 'Producto C', 'Producto D', 'Producto E'],
-            colors: ['#FF4560', '#008FFB', '#00E396', '#FEB019', '#775DD0'],
+            series: cantidadesProductos,
+            labels: nombresProductos,
+            colors: ['#FF4560', '#008FFB', '#00E396', '#FEB019', '#775DD0', '#4CAF50', '#FFC107', '#9C27B0'],
         };
 
         var donutChart = new ApexCharts(document.querySelector("#donutChart"), donutOptions);
@@ -267,24 +282,24 @@
         var radarChart = new ApexCharts(document.querySelector("#radarChart"), radarOptions);
         radarChart.render();
     </script>
-<script>
-        document.addEventListener("DOMContentLoaded", function () {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
             const botonCambiarModo = document.getElementById('cambiarModo');
             let modoActual = localStorage.getItem('modo') || 'dia';
             aplicarModo(modoActual);
-            botonCambiarModo.addEventListener('click', function () {
+            botonCambiarModo.addEventListener('click', function() {
                 modoActual = modoActual === 'dia' ? 'noche' : 'dia';
                 localStorage.setItem('modo', modoActual);
                 aplicarModo(modoActual);
             });
 
             function aplicarModo(modo) {
-               //  document.body.style.backgroundImage = `url('${modo === 'dia' ? 'URL_DE_TU_IMAGEN_DIURNA' : 'URL_DE_TU_IMAGEN_NOCTURNA'}')`;
+                //  document.body.style.backgroundImage = `url('${modo === 'dia' ? 'URL_DE_TU_IMAGEN_DIURNA' : 'URL_DE_TU_IMAGEN_NOCTURNA'}')`;
                 document.body.style.filter = `brightness(${modo === 'dia' ? '100%' : '70%'})`;
             }
         });
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const botonCambiarModo = document.getElementById('cambiarModo');
             const botonAumentarLetra = document.getElementById('aumentarLetra');
             const botonDisminuirLetra = document.getElementById('disminuirLetra');
@@ -294,19 +309,19 @@
             aplicarContraste(contrasteActual);
             aplicarTamanioLetra(tamanioLetraActual);
 
-            botonCambiarModo.addEventListener('click', function () {
+            botonCambiarModo.addEventListener('click', function() {
                 contrasteActual = contrasteActual === 'normal' ? 'alto' : 'normal';
                 localStorage.setItem('contraste', contrasteActual);
                 aplicarContraste(contrasteActual);
             });
 
-            botonAumentarLetra.addEventListener('click', function () {
+            botonAumentarLetra.addEventListener('click', function() {
                 tamanioLetraActual = aumentarTamanioLetra(tamanioLetraActual);
                 localStorage.setItem('tamanioLetra', tamanioLetraActual);
                 aplicarTamanioLetra(tamanioLetraActual);
             });
 
-            botonDisminuirLetra.addEventListener('click', function () {
+            botonDisminuirLetra.addEventListener('click', function() {
                 tamanioLetraActual = disminuirTamanioLetra(tamanioLetraActual);
                 localStorage.setItem('tamanioLetra', tamanioLetraActual);
                 aplicarTamanioLetra(tamanioLetraActual);

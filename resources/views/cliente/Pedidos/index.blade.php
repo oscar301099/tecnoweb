@@ -54,7 +54,7 @@
                     <th>Total</th>
                     <th>Entrega</th>
                     <th>Pago</th>
-                    <th>Productos</th>
+                    {{-- <th>Productos</th> --}}
                     <th>Detalle</th>
                     <th>Eliminar</th>
                 </tr>
@@ -105,13 +105,13 @@
                             @endif
 
                         </td>
-                        <td width="10px">
+                        {{-- <td width="10px">
                             @if ($pedido->estado_pago == 'Impagado')
                                 <a class="btn btn-info" href="{{ route('cliente.pedidos.indexP', $pedido->id) }}">
                                     <i class="fas fa-shopping-cart"></i>
                                 </a>
                             @endif
-                        </td>
+                        </td> --}}
 
                         <td width="10px">
 
