@@ -3,6 +3,9 @@
 @section('title', 'Dueño')
 
 @section('content_header')
+<div class="form-group col-md-1">
+    <p>Reportes en: </p>
+</div>
 <a class="btn btn-success btn-sm float-right" href="{{route('admin.marcas.create')}}">
     <i class="material-icons fa fa-plus"> Nueva Marca </i>
 </a>

@@ -289,7 +289,8 @@ class ConsumirServicioController extends Controller
         $facts = Factura::all();
         foreach ($facts as $key) {
             if ($key->pedido_id == $pedido->id) {
-                return back()->with('info', 'La Factura ya ha sido Creada');
+                return;
+                //return back()->with('info', 'La Factura ya ha sido Creada');
             }
         }
 

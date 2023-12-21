@@ -3,6 +3,9 @@
 @section('title', 'Categorias')
 
 @section('content_header')
+<div class="form-group col-md-1">
+    <p>Reportes en: </p>
+</div>
 <a class="btn btn-success btn-sm float-right" href="{{route('admin.categorias.create')}}">
     <i class="material-icons fa fa-plus"> Nueva Categoria </i>
 </a>
