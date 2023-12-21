@@ -5,21 +5,21 @@
 @section('content_header')
 
 
-  
-        <div class="form-group col-md-1">
-            <p>Reportes en: </p>
-        </div>
 
-        <div class="form-group col-md-2">
-            <a class="btn btn-primary btn-sm float-left" href="{{ route('admin.PDF.empleados') }}">
-                <i class="fa fa-download"></i>
-                PDF
-            </a>
+    <div class="form-group col-md-1">
+        <p>Reportes en: </p>
+    </div>
 
-        </div>
-        <button id="cambiarModo" class=" hover:text-gray-300">Cambiar Modo</button>
-        <button id="aumentarLetra" class="hover:text-gray-300">Aumentar Letra</button>
-        <button id="disminuirLetra" class="hover:text-gray-300">Disminuir Letra</button>
+    <div class="form-group col-md-2">
+        <a class="btn btn-primary btn-sm float-left" href="{{ route('admin.PDF.empleados') }}">
+            <i class="fa fa-download"></i>
+            PDF
+        </a>
+
+    </div>
+    <button id="cambiarModo" class=" hover:text-gray-300">Cambiar Modo</button>
+    <button id="aumentarLetra" class="hover:text-gray-300">Aumentar Letra</button>
+    <button id="disminuirLetra" class="hover:text-gray-300">Disminuir Letra</button>
     <a class="btn btn-success btn-sm float-right" href="{{ route('admin.empleados.create') }}">
         <i class="material-icons fa fa-plus"> Nuevo Empleado </i>
     </a>

@@ -11,7 +11,7 @@
                 x-show="asideOpen">
                 {{-- <p class="my-5 text-center font-semibold text-3xl text-black font-sans ">Pedido {{ $pedido->id }}</p> --}}
                 <p class="my-5 text-center font-semibold text-3xl text-black font-sans ">Categorias</p>
-
+                Cantidad de vistas :{{$cantidad}}
                 @foreach ($categorias as $categoria)
                     <a href="{{ route('cliente.pedidos.indexCategoria', [$categoria->id]) }}" class="">
                         <span

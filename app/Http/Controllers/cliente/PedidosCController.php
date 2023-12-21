@@ -492,7 +492,11 @@ class PedidosCController extends Controller
         $tipoenvios = Tipo_envio::all();
         $promociones = Promocion::all();
         $clientes = User::all();
-        return view('cliente.Carrito.detalle', compact('detalles', 'cliente', 'carrito', 'productos', 'tipopagos', 'tipoenvios', 'promociones', 'clientes'));
+        $nombrepagina="Carrito";
+        DB::beginTransaction();
+        $cantidad= ContadorPage::SumarContador($nombrepagina);
+        DB::commit();
+        return view('cliente.Carrito.detalle', compact('detalles', 'cliente', 'carrito', 'productos', 'tipopagos', 'tipoenvios', 'promociones', 'clientes','cantidad'));
     }
 
 
@@ -520,7 +524,14 @@ class PedidosCController extends Controller
         $tipoenvios = Tipo_envio::all();
         $promociones = Promocion::all();
         $clientes = User::all();
-        return view('cliente.Deseo.detalle', compact('detalles', 'cliente', 'deseo', 'productos', 'tipopagos', 'tipoenvios', 'promociones', 'clientes'));
+        $nombrepagina="deseo";
+        DB::beginTransaction();
+        $cantidad= ContadorPage::SumarContador($nombrepagina);
+        DB::commit();
+
+
+
+        return view('cliente.Deseo.detalle', compact('detalles', 'cliente', 'deseo', 'productos', 'tipopagos', 'tipoenvios', 'promociones', 'clientes','cantidad'));
     }
 
     public function storeD(Request $request, $idproducto)

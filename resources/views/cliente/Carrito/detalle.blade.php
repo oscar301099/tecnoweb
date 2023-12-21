@@ -26,6 +26,7 @@
     <br>
     <br>
     <h1 class="text-center">MI CARRITO</h1>
+    <h1 class="text-center">cantidad de vistas {{$cantidad}}</h1>
     <div class="text-center mb-3">
 
 

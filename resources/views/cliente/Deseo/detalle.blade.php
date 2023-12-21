@@ -26,6 +26,8 @@
     <br>
     <br>
     <h1 class="text-center">MI LISTA DE DESEOS</h1>
+    <h1 class="text-center">Cantidad De vistas:{{$cantidad}}</h1>
+    
     <div class="text-center mb-3">
 
         {{-- <a href="{{ route('cliente.pedidos.createC') }}" class="btn btn-primary">Agregar a Carrito</a> --}}

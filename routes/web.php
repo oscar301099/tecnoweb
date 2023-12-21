@@ -9,9 +9,11 @@ use App\Http\Controllers\cliente\PedidosCController;
 use App\Http\Controllers\pagofacil\CallBackAdminController;
 use App\Http\Controllers\pagofacil\ConsumirServicioController;
 use App\Models\Categoria;
+use App\Models\ContadorPage;
 use App\Models\Marca;
 use App\Models\Pedido;
 use App\Models\Producto;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,9 +71,16 @@ Route::get('Deseo', [PedidosCController::class, 'showD'])->name('cliente.deseo.s
 Route::get('VistaCategoria/{idcategoria}', function ($idcategoria) {
     $productos = Producto::where('categoria_id', $idcategoria)->paginate(3);
     //$pedido = Pedido::where('id', $idpedido)->first();
+    $pedidos = Pedido::where('cliente_id', Auth::user()->id)->get();
+    $nombrepagina = "Categoria" . $idcategoria;
+    DB::beginTransaction();
+    $cantidad = ContadorPage::SumarContador($nombrepagina);
+    DB::commit();
+
+    
     $categorias = Categoria::all();
     $marcas = Marca::all();
-    return view('cliente.Pedidos.productos', compact('productos', 'marcas', 'categorias'));
+    return view('cliente.Pedidos.productos', compact('productos', 'marcas', 'categorias','cantidad'));
 })->name('cliente.pedidos.indexCategoria');
 
 Route::delete('Eliminar/detalle/{id}', [PedidosCController::class, 'DetalleDestroy'])->name('cliente.pedidos.DetalleDestroy');
