@@ -4,7 +4,7 @@
 
 @section('content_header')
     <a class="btn btn-danger float-left" href="{{ route('admin.pedidos.index') }}">
-        <i class="fa fa-arrow-left"> Atras</i>
+        <i class="fa fa-arrow-left"> Atraaaas</i>
     </a>
     <h1 class="float-right">
         <strong>Pedido: </strong> {{ $pedido->id }} <----------> <strong>Cliente: </strong> {{ $cliente->name }}
