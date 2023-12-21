@@ -23,7 +23,7 @@
                     <p class="font-bold text-2xl">Nombre</p>
                     <input type="text" style="width : 350px;"
                         class="border-black border-2 rounded-md text-center hover:bg-gray-200" name="name"
-                        placeholder="{{ $cliente->name }}" value="{{ $cliente->name }}" autofocus>
+                        placeholder="{{ $cliente->name }}" value="{{ $cliente->name }}" autofocus required>
                     <br>
                     @error('name')
                         <strong class="text-red-500">{{ $message }}</strong>
@@ -31,7 +31,7 @@
                     <p class="mt-3 font-bold text-2xl">Email</p>
                     <input type="text" style="width : 350px;"
                         class="border-black border-2 rounded-md text-center hover:bg-gray-200" name="email"
-                        placeholder="{{ $cliente->email }}" value="{{ $cliente->email }}" autofocus>
+                        placeholder="{{ $cliente->email }}" value="{{ $cliente->email }}" autofocus required>
                     <br>
                     @error('email')
                         <strong class="text-red-500">{{ $message }}</strong>
@@ -40,7 +40,7 @@
                     <p class="mt-3 font-bold text-2xl">Carnet</p>
                     <input type="text" style="width : 350px;"
                         class="border-black border-2 rounded-md text-center hover:bg-gray-200" name="ci"
-                        placeholder="{{ $cliente->ci }}" value="{{ $cliente->ci }}" autofocus>
+                        placeholder="{{ $cliente->ci }}" value="{{ $cliente->ci }}" autofocus required>
                     <br>
                     @error('ci')
                         <strong class="text-red-500">{{ $message }}</strong>
@@ -49,7 +49,7 @@
                     <p class=" mt-3 font-bold text-2xl">Direccion</p>
                     <input type="text" style="width : 350px;"
                         class="border-black border-2 rounded-md text-center hover:bg-gray-200" name="direccion"
-                        placeholder="{{ $cliente->direccion }}" value="{{ $cliente->direccion }}" autofocus>
+                        placeholder="{{ $cliente->direccion }}" value="{{ $cliente->direccion }}" autofocus required>
                     <br>
                     @error('direccion')
                         <strong class="text-red-500">{{ $message }}</strong>
@@ -58,7 +58,7 @@
                     <p class=" mt-3 font-bold text-2xl">Telefono</p>
                     <input type="text" style="width : 350px;"
                         class="border-black border-2 rounded-md text-center hover:bg-gray-200" name="telefono"
-                        placeholder="{{ $cliente->telefono }}" value="{{ $cliente->telefono }}" autofocus>
+                        placeholder="{{ $cliente->telefono }}" value="{{ $cliente->telefono }}" autofocus required>
                     <br>
                     @error('telefono')
                         <strong class="text-red-500">{{ $message }}</strong>

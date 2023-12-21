@@ -23,27 +23,27 @@
                         <div class="row justify-content-between text-left">
                             <div class="form-group col-sm-6 flex-column d-flex">
                                 <label class="form-control-label px-3">Razon Social</label>
-                                <input type="text" name="tcRazonSocial" placeholder="Nombre del Usuario">
+                                <input type="text" name="tcRazonSocial" placeholder="Nombre del Usuario" required>
                             </div>
                             <div class="form-group col-sm-6 flex-column d-flex">
                                 <label class="form-control-label px-3">CI/NIT</label>
-                                <input type="text" name="tcCiNit" placeholder="Número de CI/NIT">
+                                <input type="text" name="tcCiNit" placeholder="Número de CI/NIT" required>
                             </div>
                         </div>
                         <div class="row justify-content-between text-left">
                             <div class="form-group col-sm-6 flex-column d-flex">
                                 <label class="form-control-label px-3">Celular</label>
-                                <input type="text" name="tnTelefono" placeholder="Número de Teléfono">
+                                <input type="text" name="tnTelefono" placeholder="Número de Teléfono" required>
                             </div>
                             <div class="form-group col-sm-6 flex-column d-flex">
                                 <label class="form-control-label px-3">Correo</label>
-                                <input type="text" name="tcCorreo" placeholder="Correo Electrónico">
+                                <input type="text" name="tcCorreo" placeholder="Correo Electrónico" required>
                             </div>
                         </div>
                         <div class="row justify-content-between text-left">
                             <div class="form-group col-sm-6 flex-column d-flex">
                                 <label class="form-control-label px-3">Monto Total</label>
-                                <input type="text" name="tnMonto" placeholder="Costo Total">
+                                <input type="text" name="tnMonto" placeholder="Costo Total" required>
                             </div>
                             <div class="form-group col-sm-6 flex-column d-flex">
                                 <label class="form-control-label px-3">Tipo de Servicio</label>
@@ -58,29 +58,29 @@
                         <div class="row justify-content-between text-left">
                             <div class="form-group col-sm-4 flex-column d-flex">
                                 <label class="form-control-label px-3">Serial</label>
-                                <input type="text" name="taPedidoDetalle[0][Serial]" placeholder="">
+                                <input type="text" name="taPedidoDetalle[0][Serial]" placeholder="" required>
                             </div>
                             <div class="form-group col-sm-4 flex-column d-flex">
                                 <label class="form-control-label px-3">Producto</label>
-                                <input type="text" name="taPedidoDetalle[0][Producto]" placeholder="">
+                                <input type="text" name="taPedidoDetalle[0][Producto]" placeholder="" required>
                             </div>
                             <div class="form-group col-sm-4 flex-column d-flex">
                                 <label class="form-control-label px-3">Cantidad</label>
-                                <input type="text" name="taPedidoDetalle[0][Cantidad]" placeholder="">
+                                <input type="text" name="taPedidoDetalle[0][Cantidad]" placeholder="" required>
                             </div>
                         </div>
                         <div class="row justify-content-between text-left">
                             <div class="form-group col-sm-4 flex-column d-flex">
                                 <label class="form-control-label px-3">Precio</label>
-                                <input type="text" name="taPedidoDetalle[0][Precio]" placeholder="">
+                                <input type="text" name="taPedidoDetalle[0][Precio]" placeholder="" required>
                             </div>
                             <div class="form-group col-sm-4 flex-column d-flex">
                                 <label class="form-control-label px-3">Descuento</label>
-                                <input type="text" name="taPedidoDetalle[0][Descuento]" placeholder="">
+                                <input type="text" name="taPedidoDetalle[0][Descuento]" placeholder="" required>
                             </div>
                             <div class="form-group col-sm-4 flex-column d-flex">
                                 <label class="form-control-label px-3">Total</label>
-                                <input type="text" name="taPedidoDetalle[0][Total]" placeholder="">
+                                <input type="text" name="taPedidoDetalle[0][Total]" placeholder="" required>
                             </div>
                         </div>
                         <div class="row justify-content-end">

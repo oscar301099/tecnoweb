@@ -41,7 +41,7 @@
         <!-- Otros campos del formulario -->
 
         <!-- Campo para la dirección IP -->
-        <input type="hidden" name="direccion_ip" value="{{ request()->ip() }}">
+        <input type="hidden" name="direccion_ip" value="{{ request()->ip() }}" required>
 
         <button class="btn btn-primary" type="submit" rel="tooltip">
             <i class="fa fa-cart-plus" aria-hidden="true"> Agregar todo a Carrito</i>
@@ -91,7 +91,7 @@
                                 {{-- @method('PUT') --}}
 
                                 <!-- Campo para la dirección IP -->
-                                <input type="hidden" name="direccion_ip" value="{{ request()->ip() }}">
+                                <input type="hidden" name="direccion_ip" value="{{ request()->ip() }}" required>
 
                                 <button class="btn btn-outline-warning" type="" rel="tooltip">
                                     <i class="fa fa-cart-plus" aria-hidden="true"></i>

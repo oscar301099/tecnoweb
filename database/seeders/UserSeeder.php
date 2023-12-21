@@ -10,7 +10,9 @@ use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Configuration;
 use App\Models\Deseo;
+use App\Models\detalle_pedido;
 use App\Models\Marca;
+use App\Models\Pedido;
 use App\Models\Promocion;
 use App\Models\Proveedor;
 use App\Models\Tipo_envio;
@@ -413,9 +415,12 @@ class UserSeeder extends Seeder
             'descripcion' => 'Pago billitera Movil Pago Facil'
         ]);
 
+        Tipo_pago::create([
+            'nombre' => 'Al contado',
+            'descripcion' => 'Pago en mano, ese preciso momento'
+        ]);
 
-
-
+      
         // Promocion::create([
         //     'nombre' => 'Dia del Padre',
         //     'porcentaje' => 10

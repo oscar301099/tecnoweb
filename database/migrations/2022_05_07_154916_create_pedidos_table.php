@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('tcNroPago')->nullable();
             $table->string('direccion');
             $table->string('estado');
-            $table->string('estado_pago');
+            $table->string('estado_pago')->default("impagado");
             $table->dateTime('fecha_entrega')->nullable();
             $table->dateTime('fecha_pedido')->nullable();
             $table->float('total',9,2)->nullable();

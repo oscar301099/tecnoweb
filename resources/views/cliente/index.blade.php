@@ -57,7 +57,7 @@
                                     </h3>
                                     <input type="text"
                                         class="border-gray-400 border-2 rounded-md text-center hover:bg-gray-200"
-                                        name="cantidad" id="cantidad" placeholder=" -- Cantidad --" autofocus>
+                                        name="cantidad" id="cantidad" placeholder=" -- Cantidad --" autofocus required>
                                     @error('cantidad')
                                         <strong class="text-danger">{{ $message }}</strong>
                                     @enderror

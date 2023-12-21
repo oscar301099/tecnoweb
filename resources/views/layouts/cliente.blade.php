@@ -41,7 +41,9 @@
                 <nav :class="{ 'flex': open, 'hidden': !open }"
                     class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row bg-red-600">
                     <button id="cambiarModo" class=" hover:text-gray-300">Cambiar Modo</button>
+                   
                     <button id="aumentarLetra" class="hover:text-gray-300">Aumentar Letra</button>
+               
                     <button id="disminuirLetra" class="hover:text-gray-300">Disminuir Letra</button>
                     <button id="modoniños" class=" hover:text-gray-300">modo niños</button>
                     <button id="modojovenes" class=" hover:text-gray-300">modo joven</button>

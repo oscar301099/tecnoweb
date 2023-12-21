@@ -4,7 +4,7 @@
         <div class="card-header">
             {!! Form::open(['class' => 'form-group col-md-6', 'route' => 'admin.PDF.bitacoras', 'autocomplete' => 'off', 'method' => 'get']) !!}
             <input type="text" wire:model="search" class="form-control" placeholder="Ingrese el Servicio" name="buscador"
-                id="buscador">
+                id="buscador" required>
             <br>
 
             <div class="row">
@@ -22,7 +22,7 @@
                 </div>
                 <br>
                 <input type="text" class="form-control" placeholder="Ingrese el Servicio" name="buscador2"
-                    id="buscador2" style="display:none">
+                    id="buscador2" style="display:none" required>
                 {!! Form::close() !!}
 
             </div>
