@@ -48,7 +48,7 @@
         <div class="row">
 
 
-            <!-- Sección para el gráfico -->
+            {{-- <!-- Sección para el gráfico -->
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
@@ -66,7 +66,7 @@
                         <div id="lineChart"></div>
                     </div>
                 </div>
-            </div>
+            </div>--}}
 
             <!-- Sección para el gráfico de donas -->
             <div class="col-md-6">
@@ -76,10 +76,10 @@
                         <div id="donutChart"></div>
                     </div>
                 </div>
-            </div>
+            </div> 
 
 
-            {{-- <div class="col-md-6">
+             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Ventas por Categoría</h5>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div> 
- --}}
+
 
         </div>
     </div>
@@ -190,6 +190,7 @@
     </script>
 
     <script>
+
         var ingresoxmes = @json($ingresoxmes);
         const ingreso = Object.values(ingresoxmes);
 
@@ -212,7 +213,9 @@
     </script>
 
     <script>
-        var topProductosJSON = @json($topProductos);
+         console.log($pagina)
+        
+         var topProductosJSON = @json($pagina);
 
         var nombresProductos = [];
         var cantidadesProductos = [];

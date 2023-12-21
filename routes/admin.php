@@ -19,6 +19,7 @@ use App\Http\Controllers\admin\ConfiguracionController;
 use App\Http\Controllers\admin\detalle_pedidoController;
 use App\Http\Controllers\admin\EmpleadoController;
 use App\Http\Controllers\admin\PromocionController;
+use App\Http\Controllers\Admin\ReporteControlle;
 use App\Http\Controllers\admin\SupervisionController;
 
 Route::get('',[HomeController::class, 'index'])->name('admin.home');
@@ -38,7 +39,7 @@ Route::resource('promociones', PromocionController::class)->names('admin.promoci
 ////*admin.supervision.index/////
 Route::resource('supervision', SupervisionController::class)->names('admin.supervision');
 
-Route::resource('supervision', SupervisionController::class)->names('admin.supervision');
+Route::resource('reporte', ReporteControlle::class)->names('admin.reporte');
 ////*////
 Route::resource('clientes', ClienteController::class)->names('admin.clientes');
 Route::resource('empleados', EmpleadoController::class)->names('admin.empleados');

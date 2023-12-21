@@ -250,6 +250,12 @@ return [
             'route'  => 'admin.supervision.index',
             'can' => 'admin'
         ],
+        [
+            'text'    => 'Reporte',
+            'icon' => 'fas fa-fw fa-percent',
+            'route'  => 'admin.reporte.index',
+            'can' => 'admin'
+        ],
 
         [
 
