@@ -38,7 +38,7 @@
 
                     <p class="font-bold mt-3 text-1xl">Nueva Contraseña</p>
                     <input type="password" style="width : 350px;"
-                        class="border-black border-2 rounded-md text-center hover:bg-gray-200" name="NewPassword" autofocus>
+                        class="border-black border-2 rounded-md text-center hover:bg-gray-200" name="NewPassword" autofocus required>
                     <br>
                     @error('NewPassword')
                         <strong class="text-red-500">{{ $message }}</strong>
@@ -46,7 +46,7 @@
                     <p class="font-bold mt-3 text-1xl">Repita la Nueva Contraseña</p>
                     <input type="password" style="width : 350px;"
                         class="border-black border-2 rounded-md text-center hover:bg-gray-200" name="New2Password"
-                        autofocus>
+                        autofocus required >
                     <br>
                     @error('New2Password')
                         <strong class="text-red-500">{{ $message }}</strong>

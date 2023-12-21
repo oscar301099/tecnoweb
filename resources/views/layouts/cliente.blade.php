@@ -41,12 +41,13 @@
                 <nav :class="{ 'flex': open, 'hidden': !open }"
                     class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row bg-red-600">
                     <button id="cambiarModo" class=" hover:text-gray-300">Cambiar Modo</button>
-                    <button id="cambiarContraste" class=" hover:text-gray-300">Cambiar Contraste</button>
+                   
                     <button id="aumentarLetra" class="hover:text-gray-300">Aumentar Letra</button>
+               
                     <button id="disminuirLetra" class="hover:text-gray-300">Disminuir Letra</button>
                     <button id="modoniños" class=" hover:text-gray-300">modo niños</button>
                     <button id="modojovenes" class=" hover:text-gray-300">modo joven</button>
-                    <button id="cambiarModo" class=" hover:text-gray-300">modo adulto</button>
+                    <button id="normal" class=" hover:text-gray-300">modo adulto</button>
                     
 
                     <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 text-white hover:bg-white hover:text-black"
@@ -180,64 +181,118 @@
             @yield('css')
 
             @yield('js')
-            <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    const botonCambiarModo = document.getElementById('cambiarModo');
-                    let modoActual = localStorage.getItem('modo') || 'dia';
-                    aplicarModo(modoActual);
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const botonCambiarModo = document.getElementById('cambiarModo');
+            let modoActual = localStorage.getItem('modo') || 'dia';
+            aplicarModo(modoActual);
+            botonCambiarModo.addEventListener('click', function () {
+                modoActual = modoActual === 'dia' ? 'noche' : 'dia';
+                localStorage.setItem('modo', modoActual);
+                aplicarModo(modoActual);
+            });
 
-                    botonCambiarModo.addEventListener('click', function() {
-                        modoActual = modoActual === 'dia' ? 'noche' : 'dia';
-                        localStorage.setItem('modo', modoActual);
-                        aplicarModo(modoActual);
-                    });
+            function aplicarModo(modo) {
+            //     document.body.style.backgroundImage = `url('${modo === 'dia' ? 'URL_DE_TU_IMAGEN_DIURNA' : 'URL_DE_TU_IMAGEN_NOCTURNA'}')`;
+                document.body.style.filter = `brightness(${modo === 'dia' ? '100%' : '70%'})`;
+            }
+        });
 
-                    function aplicarModo(modo) {
-                        const contenedorPrincipal = document.getElementById('contenedorPrincipal');
-                        contenedorPrincipal.classList.toggle('modo-dia', modo === 'dia');
-                        contenedorPrincipal.classList.toggle('modo-noche', modo === 'noche');
+        document.addEventListener("DOMContentLoaded", function () {
+            const botonCambiarModo = document.getElementById('cambiarModo');
+            const botonAumentarLetra = document.getElementById('aumentarLetra');
+            const botonDisminuirLetra = document.getElementById('disminuirLetra');
+            let contrasteActual = localStorage.getItem('contraste') || 'normal';
+            let tamanioLetraActual = localStorage.getItem('tamanioLetra') || '16px';
 
-                        const intensidad = modo === 'dia' ? '100%' : '70%';
-                        document.body.style.filter = `brightness(${intensidad})`;
-                    }
-                });
-            </script>
-            <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    const botonCambiarModo = document.getElementById('cambiarModo');
-                    const botonAumentarLetra = document.getElementById('aumentarLetra');
-                    const botonDisminuirLetra = document.getElementById('disminuirLetra');
+            aplicarContraste(contrasteActual);
+            aplicarTamanioLetra(tamanioLetraActual);
 
-                    let contrasteActual = localStorage.getItem('contraste') || 'normal';
-                    let tamanioLetraActual = localStorage.getItem('tamanioLetra') || '16px';
-                    aplicarTamanioLetra(tamanioLetraActual);
-                    botonAumentarLetra.addEventListener('click', function() {
-                        tamanioLetraActual = aumentarTamanioLetra(tamanioLetraActual);
-                        localStorage.setItem('tamanioLetra', tamanioLetraActual);
-                        aplicarTamanioLetra(tamanioLetraActual);
-                    });
+            botonCambiarModo.addEventListener('click', function () {
+                contrasteActual = contrasteActual === 'normal' ? 'alto' : 'normal';
+                localStorage.setItem('contraste', contrasteActual);
+                aplicarContraste(contrasteActual);
+            });
 
-                    botonDisminuirLetra.addEventListener('click', function() {
-                        tamanioLetraActual = disminuirTamanioLetra(tamanioLetraActual);
-                        localStorage.setItem('tamanioLetra', tamanioLetraActual);
-                        aplicarTamanioLetra(tamanioLetraActual);
-                    });
+            botonAumentarLetra.addEventListener('click', function () {
+                tamanioLetraActual = aumentarTamanioLetra(tamanioLetraActual);
+                localStorage.setItem('tamanioLetra', tamanioLetraActual);
+                aplicarTamanioLetra(tamanioLetraActual);
+            });
 
-                    function aumentarTamanioLetra(tamanioActual) {
-                        const tamanioNumerico = parseInt(tamanioActual);
-                        return `${tamanioNumerico + 2}px`;
-                    }
+            botonDisminuirLetra.addEventListener('click', function () {
+                tamanioLetraActual = disminuirTamanioLetra(tamanioLetraActual);
+                localStorage.setItem('tamanioLetra', tamanioLetraActual);
+                aplicarTamanioLetra(tamanioLetraActual);
+            });
 
-                    function disminuirTamanioLetra(tamanioActual) {
-                        const tamanioNumerico = parseInt(tamanioActual);
-                        return `${Math.max(tamanioNumerico - 2, 12)}px`;
-                    }
+            function aplicarContraste(contraste) {
+                document.body.classList.toggle('alto-contraste', contraste === 'alto');
+            }
 
-                    function aplicarTamanioLetra(tamanio) {
-                        document.body.style.fontSize = tamanio;
-                    }
-                });
-            </script>
+            function aumentarTamanioLetra(tamanioActual) {
+                const tamanioNumerico = parseInt(tamanioActual);
+                return `${tamanioNumerico + 2}px`;
+            }
+
+            function disminuirTamanioLetra(tamanioActual) {
+                const tamanioNumerico = parseInt(tamanioActual);
+                return `${Math.max(tamanioNumerico - 2, 12)}px`;
+            }
+
+            function aplicarTamanioLetra(tamanio) {
+                document.body.style.fontSize = tamanio;
+            }
+        });
+    </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const botonModoNinos = document.getElementById('modoniños');
+        const contenedorPrincipal = document.getElementById('contenedorPrincipal');
+
+        const modoNinosActivated = localStorage.getItem('modoNinosActivated') === 'true';
+        if (modoNinosActivated) {
+            contenedorPrincipal.style.backgroundImage = 'url("/img/a.png")';
+        }
+
+        botonModoNinos.addEventListener('click', function () {
+            const newState = !modoNinosActivated;
+            localStorage.setItem('modoNinosActivated', newState);
+            contenedorPrincipal.style.backgroundImage = newState ? 'url("/img/a.png")' : 'none';
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const botonModoJovenes = document.getElementById('modojovenes');
+        const contenedorPrincipal = document.getElementById('contenedorPrincipal');
+
+        const modoJovenesActivated = localStorage.getItem('modoJovenesActivated') === 'true';
+        if (modoJovenesActivated) {
+            contenedorPrincipal.style.backgroundImage = 'url("/img/b.jpeg")';
+        }
+
+        botonModoJovenes.addEventListener('click', function () {
+            const newState = !modoJovenesActivated;
+            localStorage.setItem('modoJovenesActivated', newState);
+            contenedorPrincipal.style.backgroundImage = newState ? 'url("/img/b.jpeg")' : 'none';
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const botonModoNormal = document.getElementById('normal');
+        const contenedorPrincipal = document.getElementById('contenedorPrincipal');
+
+        botonModoNormal.addEventListener('click', function () {
+            contenedorPrincipal.style.backgroundImage = 'none';
+            localStorage.setItem('modoNinosActivated', 'false');
+            localStorage.setItem('modoJovenesActivated', 'false');
+        });
+    });
+</script>
+
 </body>
 
 </html>

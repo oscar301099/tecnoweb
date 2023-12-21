@@ -8,7 +8,9 @@
 @stop
 
 @section('content')
-<button id="cambiarModo" class="btn btn-info">Cambiar Modo</button>
+<button id="cambiarModo" class=" hover:text-gray-300">Cambiar Modo</button>
+                    <button id="aumentarLetra" class="hover:text-gray-300">Aumentar Letra</button>
+                    <button id="disminuirLetra" class="hover:text-gray-300">Disminuir Letra</button>
     @if(session('info'))
         <div class="alert alert-success">
             <strong> {{session('info')}}</strong>
@@ -28,33 +30,66 @@
 @section('js')
 <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const modoActual = localStorage.getItem('modo') || 'dia';
+            const botonCambiarModo = document.getElementById('cambiarModo');
+            let modoActual = localStorage.getItem('modo') || 'dia';
             aplicarModo(modoActual);
+            botonCambiarModo.addEventListener('click', function () {
+                modoActual = modoActual === 'dia' ? 'noche' : 'dia';
+                localStorage.setItem('modo', modoActual);
+                aplicarModo(modoActual);
+            });
+
+            function aplicarModo(modo) {
+                document.body.style.backgroundImage = `url('${modo === 'dia' ? 'URL_DE_TU_IMAGEN_DIURNA' : 'URL_DE_TU_IMAGEN_NOCTURNA'}')`;
+                document.body.style.filter = `brightness(${modo === 'dia' ? '100%' : '70%'})`;
+            }
         });
 
-        function aplicarModo(modo) {
-            // Cambiar el filtro de brillo en el cuerpo
-            document.body.style.filter = `brightness(${modo === 'dia' ? '100%' : '70%'})`;
+        document.addEventListener("DOMContentLoaded", function () {
+            const botonCambiarModo = document.getElementById('cambiarModo');
+            const botonAumentarLetra = document.getElementById('aumentarLetra');
+            const botonDisminuirLetra = document.getElementById('disminuirLetra');
+            let contrasteActual = localStorage.getItem('contraste') || 'normal';
+            let tamanioLetraActual = localStorage.getItem('tamanioLetra') || '16px';
 
-            // Cambiar las clases de fondo y texto en la tarjeta si existe
-            const tarjeta = document.getElementById('card-body');
+            aplicarContraste(contrasteActual);
+            aplicarTamanioLetra(tamanioLetraActual);
 
-            if (tarjeta) {
-                if (modo === 'noche') {
-                    tarjeta.style.backgroundColor = '#ffffff'; // Fondo blanco
-                    tarjeta.style.color = '#000000'; // Texto negro
-                } else {
-                    tarjeta.style.backgroundColor = '#000000'; // Fondo negro
-                    tarjeta.style.color = '#ffffff'; // Texto blanco
-                }
+            botonCambiarModo.addEventListener('click', function () {
+                contrasteActual = contrasteActual === 'normal' ? 'alto' : 'normal';
+                localStorage.setItem('contraste', contrasteActual);
+                aplicarContraste(contrasteActual);
+            });
+
+            botonAumentarLetra.addEventListener('click', function () {
+                tamanioLetraActual = aumentarTamanioLetra(tamanioLetraActual);
+                localStorage.setItem('tamanioLetra', tamanioLetraActual);
+                aplicarTamanioLetra(tamanioLetraActual);
+            });
+
+            botonDisminuirLetra.addEventListener('click', function () {
+                tamanioLetraActual = disminuirTamanioLetra(tamanioLetraActual);
+                localStorage.setItem('tamanioLetra', tamanioLetraActual);
+                aplicarTamanioLetra(tamanioLetraActual);
+            });
+
+            function aplicarContraste(contraste) {
+                document.body.classList.toggle('alto-contraste', contraste === 'alto');
             }
-        }
 
-        document.getElementById('cambiarModo').addEventListener('click', function () {
-            const modoActual = localStorage.getItem('modo') || 'dia';
-            const nuevoModo = modoActual === 'dia' ? 'noche' : 'dia';
-            localStorage.setItem('modo', nuevoModo);
-            aplicarModo(nuevoModo);
+            function aumentarTamanioLetra(tamanioActual) {
+                const tamanioNumerico = parseInt(tamanioActual);
+                return `${tamanioNumerico + 2}px`;
+            }
+
+            function disminuirTamanioLetra(tamanioActual) {
+                const tamanioNumerico = parseInt(tamanioActual);
+                return `${Math.max(tamanioNumerico - 2, 12)}px`;
+            }
+
+            function aplicarTamanioLetra(tamanio) {
+                document.body.style.fontSize = tamanio;
+            }
         });
     </script>
 @livewireScripts

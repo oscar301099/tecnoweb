@@ -36,11 +36,11 @@ class PedidosCController extends Controller
         $pedidos = Pedido::where('cliente_id', Auth::user()->id)->get();
         $nombrepagina = "lista pedidos";
         DB::beginTransaction();
-        ContadorPage::SumarContador($nombrepagina);
+        $cantidad= ContadorPage::SumarContador($nombrepagina);
         DB::commit();
         //$pedidos = Pedido::all();
         $clientes = User::all();
-        return view('cliente.Pedidos.index', compact('pedidos', 'clientes'));
+        return view('cliente.Pedidos.index', compact('pedidos', 'clientes','cantidad'));
     }
 
     /**
@@ -52,13 +52,13 @@ class PedidosCController extends Controller
     {
         $nombrepagina = "crear pedidos";
         DB::beginTransaction();
-        ContadorPage::SumarContador($nombrepagina);
+        $cantidad= ContadorPage::SumarContador($nombrepagina);
         DB::commit();
         $tipopagos = Tipo_pago::all();
         $tipoenvios = Tipo_envio::all();
         $promociones = Promocion::all();
         $clientes = Auth::user();
-        return view('cliente.Pedidos.create', compact('tipopagos', 'tipoenvios', 'promociones', 'clientes'));
+        return view('cliente.Pedidos.create', compact('tipopagos', 'tipoenvios', 'promociones', 'clientes','cantidad'));
     }
 
     /**

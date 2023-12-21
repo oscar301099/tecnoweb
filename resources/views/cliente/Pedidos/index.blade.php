@@ -7,6 +7,7 @@
         <i class="material-icons fa fa-plus"> Nuevo Pedido </i>
     </a>
     <h1>Lista de Pedidos</h1>
+
     <div class="row">
         <div class="form-group col-md-1">
             <p>Reportes en: </p>
@@ -39,6 +40,8 @@
     <br>
     <br>
     <h1 class="text-center">LISTA DE MIS PEDIDOS</h1>
+    <h1 class="text-center">Vista pagina     {{$cantidad}}</h1>
+
 
     <div class="card-body">
         <table class="table table-striped" id="pedidos">

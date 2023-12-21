@@ -16,7 +16,7 @@
 
         <!-- Los productos -->
         <div class="w-full p-4">
-            <input type="text" wire:model="search" id="buscador" name="buscador" class="rounded-none rounded-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar">
+            <input type="text" wire:model="search" id="buscador" name="buscador" class="rounded-none rounded-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar" required>
 
             <div class="px-10 py-10 bg-white grid gap-10 lg:grid-cols-3 xl:grid-cols-3 sm:grid-cols-2">
 
@@ -53,7 +53,7 @@
                                 {!! Form::open(['route' => ['cliente.pedidos.storeP', $producto->id], 'autocomplete' => 'off']) !!}
                                     <input style="width: 50px;" type="text" class="form-control" name="idpedido" id="idpedido" value="{{ $pedido->id }}" readonly>
                                     <br>
-                                    <input type="text" class="border-gray-400 border-2 rounded-md text-center hover:bg-gray-200" name="cantidad" id="cantidad" placeholder=" -- Cantidad --" autofocus>
+                                    <input type="text" class="border-gray-400 border-2 rounded-md text-center hover:bg-gray-200" name="cantidad" id="cantidad" placeholder=" -- Cantidad --" autofocus required>
                                     <br>
                                     @error('cantidad')
                                         <strong class="text-red-600">{{ $message }}</strong>

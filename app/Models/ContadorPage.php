@@ -21,9 +21,8 @@ class ContadorPage extends Model
             $contador->cantidad = 1;
         }
         $contador->save();
+        return $contador->cantidad ;
     }
-
-
 
 
 
