@@ -31,7 +31,7 @@
             <div class="row">
                 <label for="nombre" class="col-sm-1 col-form-label">Nombre:</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" name="nombre" value="{{$proveedor->nombre}}" autofocus>
+                        <input type="text" class="form-control" name="nombre" value="{{$proveedor->nombre}}" autofocus required>
                     </div>
             </div>
 
@@ -40,7 +40,7 @@
             <div class="row">
                 <label for="direccion" class="col-sm-1 col-form-label">E-Mail:</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" name="direccion" value="{{$proveedor->direccion}}" autofocus>
+                        <input type="text" class="form-control" name="direccion" value="{{$proveedor->direccion}}" autofocus required>
                     </div>
             </div>
 
@@ -49,7 +49,7 @@
             <div class="row">
                 <label for="telefono" class="col-sm-1 col-form-label">Contraseña:</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" name="telefono" value="{{$proveedor->telefono}}" autofocus>
+                        <input type="text" class="form-control" name="telefono" value="{{$proveedor->telefono}}" autofocus required>
                     </div>
                     
             </div>

@@ -61,7 +61,7 @@
                                     <br>
                                     <input type="text"
                                         class="border-gray-400 border-2 rounded-md text-center hover:bg-gray-200"
-                                        name="cantidad" id="cantidad" placeholder=" -- Cantidad --" autofocus>
+                                        name="cantidad" id="cantidad" placeholder=" -- Cantidad --" autofocus pattern="^\d*\.?\d+$" >
                                         <br>
                                     @error('cantidad')
                                         <strong class="text-red-600">{{ $message }}</strong>

@@ -31,7 +31,7 @@
             <div class="row">
                 <label for="nombre" class="col-sm-1 col-form-label">Nombre:</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" name="nombre" value="{{$marca->nombre}}" autofocus>
+                        <input type="text" class="form-control" name="nombre" value="{{$marca->nombre}}" autofocus required>
                         @error('nombre')
                         <strong class="text-danger">{{ $message }}</strong>               
                         @enderror

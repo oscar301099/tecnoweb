@@ -23,7 +23,7 @@
                     <p class="font-bold text-2xl">Nombre</p>
                     <input type="text" style="width : 350px;"
                         class="border-black border-2 rounded-md text-center hover:bg-gray-200" name="name"
-                        placeholder="{{ $cliente->name }}" value="{{ $cliente->name }}" autofocus required>
+                        placeholder="{{ $cliente->name }}" value="{{ $cliente->name }}"    pattern=".{3,}" autofocus required>
                     <br>
                     @error('name')
                         <strong class="text-red-500">{{ $message }}</strong>
@@ -40,7 +40,7 @@
                     <p class="mt-3 font-bold text-2xl">Carnet</p>
                     <input type="text" style="width : 350px;"
                         class="border-black border-2 rounded-md text-center hover:bg-gray-200" name="ci"
-                        placeholder="{{ $cliente->ci }}" value="{{ $cliente->ci }}" autofocus required>
+                        placeholder="{{ $cliente->ci }}" value="{{ $cliente->ci }}"pattern="^\d+(\.\d+)?$"  autofocus required>
                     <br>
                     @error('ci')
                         <strong class="text-red-500">{{ $message }}</strong>
@@ -58,7 +58,7 @@
                     <p class=" mt-3 font-bold text-2xl">Telefono</p>
                     <input type="text" style="width : 350px;"
                         class="border-black border-2 rounded-md text-center hover:bg-gray-200" name="telefono"
-                        placeholder="{{ $cliente->telefono }}" value="{{ $cliente->telefono }}" autofocus required>
+                        placeholder="{{ $cliente->telefono }}" value="{{ $cliente->telefono }}" pattern="^[1-9]\d*(\.\d+)?$" autofocus required>
                     <br>
                     @error('telefono')
                         <strong class="text-red-500">{{ $message }}</strong>

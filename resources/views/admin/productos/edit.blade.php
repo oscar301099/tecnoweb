@@ -28,7 +28,7 @@
                 <div class="form-group col-md-4">
                     <label for="nombre">Nombre:</label>
 
-                    <input type="text" class="form-control" name="nombre" value="{{ $producto->nombre }}" autofocus>
+                    <input type="text" class="form-control" name="nombre" value="{{ $producto->nombre }}" autofocus required>
                     @error('nombre')
                         <strong class="text-danger">{{ $message }}</strong>
                     @enderror
@@ -74,7 +74,7 @@
                 <div class="form-group col-md-12">
                     <label for="descripcion">Descripcion</label>
                     <input type="text" class="form-control" name="descripcion" value="{{ $producto->descripcion }}"
-                        autofocus>
+                        autofocus required>
                     @error('descripcion')
                         <strong class="text-danger">{{ $message }}</strong>
                     @enderror
@@ -85,8 +85,7 @@
                 <div class="row">
                     <div class="form-group col-md-4">
                         <label for="precio">Precio:</label>
-                        <input type="text" class="form-control" name="precio" value="{{ $producto->precio }}"
-                            autofocus>
+                        <input type="text" class="form-control" name="precio" value="{{ $producto->precio }}" pattern="^(?!0\d*\.?\d*$)\d*(\.\d+)?$" title="Debe ser un número mayor que cero" autofocus required>
                         @error('precio')
                             <strong class="text-danger">{{ $message }}</strong>
                         @enderror
@@ -94,7 +93,7 @@
 
                     <div class="form-group col-md-4">
                         <label for="stock">stock:</label>
-                        <input type="text" class="form-control" name="stock" value="{{ $producto->stock }}" autofocus>
+                        <input type="text" class="form-control" name="stock" value="{{ $producto->stock }}" pattern="^\d*\.?\d+$" title="Debe ser un número decimal mayor o igual a cero" autofocus required>
                         @error('stock')
                             <strong class="text-danger">{{ $message }}</strong>
                         @enderror
