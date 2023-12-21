@@ -121,7 +121,7 @@
             });
 
             function aplicarModo(modo) {
-                document.body.style.backgroundImage = `url('${modo === 'dia' ? 'URL_DE_TU_IMAGEN_DIURNA' : 'URL_DE_TU_IMAGEN_NOCTURNA'}')`;
+                //document.body.style.backgroundImage = `url('${modo === 'dia' ? 'URL_DE_TU_IMAGEN_DIURNA' : 'URL_DE_TU_IMAGEN_NOCTURNA'}')`;
                 document.body.style.filter = `brightness(${modo === 'dia' ? '100%' : '70%'})`;
             }
         });
