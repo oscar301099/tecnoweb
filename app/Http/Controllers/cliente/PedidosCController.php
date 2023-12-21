@@ -52,13 +52,13 @@ class PedidosCController extends Controller
     {
         $nombrepagina = "crear pedidos";
         DB::beginTransaction();
-        ContadorPage::SumarContador($nombrepagina);
+        $cantidad= ContadorPage::SumarContador($nombrepagina);
         DB::commit();
         $tipopagos = Tipo_pago::all();
         $tipoenvios = Tipo_envio::all();
         $promociones = Promocion::all();
         $clientes = Auth::user();
-        return view('cliente.Pedidos.create', compact('tipopagos', 'tipoenvios', 'promociones', 'clientes'));
+        return view('cliente.Pedidos.create', compact('tipopagos', 'tipoenvios', 'promociones', 'clientes','cantidad'));
     }
 
     /**

@@ -33,7 +33,7 @@ class HomeController extends Controller
     {
         $nombrepagina="home";
         DB::beginTransaction();
-        ContadorPage::SumarContador($nombrepagina);
+        $cantidad= ContadorPage::SumarContador($nombrepagina);
         DB::commit();
 
         if (auth()->user()->tipo == 'Administrador') {
@@ -51,7 +51,7 @@ class HomeController extends Controller
             $bita->ip = $ip;
             $bita->save();
 
-            return view('admin.index', compact('configuration'));
+            return view('admin.index', compact('configuration','cantidad'));
         } else {
             if (auth()->user()->tipo == 'Cliente') {
                 $categorias = Categoria::all();

@@ -17,13 +17,14 @@ class vistaCategoriaController extends Controller{
         $categoria = Categoria::where('id',$id)->first();
         $nombrepagina=$categoria->nombre;
         DB::beginTransaction();
-        ContadorPage::SumarContador($nombrepagina);
+        $cantidad= ContadorPage::SumarContador($nombrepagina);
+      
         DB::commit();
 
         $productos = Producto::where('categoria_id',$id)->paginate(3);
         $categorias = Categoria::all();
         $marcas = Marca::all();
-        return view('cliente.index', compact('productos', 'marcas', 'categorias'));
+        return view('cliente.index', compact('productos', 'marcas', 'categorias','cantidad'));
     }
 
     public function perfil(){
